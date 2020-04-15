@@ -18,9 +18,9 @@ const path = require('path');
 var connection = require('./db');
 //jason end
 // -------------------------------------------------custom moduels-------------------------------------------------
-const passportModules = require('./passport-config')
-const initialize = passportModules.initialize
-const registerFunction = passportModules.registerFunction
+const lnr_modules = require('./login_and_register')
+const initialize = lnr_modules.initialize
+const registerFunction = lnr_modules.registerFunction
 
 initialize(passport)
 //var parser = require('ua-parser-js');
