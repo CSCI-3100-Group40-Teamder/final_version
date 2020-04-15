@@ -1,0 +1,27 @@
+<html>
+<style>
+	table, th, td {
+  		border: 1px solid black;
+	}
+</style>
+	<body style='background-color: rgb(235,235,235)'>
+		<h1>host id: <%= user %></h1>
+		<p>Create post here!</p><br>
+		<form action="/create_post" method="GET">
+			<label for="title">title:</label><br>
+			<input type="text" name="title"/><br>
+			<label for="type_of_game">type_of_game:</label><br>
+			<input type="text" name="type_of_game"/><br>
+			<label for="hashtag">hashtag:</label><br>
+			<input type="text" name="hashtag"/><br>
+			<label for="group_id">group_id:</label><br>
+			<input type="text" name="group_id"/><br>
+			<label for="description">description:</label><br>
+			<input type="text" name="description"/><br>
+			<button>Create</button>
+		</form>
+		<form action="/back" method="GET">
+			<br><button name="post_id">Back</button> 
+		</form>
+	</body>
+</html>

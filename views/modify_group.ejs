@@ -1,0 +1,64 @@
+<html>
+<style>
+	table, th, td {
+  		border: 1px solid black;
+	}
+</style>
+	<body style='background-color: rgb(235,235,235)'>
+	    <h1>Modify group:</h1>
+			<table>
+			    <tr>
+					<th>
+						group_id
+					</th>
+					<th>
+						group_name
+					</th>
+					<th>
+						group_descripton
+					</th>
+				</tr>
+			    <% group_result.forEach(function(item){%>
+    			    <tr>
+    					<th>
+    						<%= item.group_id %>
+    					</th>
+    					<th>
+    						<%= item.group_name %>
+    					</th>
+    					<th>
+    						<%= item.group_descripton %>
+    					</th>
+    					<th>
+    						<form action="/change_group" method="GET">
+    						    <input type="hidden" name="change_group_id" value="<%= item.group_id %>"/><br>
+                    			<label for="change_group_name">change_group_name:</label><br>
+                    			<input type="text" name="change_group_name"/><br>
+                    			<label for="change_group_descripton">change_group_descripton:</label><br>
+                    			<input type="text" name="change_group_descripton"/><br>
+                    			<button>Change</button>
+                		    </form>
+    					</th>
+    					<th>
+    						<form action="/delete_group" method="GET">
+                    			<input type="hidden" name="delete_group_id" value="<%= item.group_id %>"/><br>
+                    			<button>Delete</button>
+                		    </form>
+    					</th>
+    				</tr>
+				<% }); %>
+			</table>
+		<form action="/create_new_group" method="GET">
+			<label for="new_group_ID">new_group_ID:</label><br>
+			<input type="text" name="new_group_ID"/><br>
+			<label for="new_group_name">new_group_name:</label><br>
+			<input type="text" name="new_group_name"/><br>
+			<label for="new_group_description">new_group_description:</label><br>
+			<input type="text" name="new_group_description"/><br>
+			<button>Create</button>
+		</form>
+		<form action="/back" method="GET">
+			<br><button name="post_id">Back</button> 
+		</form>
+	</body>
+</html>

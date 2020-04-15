@@ -1,0 +1,31 @@
+<h1> Login </h1>
+<% if (messages.error){ %>
+    <%= messages.error %>
+<% } %>
+<form action="/login" method="POST">
+    <div>
+        <label for="email">Email</label>
+        <input type="text" id="email" name="email" required>
+    </div>
+    <div>
+        <label for="password">Password</label>
+        <input type="text" id="password" name="password" required>
+    </div>
+    <button type="submit">Login</button>
+</form>
+
+<h1> Register </h1>
+<% if (typeof messages.reg_error !== 'undefined' ){ %>
+    <%= messages.reg_error %>
+<% } %>
+<form action="/register" method="POST" name="register">
+    <div>
+        <label for="email">Email</label>
+        <input type="text" id="email" name="email" required>
+    </div>
+    <div>
+        <label for="password">Password</label>
+        <input type="text" id="password" name="password" required>
+    </div>
+    <button type="submit">Register</button>
+</form>

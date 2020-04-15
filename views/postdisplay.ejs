@@ -1,0 +1,111 @@
+<html>
+<style>
+	table, th, td {
+  		border: 1px solid black;
+	}
+</style>
+	<body style='background-color: rgb(235,235,235)'>
+		<% var e=1, i; %>
+		<% for(i=0;i<all_result.length; i++) { if(all_result[i].joiner_id == user_id) e=0; } %>
+		<h1>user id: <%= user_id %></h1>
+		This will show a list of pur posts
+			<table>
+				<tr>
+	    				<th>post_id: <%= result.post_id %></th>
+	 			</tr>
+	  			<tr>
+	    				<th>title: <%= result.title %></th>
+	 			</tr>
+	  			<tr>
+	    				<td>description: <%= result.description %></td>
+	
+	  			</tr>
+	  			<tr>
+	    				<td>host id: <%= result.host_id %></td>
+	
+	  			</tr>
+	  			<tr>
+	    				<td>type of game: <%= result.type_of_game %></td>
+	
+	  			</tr>
+	  			<tr>
+	    				<td>time: <%= result.t %></td>
+	
+	  			</tr>
+	  			<tr>
+	    				<td>hashtag: <%= result.hashtag %></td>
+	
+	  			</tr>
+	  			<tr>
+	    				<td>group id: <%= result.group_id %></td>
+	
+	  			</tr>
+	  			<% all_result.forEach(function(item){%>
+	  				<tr>
+	    				<td>joiner id: <a href="/show_your_user_information?user_id=<%= item.joiner_id %>"><%= item.joiner_id %></a></td>
+	  				</tr>
+	  			<% }); %>
+	  			<tr>
+	    			<form action="/back" method="GET">
+						<br><button name="post_id">Back</button> 
+					</form>
+					<% if(user_id==result.host_id) { %>
+						<form action="/change_post" method="get">
+		    				<input type="hidden" name='post_id' value="<%= result.post_id %>"/>
+		    				<button name ="submit" value="1" type="submit">Change</button>
+						</form>
+					<% } %>
+					<% if(e) { %>
+						<form action="/join_post" method="GET">
+							<input type="hidden" name="join_post_id" value="<%= result.post_id %>"/><br>
+							<button>Join</button>
+						</form>
+					<% }else{ %>
+						<p>You have joined this post or activity.</p>
+					<% } %>
+	  			</tr>
+			</table>
+			Comment:
+				<form action="/new_comment" method="GET">
+					<input type="text" name="new_comment"/><br>
+					<input type="hidden" name='post_id' value="<%= result.post_id %>"/>
+					<br><button>New Comment</button> 
+				</form>
+			<table>
+				<tr></tr>
+					<td>comment user:</td><br>
+					<td>comment date:</td><br>
+					<td>comment content:</td>
+				</tr>
+				<% comment.forEach(function(item){%>
+					<tr>
+						<td><%= item.comment_user_id %></td><br>
+						<td><%= item.comment_date %></td><br>
+						<td><%= item.comment_content %></td>
+						<% if(user_id==item.comment_user_id) { %>
+							<td>
+							<form action="/change_comment" method="GET">
+								<input type="text" name="change_comment"/><br>
+								<input type="hidden" name='post_id' value="<%= result.post_id %>"/>
+								<input type="hidden" name='comment_id' value="<%= item.comment_id %>"/>
+								<br><button>Change</button> 
+							</form>
+							</td>
+							<td>
+							<form action="/delete_comment" method="GET">
+								<input type="hidden" name='post_id' value="<%= result.post_id %>"/>
+								<input type="hidden" name='comment_id' value="<%= item.comment_id %>"/>
+								<br><button>Delete</button> 
+							</form>
+							</td>
+						<% } %>
+					</tr>
+				<% }); %>
+			</table>
+			<tr>
+	    		<form action="/delete_post" method="GET">
+				<br><button name="post_id" value="<%= result.post_id %>">Delete</button> 
+				</form>
+	  		</tr>
+	</body>
+</html>

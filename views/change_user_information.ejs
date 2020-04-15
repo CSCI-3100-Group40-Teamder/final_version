@@ -1,0 +1,133 @@
+<html>
+<style>
+	table, th, td {
+  		border: 1px solid black;
+	}
+</style>
+	<body style='background-color: rgb(235,235,235)'>
+	    <h1>host: <%= user %></h1>
+		This will show your infomration
+			<table>
+				<tr>
+	    				<th>user_id: <%= result.user_id %></th>
+	 			</tr>
+	  			<tr>
+	    				<th>user_first_name: <%= result.user_first_name %></th>
+	 			</tr>
+	  			<tr>
+	    				<td>user_last_name: <%= result.user_last_name %></td>
+	
+	  			</tr>
+	  			<tr>
+	    				<td>email: <%= result.email %></td>
+	
+	  			</tr>
+	  			<tr>
+	    				<td>phone_number: <%= result.phone_number %></td>
+	
+	  			</tr>
+	  			<tr>
+	    				<td>age: <%= result.age %></td>
+	
+	  			</tr>
+	  			<tr>
+	    				<td>introduction: <%= result.introduction %></td>
+	
+	  			</tr>
+	  			<tr>
+	    				<td>sex: <%= result.sex %></td>
+	
+	  			</tr>
+	  			<tr>
+	    				<td>perference1: <%= result.perference1 %></td>
+	
+	  			</tr>
+	  			<tr>
+	    				<td>perference2: <%= result.perference2 %></td>
+	
+	  			</tr>
+	  			<tr>
+	    				<td>perference3: <%= result.perference3 %></td>
+	
+	  			</tr>
+	  			<tr>
+	    				<td>is_admin: <%= result.is_admin %></td>
+	
+	  			</tr>
+	  			<tr>
+	    			<form action="/back" method="GET">
+						<br><button name="post_id">Back</button> 
+					</form>
+	  			</tr>
+			</table>
+			<form action="/change_content_user_information" method="GET">
+			<table>
+			    <tr>
+	    				<td>
+	    				    <p><%= result.user_id %></p>
+			            </td>
+	 			</tr>
+	  			<tr>
+	    				<td>
+	    				    <label for="user_first_name">user_first_name:</label><br>
+			                <input type="text" name="user_first_name"/><br>
+			            </td>
+	 			</tr>
+	 			<tr>
+	    				<td>
+	    				    <label for="user_last_name">user_last_name:</label><br>
+			                <input type="text" name="user_last_name"/><br>
+			            </td>
+	  			</tr>
+	  			<tr>
+	    				<td>
+	    				    <label for="phone_number">phone_number:</label><br>
+			                <input type="text" name="phone_number"/><br>
+			            </td>
+	
+	  			</tr>
+	  			<tr>
+	    				<td>
+	    				    <label for="age">age:</label><br>
+			                   <input type="text" name="age"/><br>
+			            </td>
+	  			</tr>
+	  			<tr>
+	    				<td>
+	    				    <label for="introduction">introduction:</label><br>
+			                <input type="text" name="introduction"/><br>
+			            </td>
+	  			</tr>
+	  			<tr>
+	    				<td>
+	    				    <label for="sex">sex:</label><br>
+			                <input type="text" name="sex"/><br>
+			            </td>
+	  			</tr>
+	  			<tr>
+	    				<td>rate: <%= rate %></td>
+	
+	  			</tr>
+	  			<tr>
+	    				<td>
+	    				    <label for="perference1">perference1:</label><br>
+			                <input type="text" name="perference1"/><br>
+			            </td>
+	  			</tr>
+	  			<tr>
+	    				<td>
+	    				    <label for="perference2">perference2:</label><br>
+			                <input type="text" name="perference2"/><br>
+			            </td>
+	  			</tr>
+	  			<tr>
+	    				<td>
+	    				    <label for="perference3">perference3:</label><br>
+			                <input type="text" name="perference3"/><br>
+			            </td>
+	  			</tr>
+			</table>
+					<br><button>Change</button> 
+			</form>
+	</body>
+</html>

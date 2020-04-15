@@ -1,0 +1,81 @@
+<html>
+<style>
+	table, th, td {
+  		border: 1px solid black;
+	}
+</style>
+	<body style='background-color: rgb(235,235,235)'>
+	    <h1>user: <%= user_id %></h1>
+		This will show <%= result.user_id %> infomration
+			<table>
+				<tr>
+	    				<th>user_id: <%= result.user_id %></th>
+	 			</tr>
+	  			<tr>
+	    				<th>user_first_name: <%= result.user_first_name %></th>
+	 			</tr>
+	  			<tr>
+	    				<td>user_last_name: <%= result.user_last_name %></td>
+	
+	  			</tr>
+	  			<tr>
+	    				<td>email: <%= result.email %></td>
+	
+	  			</tr>
+	  			<tr>
+	    				<td>phone_number: <%= result.phone_number %></td>
+	
+	  			</tr>
+	  			<tr>
+	    				<td>age: <%= result.age %></td>
+	
+	  			</tr>
+	  			<tr>
+	    				<td>introduction: <%= result.introduction %></td>
+	
+	  			</tr>
+	  			<tr>
+	    				<td>sex: <%= result.sex %></td>
+	
+	  			</tr>
+	  			<tr>
+	    				<td>rate: <%= rate %></td>
+	
+	  			</tr>
+	  			<tr>
+	    				<td>perference1: <%= result.perference1 %></td>
+	
+	  			</tr>
+	  			<tr>
+	    				<td>perference2: <%= result.perference2 %></td>
+	
+	  			</tr>
+	  			<tr>
+	    				<td>perference3: <%= result.perference3 %></td>
+	
+	  			</tr>
+	  			<tr>
+	    				<td>is_admin: <%= result.is_admin %></td>
+	
+	  			</tr>
+	  			<tr>
+	    			<form action="/back" method="GET">
+						<br><button name="post_id">Back</button> 
+					</form>
+					<% if(user_id==result.user_id){ %>
+						<form action="/change_user_information" method="get">
+		    				<button>Change</button>
+						</form>
+					<% } %>
+	  			</tr>
+			</table>
+			<% if(user_id==result.user_id){ %>
+			<tr>
+	    		<form action="/delete_account" method="GET">
+				<br><button name="delete_user_id" value="<%= result.user_id %>">Delete</button> 
+				</form>
+	  		</tr>
+	  		<a href="/upload" target="_blank">Upload photo</a><br>
+	  		<% } %>
+	</body>
+</html>

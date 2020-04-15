@@ -1,0 +1,37 @@
+<html>
+<style>
+	table, th, td {
+  		border: 1px solid black;
+	}
+</style>
+	<body style='background-color: rgb(235,235,235)'>
+	<p id="output">
+		<script>
+			var i=0;
+			document.getElementById("demo").innerHTML = i;
+		</script>
+		This will show a list of users that is other joiners.
+		<form action="/rate_user" method="GET">
+			<table>
+				<% all_result.forEach(function(item){%>
+					
+							<tr>
+			    				<th><%= item.joiner_id %></th>
+			    				<th>
+			    				        <label for="rate_of_user">rate: </label><br>
+					                	<input type="hidden" name="joiner_id" value="<%= item.joiner_id %>"/><br>
+					                	<input type="number" name="rate_of_user"/><br>
+			    				</th>
+			 			</tr>
+					
+				<% }); %>
+			</table>
+			<input type="hidden" name="length" value="<%= all_result.length %>"/><br>
+			<br><button>Submit</button> 
+		</form>
+		<form action="/back" method="GET">
+		    <br><button name="post_id">Back</button> 
+		</form>
+	</p>
+	</body>
+</html>

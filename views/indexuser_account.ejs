@@ -1,0 +1,62 @@
+<html>
+<style>
+	table, th, td {
+  		border: 1px solid black;
+	}
+</style>
+	<body style='background-color: rgb(235,235,235)'>
+		<form action="/create_id" method="GET">
+			<label for="id">id:</label><br>
+			<input type="text" name="new_id"/><br>
+			<label for="pw">Password:</label><br>
+			<input type="text" name="new_password"/><br>
+			<label for="user_first_name">user_first_name:</label><br>
+			<input type="text" name="user_first_name"/><br>
+			<label for="user_last_name">user_last_name:</label><br>
+			<input type="text" name="user_last_name"/><br>
+			<label for="email">email:</label><br>
+			<input type="text" name="email"/><br>
+			<label for="phone_number">phone_number:</label><br>
+			<input type="text" name="phone_number"/><br>
+			<label for="age">age:</label><br>
+			<input type="text" name="age"/><br>
+			<label for="introduction">introduction:</label><br>
+			<input type="text" name="introduction"/><br>
+			<label for="sex">sex:</label><br>
+			<input type="text" name="sex"/><br>
+			<label for="rating">rating:</label><br>
+			<input type="text" name="rating"/><br>
+			<label for="perference1">perference1:</label><br>
+			<input type="text" name="perference1"/><br>
+			<label for="perference2">perference2:</label><br>
+			<input type="text" name="perference2"/><br>
+			<label for="perference3">perference3:</label><br>
+			<input type="text" name="perference3"/><br>
+			<label for="is_admin">is_admin:</label><br>
+			<input type="text" name="is_admin"/><br>
+			<button>Create</button>
+		</form>
+		This will show a list of pur posts
+		<% result.forEach(function(item){%>
+			<table>
+	  			<tr>
+	    				<th><%= item.user_id %></th>
+	 			</tr>
+	  			<tr>
+	    				<td><%= item.password %></td>
+	
+	  			</tr>
+	  			<tr>
+	    			<form action="/delete_id" method="GET">
+					<br><button name="delete_id" value="<%= item.user_id %>">Delete</button> 
+					</form>
+	  			</tr>
+			</table>
+		<% }); %>
+		<tr>
+	    	<form action="/back" method="GET">
+			<br><button name="post_id">Back</button> 
+			</form>
+	  	</tr>
+	</body>
+</html>

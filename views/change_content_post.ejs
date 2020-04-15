@@ -1,0 +1,90 @@
+<html>
+<style>
+	table, th, td {
+  		border: 1px solid black;
+	}
+</style>
+	<body style='background-color: rgb(235,235,235)'>
+		This will show a list of pur posts
+			<table>
+	  			<tr>
+	    				<th>title: <%= result.title %></th>
+	 			</tr>
+	  			<tr>
+	    				<td>description: <%= result.description %></td>
+	
+	  			</tr>
+	  			<tr>
+	    				<td>host id: <%= result.host_id %></td>
+	
+	  			</tr>
+	  			<tr>
+	    				<td>joiner id: <%= result.joiner_id %></td>
+	
+	  			</tr>
+	  			<tr>
+	    				<td>type of game: <%= result.type_of_game %></td>
+	
+	  			</tr>
+	  			<tr>
+	    				<td>time: <%= result.t %></td>
+	
+	  			</tr>
+	  			<tr>
+	    				<td>hashtag: <%= result.hashtag %></td>
+	
+	  			</tr>
+	  			<tr>
+	    				<td>group id: <%= result.group_id %></td>
+	
+	  			</tr>
+	  			<tr>
+	    			<form action="/back" method="GET">
+						<br><button name="post_id">Back</button> 
+					</form>
+	  			</tr>
+			</table>
+			<form action="/change_content_post" method="GET">
+			<input type="hidden" name='post_id' value="<%= result.post_id %>"/>
+			<table>
+			    <tr>
+	    				<td>
+	    				    <p><%= result.post_id %></p>
+			            </td>
+	 			</tr>
+	  			<tr>
+	    				<td>
+	    				    <label for="title">title:</label><br>
+			                <input type="text" name="title"/><br>
+			            </td>
+	 			</tr>
+	 			<tr>
+	    				<td>
+	    				    <label for="description">description:</label><br>
+			                <input type="text" name="description"/><br>
+			            </td>
+	  			</tr>
+	  			<tr>
+	    				<td>
+	    				    <label for="type_of_game">type_of_game:</label><br>
+			                <input type="text" name="type_of_game"/><br>
+			            </td>
+	
+	  			</tr>
+	  			<tr>
+	    				<td>
+	    				    <label for="hashtag">hashtag:</label><br>
+			                   <input type="text" name="hashtag"/><br>
+			            </td>
+	  			</tr>
+	  			<tr>
+	    				<td>
+	    				    <label for="group_id">group_id:</label><br>
+			                <input type="text" name="group_id"/><br>
+			            </td>
+	  			</tr>
+			</table>
+					<br><button>Change</button> 
+			</form>
+	</body>
+</html>

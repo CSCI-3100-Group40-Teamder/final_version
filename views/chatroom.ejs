@@ -1,0 +1,199 @@
+<html lang="zh-tw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatroom</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io();
+    </script>
+    <style>
+        html, body {
+            padding: 0;
+            margin: 0;
+        }
+ 
+        #allMsg {
+            top: 50px;
+            width: 500px;
+            margin: 0 auto;
+            display: block;
+            position: relative;
+        }
+ 
+        #showStatus {
+            text-align: right;
+            font-size: .6em;
+        }
+ 
+        #content {
+            width: 100%;
+            height: 350px;
+            border: 1px solid darkolivegreen;
+            border-radius: 5px;
+            overflow: auto;
+        }
+ 
+        #dataBox {
+            width: 100%;
+            text-align: center;
+        }
+ 
+        #dataBox input {
+            display: inline-block;
+        }
+ 
+        #dataBox input.error {
+            border: 1px solid red;
+        }
+ 
+        input[name="name"] {
+            width: 15%;
+        }
+ 
+        input[name="msg"] {
+            width: 70%;
+        }
+ 
+        input[type="button"] {
+            width: 10%;
+        }
+ 
+        .msg {
+            width: 73%;
+            display: inline-block;
+            padding: 5px 0 5px 10px;
+        }
+ 
+        .msg > span {
+            width: 25%;
+            display: inline-block;
+        }
+ 
+        .msg > span::before {
+            color: darkred;
+            content: " { ";
+        } 
+ 
+        .msg > span::after {
+            color: darkred;
+            content: " } ";
+        }        
+    </style>
+</head>
+<body>
+    The Chat Room num <%= chatroom%>
+    <div id="allMsg">
+        <div id="showStatus">Server: <span id="status">-</span> / <span id="online">0</span> online.</div>
+        <div id="content">
+        </div>
+        <div id="dataBox">
+            <form id="dataSendToServer"> <! html's form ––>
+                <input type="text" name="sender_id" id="name" placeholder="name">
+                <input type="text" name="content" id="msg" placeholder="type here">
+                <input type="text" name="roomID" id="roomID" value=<%= chatroom%> readonly>
+                <input type="submit" value="Finish!">
+            </form>
+        </div>
+    </div>
+ 
+    <script>
+        
+        var ID = <%= chatroom%>; //this line also important // which room does the client belongs to
+        
+        document.addEventListener("DOMContentLoaded", () => {
+            
+            var status = document.getElementById("status");
+            var numPeople = document.getElementById("online");
+            var dataFromUser = document.getElementById("dataSendToServer"); // rev the user input from the form 
+            var content = document.getElementById("content"); // rev the chat contect from the server
+            var nameInputBox = document.getElementById("name");
+            
+ 
+            if (name) {
+                nameInputBox.value = name;
+            }
+ 
+            socket.on("connect", function () {
+                status.innerText = "Connect Successfully.";
+            });
+ 
+            socket.on("disconnect", function () {
+                status.innerText = "Soory Connect Fail.";
+            });
+ 
+            socket.on("online", function (numUser) {
+                numPeople.innerText = numUser; // for rev the number of person 
+                
+            });
+            
+            // for rev the chat record from the server
+            socket.on("chatRecord", function (msgs) {
+                for (var i=0; i < msgs.length; i++) {
+                    (function () {
+                        Message(msgs[i]);
+                    })();
+                }
+            });
+            
+            socket.on("msg", Message); // for rev the chat content from the server
+ 
+            dataFromUser.addEventListener("submit", function (e) { // rev the user input from thr form(id="dataSendToServer")
+                e.preventDefault();
+ 
+                var check = true;
+                var realDataSend = { // 要send 比server's input
+                    time: new Date().toUTCString()
+                };
+                var childFromForm = dataFromUser.children; //由 form 攞返黎嘅data
+ 
+                for (var i=0; i< dataFromUser.childElementCount; i++) { // 輸入左有多少個input i.e childElementCount 應該＝2
+                    var child = childFromForm[i];
+                    // for checking the input empty or not
+                    if (child.name !== "") {
+                        var cval = child.value;
+                        if (cval === "" || !cval) {
+                            check = false;
+                            child.classList.add("error");
+                        } else {
+                            child.classList.remove("error");
+                            realDataSend[child.name] = cval;
+                        }
+                    }
+                }
+ 
+                if (check) {
+                    socket.emit("send", realDataSend);
+                    // 當你send 左你一次之後，你個名就會記住 
+                    //或者呢到轉做我地嘅user name 
+                }
+            });
+ 
+            function Message (revMsg) { // dealing with the content from the server
+                
+                // my version
+                
+                if(ID == revMsg.room_id || ID == revMsg.roomID){ // this line really important
+                    var showMsg = document.createElement("div")
+                    showMsg.className = "content";
+                    var nameBox = document.createElement("span");
+                        nameBox.className = "name";
+                    var name = document.createTextNode(revMsg.sender_id); 
+                    var space = document.createTextNode(": "); 
+                    var msgRev = document.createTextNode(revMsg.content); 
+                    nameBox.appendChild(name);
+                    nameBox.appendChild(space);
+                    showMsg.appendChild(nameBox);
+                    showMsg.appendChild(msgRev);
+                    content.appendChild(showMsg);
+                    console.log(name);
+                    console.log(msgRev);
+                }
+             
+                
+            }
+              
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<html>
+<style>
+	table, th, td {
+  		border: 1px solid black;
+	}
+</style>
+	<body style='background-color: rgb(235,235,235)'>
+		<form action="/know_who" method="GET">
+			<label for="who">who:</label><br>
+			<input type="text" name="who"/><br>
+			<button>Submit</button>
+		</form><br>
+		<p>you should use this user_id</p>
+		<table>
+			<% result.forEach(function(item){%>
+				<tr>
+					<th>
+						<%=item.user_id %>
+					</th>
+				</tr>
+			<% }); %>
+		</table>
+	</body>
+</html>

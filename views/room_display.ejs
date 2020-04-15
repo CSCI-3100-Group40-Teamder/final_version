@@ -1,0 +1,104 @@
+<html>
+<style>
+	table, th, td {
+  		border: 1px solid black;
+	}
+</style>
+	<body style='background-color: rgb(235,235,235)'>
+		This will show that room.
+			<table>
+				<tr>
+	    				<th>post_id: <%= result.post_id %></th>
+	 			</tr>
+	  			<tr>
+	    				<th>title: <%= result.title %></th>
+	 			</tr>
+	  			<tr>
+	    				<td>description: <%= result.description %></td>
+	
+	  			</tr>
+	  			<tr>
+	    				<td>host id: <%= result.host_id %></td>
+	
+	  			</tr>
+	  			<tr>
+	    				<td>type of game: <%= result.type_of_game %></td>
+	
+	  			</tr>
+	  			<tr>
+	    				<td>time: <%= result.t %></td>
+	
+	  			</tr>
+	  			<tr>
+	    				<td>hashtag: <%= result.hashtag %></td>
+	
+	  			</tr>
+	  			<tr>
+	    				<td>group id: <%= result.group_id %></td>
+	
+	  			</tr>
+	  			<% all_result.forEach(function(item){%>
+	  				<tr>
+	    				<td>
+	    					joiner id: <a href="/show_your_user_information?user_id=<%= item.joiner_id %>"><%= item.joiner_id %></a>
+	    					<% if(user_id==result.host_id) { %>
+		    					<form action="/enter_room" method="GET">
+		    						<input type="hidden" name="action" value="delete_joiner"/>
+		    						<input type="hidden" name="post_id" value="<%= result.post_id %>"/>
+		    						<input type="hidden" name="delete_joiner_id" value="<%= item.joiner_id %>"/>
+									<br><button>Delete</button>
+								</form>
+							<% } %>
+	    				</td>
+	  				</tr>
+	  			<% }); %>
+	  			<tr>
+	    			<form action="/back" method="GET">
+						<br><button name="post_id">Back</button> 
+					</form>
+					<% if(user_id==result.host_id) { %>
+						<form action="/change_post" method="get">
+		    				<input type="hidden" name='post_id' value="<%= result.post_id %>"/>
+		    				<button name ="submit" value="1" type="submit">Change</button>
+						</form>
+					<% } %>
+					<form action="/withdraw_room" method="GET">
+						<input type="hidden" name="withdraw_post_id" value="<%= result.post_id %>"/><br>
+						<button>Withdraw</button>
+					</form>
+					<% if(all_result.length>=2){ %>
+						<form action="/finish_room" method="GET">
+							<input type="hidden" name="finish_post_id" value="<%= result.post_id %>"/><br>
+							<button>Finish and rate</button>
+						</form>
+					<% } %>
+					<% if(user_id==result.host_id) { %>
+						<form action="/enter_room" method="GET">
+							<br><input type="text" name="new_user_id"/>
+							<input type="hidden" name="action" value="add_joiner"/>
+							<input type="hidden" name="post_id" value="<%= result.post_id %>"/>
+							<button>Add user</button>
+						</form>
+						<form action="/enter_room" method="GET">
+							<br><input type="text" name="changed_host_id"/>
+							<input type="hidden" name="action" value="change_host"/>
+							<input type="hidden" name="post_id" value="<%= result.post_id %>"/>
+							<button>Change host</button>
+						</form>
+					<% } %>
+	  			</tr>
+			</table>
+			<table>
+			    <tr>chat room:</tr>
+			    <tr>content</tr>
+			</table>
+			<a href="/selectchat?chatroom=<%= result.post_id %>" target="_blank">Chatroom</a><br>
+			<% if(user_id==result.host_id) { %>
+				<tr>
+		    		<form action="/delete_post" method="GET">
+					<br><button name="post_id" value="<%= result.post_id %>">Delete</button> 
+					</form>
+		  		</tr>
+	  		<% } %>
+	</body>
+</html>
