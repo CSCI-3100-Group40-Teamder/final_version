@@ -1,5 +1,5 @@
 <h1> Register </h1>
-<form action="/register" method="POST">
+<form action="/login-system/register" method="POST">
     <% if (typeof messages.reg_error !== 'undefined' ){ %>
         <%= messages.reg_error %>
     <% } %>
@@ -21,13 +21,44 @@
     </div>
     <div>
         <label for="password">Password *</label>
-        <input type="text" id="password" name="password" required>
+        <input type="password" id="password" name="password" required>
+    </div>
+    <div>
+        <label for="phone_number">phone_number *</label>
+        <input type="text" id="phone_number" name="phone_number" required>
+    </div>
+        <div>
+        <label for="age">age *</label>
+        <input type="text" id="age" name="age" required>
+    </div>
+    <div>
+        <label for="introduction">introduction</label>
+        <input type="text" id="introduction" name="introduction">
+    </div>
+    <div>
+        <label for="sex">sex *</label>
+        <input type="text" id="sex" name="sex" required>
+    </div>
+    <div>
+        <label for="perference1">perference1 *</label>
+        <input type="text" id="perference1" name="perference1" required>
+    </div>
+    <div>
+        <label for="perference2">perference2 *</label>
+        <input type="text" id="perference2" name="perference2" required>
+    </div>
+    <div>
+        <label for="perference3">perference3 *</label>
+        <input type="text" id="perference3" name="perference3" required>
     </div>
     <div>
         * must fill in
     </div>
     <button type="submit">Register</button>
 </form>
+<form action="/back" method="GET">
+	<br><button>Back</button> 
+</form>
 <div class="login-url">
-    Already registered? <a href="/login">Login here</a> !
+    Already registered? <a href="/login-system/login">Login here</a> !
 </div>

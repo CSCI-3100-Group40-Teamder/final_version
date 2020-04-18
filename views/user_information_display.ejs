@@ -19,6 +19,10 @@
 	
 	  			</tr>
 	  			<tr>
+	    				<td>nickname: <%= result.nickname %></td>
+	
+	  			</tr>
+	  			<tr>
 	    				<td>email: <%= result.email %></td>
 	
 	  			</tr>
@@ -58,12 +62,17 @@
 	    				<td>is_admin: <%= result.is_admin %></td>
 	
 	  			</tr>
+	  			<% photo_result.forEach(function(item){%>
+		  			<tr>
+		  				<img src="uploads/<%= item.photo_url %>">
+		  			</tr>
+		  		<% }); %>
 	  			<tr>
 	    			<form action="/back" method="GET">
 						<br><button name="post_id">Back</button> 
 					</form>
 					<% if(user_id==result.user_id){ %>
-						<form action="/change_user_information" method="get">
+						<form action="/user_module/change_user_information" method="get">
 		    				<button>Change</button>
 						</form>
 					<% } %>
@@ -71,7 +80,7 @@
 			</table>
 			<% if(user_id==result.user_id){ %>
 			<tr>
-	    		<form action="/delete_account" method="GET">
+	    		<form action="/user_module/delete_account" method="GET">
 				<br><button name="delete_user_id" value="<%= result.user_id %>">Delete</button> 
 				</form>
 	  		</tr>

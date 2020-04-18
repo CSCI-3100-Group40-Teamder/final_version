@@ -1,4 +1,5 @@
-<html lang="zh-tw">
+<!DOCTYPE html>
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -89,10 +90,11 @@
         </div>
         <div id="dataBox">
             <form id="dataSendToServer"> <! html's form ––>
-                <input type="text" name="sender_id" id="name" placeholder="name">
-                <input type="text" name="content" id="msg" placeholder="type here">
-                <input type="text" name="roomID" id="roomID" value=<%= chatroom%> readonly>
-                <input type="submit" value="Finish!">
+                <input type="hidden" name="sender_id" id="name" value=<%= user_ID %> readonly >
+                <input type="text" name="content" id="msg" placeholder="type here" minlength="1" maxlength="350">
+                <input type="hidden" name="roomID" id="roomID" value=<%= chatroom%> readonly>
+                <input type="submit" value="Done!" >
+                <input type="reset" value="Reset">
             </form>
         </div>
     </div>
@@ -109,10 +111,6 @@
             var content = document.getElementById("content"); // rev the chat contect from the server
             var nameInputBox = document.getElementById("name");
             
- 
-            if (name) {
-                nameInputBox.value = name;
-            }
  
             socket.on("connect", function () {
                 status.innerText = "Connect Successfully.";
@@ -148,18 +146,16 @@
                 var childFromForm = dataFromUser.children; //由 form 攞返黎嘅data
  
                 for (var i=0; i< dataFromUser.childElementCount; i++) { // 輸入左有多少個input i.e childElementCount 應該＝2
+                    // new content
                     var child = childFromForm[i];
-                    // for checking the input empty or not
-                    if (child.name !== "") {
-                        var cval = child.value;
-                        if (cval === "" || !cval) {
-                            check = false;
-                            child.classList.add("error");
-                        } else {
-                            child.classList.remove("error");
-                            realDataSend[child.name] = cval;
-                        }
+                    if(child.name !== "" && child.value !== "" && child.value){
+                        child.classList.remove("error");
+                        realDataSend[child.name] = child.value;
+                    }else if(child.name !== "" && (child.value === "" || !child.value)){
+                        check = false;
+                        child.classList.add("error");
                     }
+                    
                 }
  
                 if (check) {
@@ -167,6 +163,10 @@
                     // 當你send 左你一次之後，你個名就會記住 
                     //或者呢到轉做我地嘅user name 
                 }
+                
+                // new content // for reset the input after submit
+                document.getElementById("dataSendToServer").reset();
+                
             });
  
             function Message (revMsg) { // dealing with the content from the server
@@ -179,13 +179,24 @@
                     var nameBox = document.createElement("span");
                         nameBox.className = "name";
                     var name = document.createTextNode(revMsg.sender_id); 
+                    
                     var space = document.createTextNode(": "); 
+                    var time = document.createTextNode(" (time is "); 
+                    var test = document.createTextNode(")"); 
+                    
                     var msgRev = document.createTextNode(revMsg.content); 
+                    var showTime = document.createTextNode(revMsg.chat_time); 
+                     
+                    
                     nameBox.appendChild(name);
                     nameBox.appendChild(space);
                     showMsg.appendChild(nameBox);
                     showMsg.appendChild(msgRev);
                     content.appendChild(showMsg);
+                    content.appendChild(time);
+                    
+                    showMsg.appendChild(showTime);
+                    showMsg.appendChild(test);
                     console.log(name);
                     console.log(msgRev);
                 }

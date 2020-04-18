@@ -21,7 +21,11 @@
 	
 	  			</tr>
 	  			<tr>
-	    				<td>host id: <%= result.host_id %></td>
+	    				<td>host name: <%= result.nickname %></td>
+	
+	  			</tr>
+	  			<tr>
+	    				<td>no of participants: <%= all_result.length %></td>
 	
 	  			</tr>
 	  			<tr>
@@ -40,9 +44,18 @@
 	    				<td>group id: <%= result.group_id %></td>
 	
 	  			</tr>
+	  			<tr>
+	    				<td>subgroup id: <%= result.subgroup_id %></td>
+	
+	  			</tr>
 	  			<% all_result.forEach(function(item){%>
 	  				<tr>
-	    				<td>joiner id: <a href="/show_your_user_information?user_id=<%= item.joiner_id %>"><%= item.joiner_id %></a></td>
+	    				<td>
+	    					joiner id: <a href="/user_module/show_your_user_information?user_id=<%= item.joiner_id %>" target="_blank"><%= item.joiner_name %></a>
+	    					<% if(item.joiner_id==result.host_id) { %>
+	    						<h1>Host</h1>
+	    					<% } %>
+	    				</td>
 	  				</tr>
 	  			<% }); %>
 	  			<tr>
@@ -50,14 +63,15 @@
 						<br><button name="post_id">Back</button> 
 					</form>
 					<% if(user_id==result.host_id) { %>
-						<form action="/change_post" method="get">
+						<form action="/post_module/change_post" method="get">
 		    				<input type="hidden" name='post_id' value="<%= result.post_id %>"/>
 		    				<button name ="submit" value="1" type="submit">Change</button>
 						</form>
 					<% } %>
 					<% if(e) { %>
-						<form action="/join_post" method="GET">
-							<input type="hidden" name="join_post_id" value="<%= result.post_id %>"/><br>
+						<form action="/post_module/show_post" method="GET">
+							<input type="hidden" name="action" value="join_post"/><br>
+							<input type="hidden" name="post_id" value="<%= result.post_id %>"/><br>
 							<button>Join</button>
 						</form>
 					<% }else{ %>
@@ -66,7 +80,8 @@
 	  			</tr>
 			</table>
 			Comment:
-				<form action="/new_comment" method="GET">
+				<form action="/post_module/show_post" method="GET">
+					<input type="hidden" name="action" value="new_comment"/><br>
 					<input type="text" name="new_comment"/><br>
 					<input type="hidden" name='post_id' value="<%= result.post_id %>"/>
 					<br><button>New Comment</button> 
@@ -84,7 +99,8 @@
 						<td><%= item.comment_content %></td>
 						<% if(user_id==item.comment_user_id) { %>
 							<td>
-							<form action="/change_comment" method="GET">
+							<form action="/post_module/show_post" method="GET">
+								<input type="hidden" name="action" value="change_comment"/><br>
 								<input type="text" name="change_comment"/><br>
 								<input type="hidden" name='post_id' value="<%= result.post_id %>"/>
 								<input type="hidden" name='comment_id' value="<%= item.comment_id %>"/>
@@ -92,7 +108,8 @@
 							</form>
 							</td>
 							<td>
-							<form action="/delete_comment" method="GET">
+							<form action="/post_module/show_post" method="GET">
+								<input type="hidden" name="action" value="delete_comment"/><br>
 								<input type="hidden" name='post_id' value="<%= result.post_id %>"/>
 								<input type="hidden" name='comment_id' value="<%= item.comment_id %>"/>
 								<br><button>Delete</button> 
@@ -103,7 +120,7 @@
 				<% }); %>
 			</table>
 			<tr>
-	    		<form action="/delete_post" method="GET">
+	    		<form action="/post_module/delete_post" method="GET">
 				<br><button name="post_id" value="<%= result.post_id %>">Delete</button> 
 				</form>
 	  		</tr>

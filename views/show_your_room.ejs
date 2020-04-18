@@ -12,7 +12,7 @@
 					<tr>
 	    				<th><%= item.post_id %></th>
 	    				<th>
-	    					<form action="/enter_room" method="GET">
+	    					<form action="/room_module/enter_room" method="GET">
 								<input type="hidden" name="post_id" value="<%= item.post_id %>"/><br>
 								<input type="hidden" name="enter_user_id" value="<%= user %>"/><br>
 								<button>Enter</button>
@@ -22,7 +22,7 @@
 	  			<tr>
 	    				<th><%= item.title %></th>
 	    				<th>
-	    					<form action="/withdraw_room" method="GET">
+	    					<form action="/room_module/withdraw_room" method="GET">
 								<input type="hidden" name="withdraw_post_id" value="<%= item.post_id %>"/><br>
 								<button>Withdraw</button>
 							</form>

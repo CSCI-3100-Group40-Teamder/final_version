@@ -30,35 +30,102 @@
     						<%= item.group_descripton %>
     					</th>
     					<th>
-    						<form action="/change_group" method="GET">
+    						<form action="/group_module/group_display" method="GET">
     						    <input type="hidden" name="change_group_id" value="<%= item.group_id %>"/><br>
                     			<label for="change_group_name">change_group_name:</label><br>
                     			<input type="text" name="change_group_name"/><br>
                     			<label for="change_group_descripton">change_group_descripton:</label><br>
                     			<input type="text" name="change_group_descripton"/><br>
+                    			<input type="hidden" name="action" value="change_group"/>
                     			<button>Change</button>
                 		    </form>
     					</th>
     					<th>
-    						<form action="/delete_group" method="GET">
+    						<form action="/group_module/group_display" method="GET">
                     			<input type="hidden" name="delete_group_id" value="<%= item.group_id %>"/><br>
+                    			<input type="hidden" name="action" value="delete_group"/>
                     			<button>Delete</button>
                 		    </form>
     					</th>
     				</tr>
 				<% }); %>
-			</table>
-		<form action="/create_new_group" method="GET">
+			</table><br>
+			
+		<table>
+			    <tr>
+			    	<th>
+						belong to group_id
+					</th>
+					<th>
+						subgroup_id
+					</th>
+					<th>
+						subgroup_name
+					</th>
+					<th>
+						subgroup_descripton
+					</th>
+				</tr>
+			    <% subgroup_result.forEach(function(item){%>
+    			    <tr>
+    			    	<th>
+    						<%= item.group_id %>
+    					</th>
+    					<th>
+    						<%= item.subgroup_id %>
+    					</th>
+    					<th>
+    						<%= item.subgroup_name %>
+    					</th>
+    					<th>
+    						<%= item.subgroup_descripton %>
+    					</th>
+    					<th>
+    						<form action="/group_module/group_display" method="GET">
+    						    <input type="hidden" name="change_subgroup_id" value="<%= item.subgroup_id %>"/><br>
+                    			<label for="change_subgroup_name">change_subgroup_name:</label><br>
+                    			<input type="text" name="change_subgroup_name"/><br>
+                    			<label for="change_subgroup_descripton">change_subgroup_descripton:</label><br>
+                    			<input type="text" name="change_subgroup_descripton"/><br>
+                    			<input type="hidden" name="action" value="change_subgroup"/>
+                    			<button>Change</button>
+                		    </form>
+    					</th>
+    					<th>
+    						<form action="/group_module/group_display" method="GET">
+                    			<input type="hidden" name="delete_subgroup_id" value="<%= item.subgroup_id %>"/><br>
+                    			<input type="hidden" name="action" value="delete_subgroup"/>
+                    			<button>Delete</button>
+                		    </form>
+    					</th>
+    				</tr>
+				<% }); %>
+			</table><br>
+			
+		<form action="/group_module/group_display" method="GET">
 			<label for="new_group_ID">new_group_ID:</label><br>
 			<input type="text" name="new_group_ID"/><br>
 			<label for="new_group_name">new_group_name:</label><br>
 			<input type="text" name="new_group_name"/><br>
 			<label for="new_group_description">new_group_description:</label><br>
 			<input type="text" name="new_group_description"/><br>
+			<input type="hidden" name="action" value="create_new_group"/>
 			<button>Create</button>
-		</form>
+		</form><br>
+		<form action="/group_module/group_display" method="GET">
+			<label for="new_subgroup_ID">new_subgroup_ID:</label><br>
+			<input type="text" name="new_subgroup_ID"/><br>
+			<label for="new_subgroup_name">new_subgroup_name:</label><br>
+			<input type="text" name="new_subgroup_name"/><br>
+			<label for="new_subgroup_description">new_subgroup_description:</label><br>
+			<input type="text" name="new_subgroup_description"/><br>
+			<label for="under_which_group_id">under_which_group_id:</label><br>
+			<input type="text" name="under_which_group_id"/><br>
+			<input type="hidden" name="action" value="create_new_subgroup"/>
+			<button>Create</button>
+		</form><br>
 		<form action="/back" method="GET">
-			<br><button name="post_id">Back</button> 
+			<br><button>Back</button> 
 		</form>
 	</body>
 </html>

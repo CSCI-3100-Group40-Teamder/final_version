@@ -1,18 +1,11 @@
 var mysql = require('mysql')
 
-/*const connection = mysql.createConnection({
+const connection = mysql.createConnection({
     host:"database-testing.ccgcttjz3ptu.ap-southeast-1.rds.amazonaws.com",
     port:'3306',
     user:"admin",
     password:"csci3100",
     database: "user"
-})*/
-
-const connection = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "csci3100",
-    database: "teamder"
 })
 
 function createTable() {

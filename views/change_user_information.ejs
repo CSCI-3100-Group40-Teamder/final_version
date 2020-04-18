@@ -5,7 +5,7 @@
 	}
 </style>
 	<body style='background-color: rgb(235,235,235)'>
-	    <h1>host: <%= user %></h1>
+	    <h1>host: <%= user_id %></h1>
 		This will show your infomration
 			<table>
 				<tr>
@@ -16,6 +16,10 @@
 	 			</tr>
 	  			<tr>
 	    				<td>user_last_name: <%= result.user_last_name %></td>
+	
+	  			</tr>
+	  			<tr>
+	    				<td>nickname: <%= result.nickname %></td>
 	
 	  			</tr>
 	  			<tr>
@@ -60,7 +64,7 @@
 					</form>
 	  			</tr>
 			</table>
-			<form action="/change_content_user_information" method="GET">
+			<form action="/user_module/show_your_user_information" method="GET">
 			<table>
 			    <tr>
 	    				<td>
@@ -77,6 +81,12 @@
 	    				<td>
 	    				    <label for="user_last_name">user_last_name:</label><br>
 			                <input type="text" name="user_last_name"/><br>
+			            </td>
+	  			</tr>
+	  			<tr>
+	    				<td>
+	    				    <label for="nickname">nickname:</label><br>
+			                <input type="text" name="nickname"/><br>
 			            </td>
 	  			</tr>
 	  			<tr>
@@ -127,6 +137,8 @@
 			            </td>
 	  			</tr>
 			</table>
+					<input type="hidden" name="user_id" value="<%= result.user_id %>"/><br>
+					<input type="hidden" name="action" value="change_content_user_information"/><br>
 					<br><button>Change</button> 
 			</form>
 	</body>

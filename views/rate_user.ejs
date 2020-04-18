@@ -11,7 +11,7 @@
 			document.getElementById("demo").innerHTML = i;
 		</script>
 		This will show a list of users that is other joiners.
-		<form action="/rate_user" method="GET">
+		<form action="/user_module/rate_user" method="GET">
 			<table>
 				<% all_result.forEach(function(item){%>
 					
@@ -27,6 +27,7 @@
 				<% }); %>
 			</table>
 			<input type="hidden" name="length" value="<%= all_result.length %>"/><br>
+			<input type="hidden" name="post_id" value="<%= post_id %>"/><br>
 			<br><button>Submit</button> 
 		</form>
 		<form action="/back" method="GET">

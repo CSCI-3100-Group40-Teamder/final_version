@@ -1,6 +1,16 @@
 <html>
-<form action="/logout?_method=DELETE" method="POST">
-<button type="submit">Log Out</button>
+	<head>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+		<link rel="stylesheet" href="css/style.css">
+		<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+	</head>
+<% if(user_id!='guest'){ %>
+	<form action="/login-system/logout?_method=DELETE" method="POST">
+		<button type="submit">Log Out</button>
+	</form>
+<% } %>
 <style>
 	table, th, td {
   		border: 1px solid black;
@@ -8,20 +18,40 @@
 </style>
 	<body style='background-color: rgb(235,235,235)'>
 		<h1>user id: <%= user_id %></h1>
+		<h1>user name: <%= user_name %></h1>
 		<% group_result.forEach(function(item){%>
 			<table>
 					<th>
-						<form action="/filter_group" method="GET">
-								<input type="hidden" name="group_id" value="<%= item.group_id %>"/><br>
-								<button><%=item.group_name %></button>
+						<form action="/index" method="GET">
+						<input type="hidden" name="action" value="filter_group"/><br>
+						<input type="hidden" name="group_id" value="<%= item.group_id %>"/><br>
+						<button><%=item.group_name %></button>
 						</form>
 					</th>
 					<th>
 						<%= item.group_descripton %>
 					</th>
+					<th>
+						<form action="/index" method="GET">
+						<input type="hidden" name="group_id" value="<%= item.group_id %>"/><br>
+						<button> show subgroup</button>
+						</form>
+					</th>
+					<th>
+						<% subgroup_result.forEach(function(subgroup_item){%>
+							<% if(subgroup_item.group_id==item.group_id){ %>
+							<form action="/index" method="GET">
+								<input type="hidden" name="action" value="filter_subgroup"/><br>
+								<input type="hidden" name="subgroup_id" value="<%= subgroup_item.subgroup_id %>"/><br>
+								<button><%= subgroup_item.subgroup_name %></button><br>
+							</form>
+							<% } %>
+						<% }); %>
+					</th>
 			</table>
 		<% }); %>
-		<form action="/search_id_of_post" method="GET">
+		<form action="/index" method="GET">
+			<input type="hidden" name="action" value="search_id_of_post"/><br>
 			<label for="Search ID">Search id:</label><br>
 			<input type="text" name="search_post_id"/><br>
 			<button>Search</button>
@@ -31,35 +61,40 @@
 			<input type="text" name="search_post_name"/><br>
 			<button>Search</button>
 		</form>
-		<% if(user_id[0]=='a'){ %>
-    		<a href="/admin">administrator</a><br>
-    	<% } %>
-    	<a href="/login">login</a><br>
-    	<a href="/register">register</a><br>
-		<a href="/creating_post">Create a new post</a><br>
-		<a href="/show_your_room">your room</a><br>
-		<a href="/show_your_user_information?user_id=<%= user_id %>">your user information</a><br>
-		<a href="/filter_not_joined">show the room that is not joined by you.</a><br>
+    	<a href="/admin">administrator</a><br>
+    	<% if(user_id=='guest'){ %>
+	    	<a href="/login-system/login">login</a><br>
+	    	<a href="/login-system/register">register</a><br>
+	    <% } %>
+	    <% if(user_id!='guest'){ %>
+			<a href="/post_module/creating_post">Create a new post</a><br>
+			<a href="/room_module/show_your_room">your room</a><br>
+			<a href="/user_module/show_your_user_information?user_id=<%= user_id %>">your user information</a><br>
+			<a href="/index?action=filter_is_joined">show the post that is joined by you.</a><br>
+		<% } %>
 		<a href="/indexuser_account" target="_blank">all user account</a><br>
 		This will show a list of pur posts
 		<% result.forEach(function(item){%>
-			<table>
-					<tr>
-	    				<th><%= item.post_id %></th>
-	 			</tr>
-	  			<tr>
-	    				<th><%= item.title %></th>
-	 			</tr>
-	  			<tr>
-	    				<td><%= item.description %></td>
-	
-	  			</tr>
-	  			<tr>
-	    			<form action="/show_post" method="GET">
-					<br><button name="post_id" value="<%= item.post_id %>">Click</button> 
-					</form>
-	  			</tr>
-			</table>
+		
+			<div class="card">
+                
+                    <div class="card-header">
+                        <a href="#" class="card-link" style=" z-index: 2; position: relative;">user name</a>
+                    </div>
+                    <img src="uploads/camera-icon.png	" class="card-img-top">
+                        <div class="card-body">
+                            <p class="card-text"><strong>Find 1 teamate!</strong></p>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <a class="card-text" href="#" style=" z-index: 2; position: relative;"><small>Group</small>
+                            	<form action="/post_module/show_post" method="GET">
+									<button name="post_id" value="<%= item.post_id %>">Click Me!</button>
+								</form>
+                            </a>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">Last updated 3 mins ago</small>
+                        </div>
+        	</div>
 		<% }); %>	
 		<form action="/back" method="GET">
 			<br><button name="post_id">Back</button> 

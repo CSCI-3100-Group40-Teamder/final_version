@@ -5,7 +5,7 @@
 	}
 </style>
 	<body style='background-color: rgb(235,235,235)'>
-		<form action="/create_id" method="GET">
+		<form action="/user_module/create_id" method="GET">
 			<label for="id">id:</label><br>
 			<input type="text" name="new_id"/><br>
 			<label for="pw">Password:</label><br>
@@ -47,7 +47,7 @@
 	
 	  			</tr>
 	  			<tr>
-	    			<form action="/delete_id" method="GET">
+	    			<form action="/user_module/delete_id" method="GET">
 					<br><button name="delete_id" value="<%= item.user_id %>">Delete</button> 
 					</form>
 	  			</tr>

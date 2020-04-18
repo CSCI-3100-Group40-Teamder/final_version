@@ -2,17 +2,20 @@
 <% if (messages.error){ %>
     <%= messages.error %>
 <% } %>
-<form action="/login" method="POST">
+<form action="/login-system/loading" method="POST">
     <div>
         <label for="email">Email</label>
         <input type="text" id="email" name="email" required>
     </div>
     <div>
         <label for="password">Password</label>
-        <input type="text" id="password" name="password" required>
+        <input type="password" id="password" name="password" required>
     </div>
     <button type="submit">Login</button>
 </form>
+<form action="/back" method="GET">
+	<br><button>Back</button> 
+</form>
 <div class="register-url">
-    Do not have an account? <a href="/register">Register here</a> !
+    Do not have an account? <a href="/login-system/register">Register here</a> !
 </div>
