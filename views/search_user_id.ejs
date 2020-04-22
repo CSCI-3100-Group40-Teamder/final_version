@@ -1,0 +1,39 @@
+<html>
+<style>
+	table, th, td {
+  		border: 1px solid black;
+	}
+</style>
+	<body style='background-color: rgb(235,235,235)'>
+	<p id="output">
+		<script>
+			var i=0;
+			document.getElementById("demo").innerHTML = i;
+		</script>
+		This will show a list of users that the nickname.
+		<form action="/room_module/enter_room" method="GET">
+			<table>
+				<% all_result.forEach(function(item){%>
+					
+						<tr>
+		    				<th><a href="/user_module/show_your_user_information?user_id=<%= item.user_id %>" target="_blank"><%= item.user_id%></a></th>
+		    				<th><%= item.nickname %></th>
+		    				<th><%= item.user_last_name %></th>
+		    				<th><%= item.user_first_name %></th>
+		    				<th>
+				                	<input type="hidden" name="user_id" value="<%= item.user_id %>"/><br>
+				                	<input type="hidden" name="post_id" value="<%= post_id %>"/><br>
+				                	<input type="hidden" name="action" value="<%= action %>"/><br>
+				                	<button>This one</button>
+		    				</th>
+			 			</tr>
+					
+				<% }); %>
+			</table>
+		</form>
+		<form action="/back" method="GET">
+		    <br><button name="post_id">Back</button> 
+		</form>
+	</p>
+	</body>
+</html>

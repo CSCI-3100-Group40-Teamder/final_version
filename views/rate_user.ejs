@@ -4,7 +4,7 @@
   		border: 1px solid black;
 	}
 </style>
-	<body style='background-color: rgb(235,235,235)'>
+	<body style='background-color: rgb(255,255,255)'>
 	<p id="output">
 		<script>
 			var i=0;
@@ -16,7 +16,10 @@
 				<% all_result.forEach(function(item){%>
 					
 							<tr>
-			    				<th><%= item.joiner_id %></th>
+			    				<th><a href="/user_module/show_your_user_information?user_id=<%= item.joiner_id %>" target="_blank"><%= item.joiner_id %></a></th>
+			    				<th><%= item.nickname %></th>
+			    				<th><%= item.user_last_name %></th>
+			    				<th><%= item.user_first_name %></th>
 			    				<th>
 			    				        <label for="rate_of_user">rate: </label><br>
 					                	<input type="hidden" name="joiner_id" value="<%= item.joiner_id %>"/><br>

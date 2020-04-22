@@ -1,0 +1,46 @@
+    #header .container-fluid{
+        min-width: 992px;
+        max-width: 1200px;
+    }
+    
+    #header .search .dropdown-toggle[aria-expanded="true"]:after {
+        transform: rotate(180deg); 
+    }
+
+    #header .search .dropdown-toggle:after { 
+        transition: 0.7s; 
+    }
+
+    #header .search .btn{
+        width:110px;
+        color: #17a2b8;;
+        border-color: #17a2b8;
+    }
+    
+    #header .search .btn:hover{
+        color: white;
+        background-color:  #17a2b8;
+    }
+
+    #header .option-set.nav-item .login_n_register{
+        float: left;
+    }
+
+    #header .option-set.nav-item .create-post{
+        float: left;
+    }
+    
+    .icon{
+        height: 32px;
+        width: 32px;
+        border-radius: 50%;
+    }
+    #header .brand_logo_container{
+        margin-left: 20px;
+    } 
+    #header .brand_logo {
+        height: 65px;
+        width: 65px;
+        border-radius: 50%;
+        border: 5px solid #60a3bc;
+    }

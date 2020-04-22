@@ -1,145 +1,245 @@
 <html>
-<style>
-	table, th, td {
-  		border: 1px solid black;
-	}
-</style>
-	<body style='background-color: rgb(235,235,235)'>
-	    <h1>host: <%= user_id %></h1>
-		This will show your infomration
-			<table>
-				<tr>
-	    				<th>user_id: <%= result.user_id %></th>
-	 			</tr>
-	  			<tr>
-	    				<th>user_first_name: <%= result.user_first_name %></th>
-	 			</tr>
-	  			<tr>
-	    				<td>user_last_name: <%= result.user_last_name %></td>
-	
-	  			</tr>
-	  			<tr>
-	    				<td>nickname: <%= result.nickname %></td>
-	
-	  			</tr>
-	  			<tr>
-	    				<td>email: <%= result.email %></td>
-	
-	  			</tr>
-	  			<tr>
-	    				<td>phone_number: <%= result.phone_number %></td>
-	
-	  			</tr>
-	  			<tr>
-	    				<td>age: <%= result.age %></td>
-	
-	  			</tr>
-	  			<tr>
-	    				<td>introduction: <%= result.introduction %></td>
-	
-	  			</tr>
-	  			<tr>
-	    				<td>sex: <%= result.sex %></td>
-	
-	  			</tr>
-	  			<tr>
-	    				<td>perference1: <%= result.perference1 %></td>
-	
-	  			</tr>
-	  			<tr>
-	    				<td>perference2: <%= result.perference2 %></td>
-	
-	  			</tr>
-	  			<tr>
-	    				<td>perference3: <%= result.perference3 %></td>
-	
-	  			</tr>
-	  			<tr>
-	    				<td>is_admin: <%= result.is_admin %></td>
-	
-	  			</tr>
-	  			<tr>
-	    			<form action="/back" method="GET">
-						<br><button name="post_id">Back</button> 
-					</form>
-	  			</tr>
-			</table>
-			<form action="/user_module/show_your_user_information" method="GET">
-			<table>
-			    <tr>
-	    				<td>
-	    				    <p><%= result.user_id %></p>
-			            </td>
-	 			</tr>
-	  			<tr>
-	    				<td>
-	    				    <label for="user_first_name">user_first_name:</label><br>
-			                <input type="text" name="user_first_name"/><br>
-			            </td>
-	 			</tr>
-	 			<tr>
-	    				<td>
-	    				    <label for="user_last_name">user_last_name:</label><br>
-			                <input type="text" name="user_last_name"/><br>
-			            </td>
-	  			</tr>
-	  			<tr>
-	    				<td>
-	    				    <label for="nickname">nickname:</label><br>
-			                <input type="text" name="nickname"/><br>
-			            </td>
-	  			</tr>
-	  			<tr>
-	    				<td>
-	    				    <label for="phone_number">phone_number:</label><br>
-			                <input type="text" name="phone_number"/><br>
-			            </td>
-	
-	  			</tr>
-	  			<tr>
-	    				<td>
-	    				    <label for="age">age:</label><br>
-			                   <input type="text" name="age"/><br>
-			            </td>
-	  			</tr>
-	  			<tr>
-	    				<td>
-	    				    <label for="introduction">introduction:</label><br>
-			                <input type="text" name="introduction"/><br>
-			            </td>
-	  			</tr>
-	  			<tr>
-	    				<td>
-	    				    <label for="sex">sex:</label><br>
-			                <input type="text" name="sex"/><br>
-			            </td>
-	  			</tr>
-	  			<tr>
-	    				<td>rate: <%= rate %></td>
-	
-	  			</tr>
-	  			<tr>
-	    				<td>
-	    				    <label for="perference1">perference1:</label><br>
-			                <input type="text" name="perference1"/><br>
-			            </td>
-	  			</tr>
-	  			<tr>
-	    				<td>
-	    				    <label for="perference2">perference2:</label><br>
-			                <input type="text" name="perference2"/><br>
-			            </td>
-	  			</tr>
-	  			<tr>
-	    				<td>
-	    				    <label for="perference3">perference3:</label><br>
-			                <input type="text" name="perference3"/><br>
-			            </td>
-	  			</tr>
-			</table>
-					<input type="hidden" name="user_id" value="<%= result.user_id %>"/><br>
-					<input type="hidden" name="action" value="change_content_user_information"/><br>
-					<br><button>Change</button> 
-			</form>
+	<head>
+		<Title>Edit profile</Title>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<link rel="stylesheet" href="../css/index.css">
+		<link rel="stylesheet" href="../css/change_user_info.css">
+		<link href="../css/header.css" rel="stylesheet">
+		<link href="../css/group-list.css" rel="stylesheet">
+		<link rel="icon" href="../uploads/Teamder_icon.jpg">
+		<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>	
+		<style>
+			table, th, td {
+		  		border: 1px solid black;
+			}
+		</style>
+	</head>
+	<body>
+		<%- include('partials/header.ejs'); -%>
+		
+		<%- include('partials/group-list.ejs'); -%>
+		<div class="container our-form">
+			
+			  
+		    <div class="col table table-bordered success">
+		    	<form action="/user_module/show_your_user_information" method="GET">
+					<div class="container user-table">
+						<div class="row ">
+			  				<div class="col-12 col-md-4">
+			  					<div class="description">Field</div>
+			  				</div>
+			  				<div class="col-12 col-md-4">
+			  					<div class="description">Current Value</div>
+			  				</div>
+			  				<div class="col-12 col-md-4">
+			  					<div class="description">Input</div>
+			  				</div>
+			 			</div>
+			  			<div class="row ">
+			  				<div class="col-12 col-md-4">
+			  					First Name
+			  				</div>
+			  				<div class="col-12 col-md-4">
+			  					<%= result.user_first_name %>
+			  				</div>
+			  				<div class="col-12 col-md-4">
+			  					<input type="text" name="user_first_name"/><br>
+			  				</div>
+			 			</div>
+			 			<div class="row">
+			  				<div class="col-12 col-md-4">
+			  					Last Name
+			  				</div>
+			  				<div class="col-12 col-md-4">
+			  					<%= result.user_last_name %>
+			  				</div>
+			  				<div class="col-12 col-md-4">
+			  					<input type="text" name="user_last_name"/><br>
+			  				</div>
+			 			</div>
+			 			<div class="row">
+			  				<div class="col-12 col-md-4">
+			  					Nickname
+			  				</div>
+			  				<div class="col-12 col-md-4">
+			  					<%= result.nickname %>
+			  				</div>
+			  				<div class="col-12 col-md-4">
+			  					<input type="text" name="nickname"/><br>
+			  				</div>
+			 			</div>
+			 			<div class="row ">
+			  				<div class="col-12 col-md-4">
+			  					Email
+			  				</div>
+			  				<div class="col-12 col-md-4">
+			  					<%= result.email %>
+			  				</div>
+			  				<div class="col-12 col-md-4">
+			  					<%= result.email %>
+			  				</div>
+			 			</div>
+			 			<div class="row">
+			  				<div class="col-12 col-md-4">
+			  					Phone Number
+			  				</div>
+			  				<div class="col-12 col-md-4">
+			  					<%= result.phone_number %>
+			  				</div>
+			  				<div class="col-12 col-md-4">
+			  					<input type="number" name="phone_number"/><br>
+			  				</div>
+			 			</div>
+			 			<div class="row">
+			  				<div class="col-12 col-md-4">
+			  					Age
+			  				</div>
+			  				<div class="col-12 col-md-4">
+			  					<%= result.age %>
+			  				</div>
+			  				<div class="col-12 col-md-4">
+			  					<input type="number" name="age" min="0" max="130"/><br>
+			  				</div>
+			 			</div>
+
+			 			<div class="row">
+			  				<div class="col-12 col-md-4">
+			  					Sex
+			  				</div>
+			  				<div class="col-12 col-md-4">
+			  					<%= result.sex %>
+			  				</div>
+			  				<div class="col-12 col-md-4">
+			  					<input type="text" name="sex"/><br>
+			  				</div>
+			 			</div>
+			 			<div class="row">
+			  				<div class="col-12 col-md-4">
+			  					Preference
+			  				</div>
+			  				<div class="col-12 col-md-4">
+			  					<%= result.perference1 %>
+			  				</div>
+			  				<div class="col-12 col-md-4">
+			  					<input type="text" name="perference1"/><br>
+			  				</div>
+			 			</div>
+			 			<div class="row">
+			  				<div class="col-12 col-md-4">
+			  					rate
+			  				</div>
+			  				<div class="col-12 col-md-4">
+			  					<%= rate %>
+			  				</div>
+			  				<div class="col-12 col-md-4">
+			  					<%= rate %>
+			  				</div>
+			 			</div>
+					
+			  			<% if(is_admin==1){ %>
+				  			<div class="row">
+				  				<div class="col-12 col-md-4">
+				  					administrator
+				  				</div>
+				  				<div class="col-12 col-md-4">
+				  					<% if(result.is_admin==1){ %>
+				    					<td>Yes</td>
+									<% }else{ %>
+				    					<td>No</td>
+									<% } %>
+								</div>
+				  				<div class="col-12 col-md-4">
+				  					<% if(result.is_admin==1){ %>
+				    					<td>Yes</td>
+									<% }else{ %>
+				    					<td>No</td>
+									<% } %>
+								</div>
+							</div>
+			  			<% } %>
+		  				<% if(is_admin==1){ %>
+			  			<div class="row">
+			  				<div class="col-12 col-md-8">
+			    				Administrator
+			    			</div>
+			    			<div class="col-12 col-md-4">
+			    				<input type="text" name="is_admin"/>
+			    			</div>
+			    		<% } %>
+			    		</div>
+						<div class="row">
+			  				<div class="col-12 col-md-4">
+			  					About Me
+			  				</div>
+			  				<div class="col-12 col-md-4">
+			  					<%= result.introduction %>
+			  				</div>
+			  				<div class="col-12 col-md-4">
+			  					<input type="text" name="introduction"/><br>
+			  				</div>
+			 			</div>
+		  				<input type="hidden" name="user_id" value="<%= result.user_id %>"/><br>
+						<input type="hidden" name="action" value="change_content_user_information"/><br>
+						<br><button>Change</button> 
+		  			</div>
+		  		</form>
+			</div>
+			
+		</div>
+		</div>
+		</div>
+		</div>
 	</body>
+	<script>
+			    $(document).ready(function(){
+		
+		    /*$(".search .btn.dropdown-toggle").click(function(){
+		        console.log($(".search .input-action").val());
+		    });*/
+		
+		    $(".search .postID").click(function(){
+		        $(".search .btn.dropdown-toggle").text("postID");
+		        $(".search .input-action").val("search_id_of_post");
+		        $(".form-control").prop("name","search_post_id");
+		        console.log($(".search .input-action").val());
+		
+		    });
+		
+		    /*chnage for userID*/
+		    $(".search .userID").click(function(){
+		        $(".search .btn.dropdown-toggle").text("userID");
+		        $(".search .input-action").val("search_id_of_user");
+		        $(".form-control").prop("name","search_user_id");
+		        console.log($(".search .input-action").val());
+		
+		    });
+		
+		    /*chnage for postTopic*/
+		    $(".search .postTitle").click(function(){
+		    $(".search .btn.dropdown-toggle").text("postTitle");
+		    $(".search .input-action").val("search_name_of_post");
+		    $(".form-control").prop("name","search_post_name");
+		    console.log($(".search .input-action").val());
+		    });
+		    
+		    
+		    $("#group_id").change(function () {
+		    	
+				$('#subgroup_id').prop('selectedIndex',0);
+				$("#subgroup_id").children('option').hide();
+				$("#subgroup_id").children("option[class^=" + $("#group_id").val() + "]").show();
+				    
+		    });
+			
+			 $( function() {
+			    $( "#datepicker" ).datepicker();
+			 });
+
+		});
+	</script>
 </html>

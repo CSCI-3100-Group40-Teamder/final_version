@@ -5,53 +5,26 @@
 	}
 </style>
 	<body style='background-color: rgb(235,235,235)'>
-		<form action="/user_module/create_id" method="GET">
-			<label for="id">id:</label><br>
-			<input type="text" name="new_id"/><br>
-			<label for="pw">Password:</label><br>
-			<input type="text" name="new_password"/><br>
-			<label for="user_first_name">user_first_name:</label><br>
-			<input type="text" name="user_first_name"/><br>
-			<label for="user_last_name">user_last_name:</label><br>
-			<input type="text" name="user_last_name"/><br>
-			<label for="email">email:</label><br>
-			<input type="text" name="email"/><br>
-			<label for="phone_number">phone_number:</label><br>
-			<input type="text" name="phone_number"/><br>
-			<label for="age">age:</label><br>
-			<input type="text" name="age"/><br>
-			<label for="introduction">introduction:</label><br>
-			<input type="text" name="introduction"/><br>
-			<label for="sex">sex:</label><br>
-			<input type="text" name="sex"/><br>
-			<label for="rating">rating:</label><br>
-			<input type="text" name="rating"/><br>
-			<label for="perference1">perference1:</label><br>
-			<input type="text" name="perference1"/><br>
-			<label for="perference2">perference2:</label><br>
-			<input type="text" name="perference2"/><br>
-			<label for="perference3">perference3:</label><br>
-			<input type="text" name="perference3"/><br>
-			<label for="is_admin">is_admin:</label><br>
-			<input type="text" name="is_admin"/><br>
-			<button>Create</button>
-		</form>
-		This will show a list of pur posts
+		This will show a list of user
 		<% result.forEach(function(item){%>
 			<table>
 	  			<tr>
-	    				<th><%= item.user_id %></th>
+	    				<th><a href="/user_module/show_your_user_information?user_id=<%= item.user_id %>" target="_blank"><%= item.user_id %></a></th>
 	 			</tr>
 	  			<tr>
-	    				<td><%= item.password %></td>
+	    				<td><%= item.nickname %></td>
 	
 	  			</tr>
 	  			<tr>
-	    			<form action="/user_module/delete_id" method="GET">
-					<br><button name="delete_id" value="<%= item.user_id %>">Delete</button> 
-					</form>
+	    				<td><%= item.user_last_name%></td>
+	
+	  			</tr>
+	  			<tr>
+	    				<td><%= item.user_first_name %></td>
+	
 	  			</tr>
 			</table>
+			<br>
 		<% }); %>
 		<tr>
 	    	<form action="/back" method="GET">

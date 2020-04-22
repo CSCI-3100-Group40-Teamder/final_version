@@ -1,106 +1,145 @@
 <html>
 	<head>
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<link rel="stylesheet" href="/css/index.css">
+		<link href="/css/header.css" rel="stylesheet">
+		<link href="/css/group-list.css" rel="stylesheet">
+		<link rel="icon" href="/uploads/Teamder_icon.jpg">
 		<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>	
+		
+		<Title>Home</Title>
+
+  
 	</head>
-<% if(user_id!='guest'){ %>
-	<form action="/login-system/logout?_method=DELETE" method="POST">
-		<button type="submit">Log Out</button>
-	</form>
-<% } %>
+	
+	<%- include('partials/header.ejs'); -%>
+	
+	<%- include('partials/group-list.ejs'); -%>
+
 <style>
 	table, th, td {
-  		border: 1px solid black;
+  		style="border: 1px solid transparent";
 	}
+	
+
 </style>
-	<body style='background-color: rgb(235,235,235)'>
-		<h1>user id: <%= user_id %></h1>
-		<h1>user name: <%= user_name %></h1>
-		<% group_result.forEach(function(item){%>
-			<table>
-					<th>
-						<form action="/index" method="GET">
-						<input type="hidden" name="action" value="filter_group"/><br>
-						<input type="hidden" name="group_id" value="<%= item.group_id %>"/><br>
-						<button><%=item.group_name %></button>
-						</form>
-					</th>
-					<th>
-						<%= item.group_descripton %>
-					</th>
-					<th>
-						<form action="/index" method="GET">
-						<input type="hidden" name="group_id" value="<%= item.group_id %>"/><br>
-						<button> show subgroup</button>
-						</form>
-					</th>
-					<th>
-						<% subgroup_result.forEach(function(subgroup_item){%>
-							<% if(subgroup_item.group_id==item.group_id){ %>
-							<form action="/index" method="GET">
-								<input type="hidden" name="action" value="filter_subgroup"/><br>
-								<input type="hidden" name="subgroup_id" value="<%= subgroup_item.subgroup_id %>"/><br>
-								<button><%= subgroup_item.subgroup_name %></button><br>
-							</form>
-							<% } %>
-						<% }); %>
-					</th>
-			</table>
-		<% }); %>
-		<form action="/index" method="GET">
-			<input type="hidden" name="action" value="search_id_of_post"/><br>
-			<label for="Search ID">Search id:</label><br>
-			<input type="text" name="search_post_id"/><br>
-			<button>Search</button>
-		</form>
-		<form action="/search_name_of_post" method="GET">
-			<label for="Search Name">Search name:</label><br>
-			<input type="text" name="search_post_name"/><br>
-			<button>Search</button>
-		</form>
-    	<a href="/admin">administrator</a><br>
-    	<% if(user_id=='guest'){ %>
-	    	<a href="/login-system/login">login</a><br>
-	    	<a href="/login-system/register">register</a><br>
-	    <% } %>
-	    <% if(user_id!='guest'){ %>
-			<a href="/post_module/creating_post">Create a new post</a><br>
-			<a href="/room_module/show_your_room">your room</a><br>
-			<a href="/user_module/show_your_user_information?user_id=<%= user_id %>">your user information</a><br>
-			<a href="/index?action=filter_is_joined">show the post that is joined by you.</a><br>
-		<% } %>
-		<a href="/indexuser_account" target="_blank">all user account</a><br>
-		This will show a list of pur posts
-		<% result.forEach(function(item){%>
+	<body style='background-color: rgb(255,255,255)'>
 		
-			<div class="card">
-                
-                    <div class="card-header">
-                        <a href="#" class="card-link" style=" z-index: 2; position: relative;">user name</a>
-                    </div>
-                    <img src="uploads/camera-icon.png	" class="card-img-top">
-                        <div class="card-body">
-                            <p class="card-text"><strong>Find 1 teamate!</strong></p>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a class="card-text" href="#" style=" z-index: 2; position: relative;"><small>Group</small>
-                            	<form action="/post_module/show_post" method="GET">
-									<button name="post_id" value="<%= item.post_id %>">Click Me!</button>
-								</form>
-                            </a>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">Last updated 3 mins ago</small>
-                        </div>
-        	</div>
-		<% }); %>	
-		<form action="/back" method="GET">
-			<br><button name="post_id">Back</button> 
-		</form>
-		<form action="/" method="GET">
-			<br><button name="post_id">Back to who</button> 
-		</form>
+		<div class="container-fluid">
+			<div class="sorting">
+				<form action="/index" method="GET">
+					<input type="hidden" name="action" value="order_by_hitrate"/><br>
+					<button class="btn btn-outline-info">Order by hitrate</button>
+				</form>
+				<form action="/index" method="GET">
+					<input type="hidden" name="action" value="order_by_time"/><br>
+					<button class="btn btn-outline-info">Order by time</button>
+				</form>
+			</div>
+			<% if(is_admin==1){ %>
+	    		<a href="/admin">administrator</a><br>
+	    	<% } %>
+		    <% if(user_id!='guest'){ %>
+				<a href="/post_module/creating_post">Create a new post</a><br>
+				<a href="/room_module/show_your_room">your room</a><br>
+			<% } %>
+			<% var i=1; %>
+			<table>
+				
+				<% post_all_result.forEach(function(item){%>
+					<% if(i%4==1){ %>
+					<tr>
+					<% } %>
+						<th>
+						<% if(user_id==item.host_id){ %>
+							<h1>Host:</h1>
+						<% }else{ %>
+							<br>
+							<br>
+						<% } %>
+						<div class="card">
+			                
+			                    <div class="card-header">
+			                        <a href="/user_module/show_your_user_information?user_id=<%= item.host_id %>" class="card-link" style=" z-index: 2; position: relative;" target="_blank"><%= item.nickname %></a>
+			                    </div>
+			                    <img src="uploads/camera-icon.png	" class="card-img-top">
+			                        <div class="card-body">
+			                            <p class="card-text"><strong>Title: <%= item.title %></strong></p>
+			                            <p class="card-text">Description: <%= item.description %></p>
+			                            <p class="card-text">Hitrate: <%= item.hitrate %></p>
+			                            <a class="card-text" href="#" style=" z-index: 2; position: relative;"><small><%= item.group_id %></small>
+			                            	<form action="/post_module/show_post" method="GET">
+												<button class="btn btn-danger" name="post_id" value="<%= item.post_id %>">View!</button>
+											</form>
+			                            </a>
+			                        </div>
+			                        <!--<div class="card-footer">
+			                            <small class="text-muted">Last updated 3 mins ago</small>
+			                        </div>-->
+			        	</div>
+			        	</th>
+			        <% if(i%4==4){ %>
+			        </tr>
+			    	<% } %>
+			    	<% i=i+1; %>
+				<% }); %>
+				
+			</table>
+		</div>
+
+		
+		<script>
+	    $(document).ready(function(){
+		
+		    /*$(".search .btn.dropdown-toggle").click(function(){
+		        console.log($(".search .input-action").val());
+		    });*/
+		
+		    $(".search .postID").click(function(){
+		        $(".search .btn.dropdown-toggle").text("postID");
+		        $(".search .input-action").val("search_id_of_post");
+		        $(".form-control").prop("name","search_post_id");
+		        console.log($(".search .input-action").val());
+		
+		    });
+		
+		    /*chnage for userID*/
+		    $(".search .userID").click(function(){
+		        $(".search .btn.dropdown-toggle").text("userID");
+		        $(".search .input-action").val("search_id_of_user");
+		        $(".form-control").prop("name","search_user_id");
+		        console.log($(".search .input-action").val());
+		
+		    });
+		
+		    /*chnage for postTopic*/
+		    $(".search .postTitle").click(function(){
+		    $(".search .btn.dropdown-toggle").text("postTitle");
+		    $(".search .input-action").val("search_name_of_post");
+		    $(".form-control").prop("name","search_post_name");
+		    console.log($(".search .input-action").val());
+		    });
+		    
+		    
+		    $("#group_id").change(function () {
+		    	
+				$('#subgroup_id').prop('selectedIndex',0);
+				$("#subgroup_id").children('option').hide();
+				$("#subgroup_id").children("option[class^=" + $("#group_id").val() + "]").show();
+				    
+		    });
+			
+			 $( function() {
+			    $( "#datepicker" ).datepicker();
+			 });
+
+		});
+		</script>
+		
 	</body>
 </html>

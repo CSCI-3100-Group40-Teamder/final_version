@@ -8,38 +8,38 @@
 		This will show a list of pur posts
 			<table>
 	  			<tr>
-	    				<th>title: <%= result.title %></th>
+	    				<th>title: <%= post_result_0.title %></th>
 	 			</tr>
 	  			<tr>
-	    				<td>description: <%= result.description %></td>
+	    				<td>description: <%= post_result_0.description %></td>
 	
 	  			</tr>
 	  			<tr>
-	    				<td>host id: <%= result.host_id %></td>
+	    				<td>host id: <%= post_result_0.host_id %></td>
 	
 	  			</tr>
 	  			<tr>
-	    				<td>joiner id: <%= result.joiner_id %></td>
+	    				<td>joiner id: <%= post_result_0.joiner_id %></td>
 	
 	  			</tr>
 	  			<tr>
-	    				<td>type of game: <%= result.type_of_game %></td>
+	    				<td>type of game: <%= post_result_0.type_of_game %></td>
 	
 	  			</tr>
 	  			<tr>
-	    				<td>time: <%= result.t %></td>
+	    				<td>time: <%= post_result_0.t %></td>
 	
 	  			</tr>
 	  			<tr>
-	    				<td>hashtag: <%= result.hashtag %></td>
+	    				<td>hashtag: <%= post_result_0.hashtag %></td>
 	
 	  			</tr>
 	  			<tr>
-	    				<td>group id: <%= result.group_id %></td>
+	    				<td>group id: <%= post_result_0.group_id %></td>
 	
 	  			</tr>
 	  			<tr>
-	    				<td>subgroup id: <%= result.subgroup_id %></td>
+	    				<td>subgroup id: <%= post_result_0.subgroup_id %></td>
 	
 	  			</tr>
 	  			<tr>
@@ -50,11 +50,11 @@
 			</table>
 			<form action="/post_module/show_post" method="GET">
 			<input type="hidden" name='action' value="change_content_post"/>
-			<input type="hidden" name='post_id' value="<%= result.post_id %>"/>
+			<input type="hidden" name='post_id' value="<%= post_result_0.post_id %>"/>
 			<table>
 			    <tr>
 	    				<td>
-	    				    <p><%= result.post_id %></p>
+	    				    <p><%= post_result_0.post_id %></p>
 			            </td>
 	 			</tr>
 	  			<tr>

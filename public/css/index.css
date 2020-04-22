@@ -1,0 +1,13 @@
+.card{
+    position: relative;
+    width: 18rem;
+}
+
+.container-fluid{
+        min-width: 992px;
+        max-width: 1200px;
+}
+
+.sorting{
+    display: flex;
+}

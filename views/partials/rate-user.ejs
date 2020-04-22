@@ -1,0 +1,97 @@
+<style>
+  .container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.break {
+  flex-basis: 100%;
+  height: 0;
+}
+
+.form-check-inline .form-check-input {
+    position: static;
+    margin-top: 0;
+    margin-right: 0;
+    margin-left: 0.95rem;
+}
+
+.item.user-id{
+  margin-right:3.5rem !important;
+}
+
+
+</style>
+<section id="rate-user">
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#FinishnRateModal">
+  Finish & Rate
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="FinishnRateModal" tabindex="-1" role="dialog" aria-labelledby="FinishnRate" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="FinishnRateModalTitle">Rate Users</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+
+        <form  id="rate-user-form" action="/user_module/rate_user"  method="GET">
+          <div class="modal-body">
+              
+            <div class="container">
+                <% post_all_result.forEach(function(item){%>
+                  <% if(item.joiner_id!=current_id){  %>
+                    <input type="hidden" name="joiner_id" value="<%= item.joiner_id %>"/>
+                    
+                    <div class="item user-id">
+                      <a>ID : </a>
+                      <a href="/user_module/show_your_user_information?user_id=<%= item.joiner_id %>" target="_blank"><%= item.joiner_id %></a>
+                    </div>
+                    <div class="item user-nickname">
+                      <a>Nickname : </a>
+    			            <a><%= item.nickname %></a>
+    			          </div>
+    			          <div class="break"></div>
+    			          <hr>
+    			          <div class="item">
+    			         
+                           <div class="form-row align-items-center">
+                                  
+                                  <div class="col-auto my-1">
+                                      
+                                    <label class="mr-sm-2" for="rate_of_user">Rate:</label>
+                                    <select class="custom-select mr-sm-2" id="rate_of_user" name="rate_of_user" required>
+                                          <option disabled selected value></option>
+                                          
+                                          <% for(let rate=0 ; rate<=10 ; rate++){%>
+                                              <option value="<%=rate%>"><%= rate %></option>
+                                          <% } %>
+                                    </select>
+                                  </div>
+                              </div>
+                 
+    			          </div>
+    			          <div class="break"></div>
+    			          <hr>
+  			          <% } %>
+  			           <% }); %>
+  			         <input type="hidden" name="length" value="<%= post_all_result.length %>"/>
+			           <input type="hidden" name="post_id" value="<%= post_id %>"/><br>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary">Submit</button> 
+          </div>
+        </form>
+
+      
+    </div>
+  </div>
+</div>
+    
+</section>

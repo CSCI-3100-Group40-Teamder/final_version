@@ -1,0 +1,17 @@
+    #group-list .container-fluid{
+        min-width: 992px;
+        max-width: 1200px;
+
+    }
+
+    #group-list .dropdown-menu{
+        width: 100%;
+    }
+
+    #group-list .dropdown:hover>.dropdown-menu{
+        display: block;
+    }
+
+    #group-list .nav{
+        margin-top: 1%;
+    }

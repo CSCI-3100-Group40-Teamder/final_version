@@ -1,0 +1,90 @@
+<section id="header"> 
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+
+            <div class="brand_logo_container">
+                <a href="/index">
+                <img src="../uploads/Teamder_icon.jpg" class="brand_logo" alt="Logo"></a>
+            </div>
+
+            <div class="search nav-item">
+                <!--action change for hashTag-->
+                <form action="/index" class="search-form form-inline my-2 my-lg-0" method="GET">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <input type="hidden" class="input-action" name="action" value="search_id_of_post"/>
+                            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value="postID">
+                                postID
+                            </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <div class="postID">
+                                        <p class="dropdown-item">postID</a>
+                                    </div>
+                                    <div class="postTitle">
+                                        <p class="dropdown-item">postTitle</a>
+                                    </div>
+                                    <div class="userID">
+                                        <p class="dropdown-item">userID</a>
+                                    </div>
+                                </div>
+                        </div>
+
+                        <div class="search-input">
+                            <div class="input">
+                                <input class="form-control" type="text" name="search_post_id" size="40"
+                                placeholder="Search for postID or user" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search for post or user'" />
+                            </div>
+                        </div>
+
+                        <div class="search-submit">
+                            <button class="submit btn">Search</button>
+                        </div>
+                        
+                    </div>
+                </form>
+            </div>
+
+            <div class="option-set nav-item">
+
+                <!--Need change depened on login or not-->
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                       <a><%= current_name %></a>
+                        <img src="../uploads/user-512.png" class="icon">
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+                        <% if(user_id=='guest'){ %>
+                            <a class="dropdown-item" href="/login-system/login">Login</a>
+                            <a class="dropdown-item" href="/login-system/register">Register</a>
+                	    <% } %>
+                        <% if(user_id!='guest'){ %>
+                           <a class="dropdown-item" href="/user_module/show_your_user_information?user_id=<%= current_id %>">Profile</a>
+
+                            <form action="/login-system/logout?_method=DELETE" method="POST">
+                                <button class="dropdown-item" type="submit">Logout</a>
+                            </form>
+                		<% } %>
+                    </div>
+                </div>
+                
+            </div>
+
+            <div class="create-post nav-item">
+                <% if(user_id=='guest'){ %>
+                    <a href="/login-system/login"><button class="btn btn-danger">Create Post</button></a>
+                <% } %>
+                <% if(user_id!='guest'){ %>
+                    <!--<a href="/creating_post" class="btn">Create Post</a>-->
+                    <%- include('create-post.ejs'); -%>
+                <% } %>
+            </div>
+
+        </div>
+
+    </nav>
+</section>
+
+    
+
+

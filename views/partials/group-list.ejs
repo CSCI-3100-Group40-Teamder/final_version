@@ -1,0 +1,24 @@
+<section id="group-list">
+    <div class="container-fluid">
+        <nav class="nav nav-pills nav-fill" >
+            <% group_result.forEach(function(item){%>
+                <div class="nav-item">
+                    <div class="dropdown">
+                        <a href="/index?action=filter_group&group_id=<%=item.group_id %>" class="dropdown-toggle">
+                            <%=item.group_name %>
+                        </a>
+                        
+                        <div class="dropdown-menu">
+                            <% subgroup_result.forEach(function(subgroup_item){%>
+                                <% if(item.group_id==subgroup_item.group_id){ %>
+                                    <a class="dropdown-item" href="/index?action=filter_subgroup&subgroup_id=<%=subgroup_item.subgroup_id %>"><%= subgroup_item.subgroup_name %></a>
+                                <% } %>
+                            <% }); %>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+
+        </nav>
+    </div>
+</section>

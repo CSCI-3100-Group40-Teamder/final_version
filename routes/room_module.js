@@ -23,7 +23,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 router.get("/show_your_room", function(req, res, next) {
     //Open a file on the server and return its content:
     console.log("show room");
-    var sql = "Select post.title, post.description, post.post_id FROM post, post_to_join WHERE post.post_id = post_to_join.post_id AND post_to_join.joiner_id = '"+req.cookies.c+"'";
+    var sql = "Select post.title, post.description, post.post_id, post.host_id FROM post, post_to_join WHERE post.post_id = post_to_join.post_id AND post_to_join.joiner_id = '"+req.cookies.c+"'";
     console.log(sql);
     con.query(sql, function (err, result, fields) {
     if (err) {
@@ -31,7 +31,7 @@ router.get("/show_your_room", function(req, res, next) {
         res.redirect('../index');
     }
     console.log(result);
-    res.render('show_your_room', {result: result, user: req.cookies.c});
+    res.render('show_your_room', {result: result, user: req.cookies.c, current_name: req.cookies.nickname, current_id: req.cookies.c});
   });
 });
 
@@ -41,22 +41,15 @@ router.get("/enter_room", function(req, res, next) {
 	var qdata = q.query;
 	if(qdata.action=="add_joiner")
 	{
-	    console.log("try to add joiner!");
-	    var sql="select * from user_information where user_id = '"+qdata.new_user_id+"'";
-	    con.query(sql, function (err, result_for_name, fields) {
-            if (err) {
-                console.log("error in add joiner");
-                res.redirect('../index');
-                }
-    	    var sql = "INSERT INTO post_to_join VALUES ('"+qdata.post_id+"', '"+qdata.new_user_id+"', '"+result_for_name[0].nickname+"', 0);";
+	    console.log("try to add joiner in final version!");
+    	    var sql = "INSERT INTO post_to_join VALUES ('"+qdata.post_id+"', '"+qdata.new_user_id+"', 0);";
             console.log(sql);
             con.query(sql, function (err, result, fields) {
             if (err) {
-                console.log("error in add joiner");
+                console.log("error in add joiner in final version");
                 res.redirect('../index');
                 }
             });
-        });
 	} else if(qdata.action=="change_host")
 	{
 	    console.log("try to change host!");
@@ -83,7 +76,7 @@ router.get("/enter_room", function(req, res, next) {
         });
 	}
 	console.log(qdata.post_id);
-	var sql = "Select * FROM post, post_to_join, user_information WHERE post.post_id = post_to_join.post_id AND post.host_id = user_information.user_id AND post.post_id = '"+qdata.post_id+"'";
+	var sql = "Select * FROM post, post_to_join, user_information WHERE post.post_id = post_to_join.post_id AND post_to_join.joiner_id = user_information.user_id AND post.post_id = '"+qdata.post_id+"'";
 	console.log(sql);
     con.query(sql, function (err, result, fields) {
         if (err) throw err;
@@ -96,7 +89,13 @@ router.get("/enter_room", function(req, res, next) {
                 if (err) throw err;
                 console.log(finish_result);
                 console.log("post_id: "+result[0].post_id);
-                res.render('room_display', {result: result[0], all_result: result, user_id: req.cookies.c, finish_result: finish_result[0].finish}); 
+                //res.render('room_display', {result: result[0], all_result: result, user_id: req.cookies.c, finish_result: finish_result[0].finish}); 
+                var sql_host_name = "Select nickname FROM user_information WHERE user_id = '"+result[0].host_id+"'";
+    	        console.log(sql_host_name);
+                con.query(sql_host_name, function (err, host_name_result, fields) {
+                    if (err) throw err;
+                    res.render('room_display', {result: result[0], all_result: result, user_id: req.cookies.c, finish_result: finish_result[0].finish, host_name: host_name_result[0].nickname, current_name: req.cookies.nickname, current_id: req.cookies.c}); 
+                });
               });
       });
 });
@@ -129,7 +128,7 @@ router.get("/finish_room", function(req, res, next) {
     con.query(sql, function (err, result, fields) {
     if (err) throw err;
     console.log(result);
-    res.render('rate_user', {all_result: result, post_id: qdata.finish_post_id}); 
+    res.render('rate_user', {all_result: result, post_id: qdata.finish_post_id, current_name: req.cookies.nickname, current_id: req.cookies.c}); 
   });
 });
 

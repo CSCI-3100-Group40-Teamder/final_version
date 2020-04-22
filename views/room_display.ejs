@@ -1,11 +1,28 @@
 <html>
+<head>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<link rel="stylesheet" href="../css/index.css">
+		<link href="../css/header.css" rel="stylesheet">
+		<link href="../css/group-list.css" rel="stylesheet">
+		<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>	
+</head>
 <style>
 	table, th, td {
   		border: 1px solid black;
 	}
+	.container-fluid{
+        min-width: 992px;
+        max-width: 1200px;
+	}
 </style>
 	<body style='background-color: rgb(235,235,235)'>
-		This will show that room.
+		<div class="container-fluid">
+			This will show that room.
 			<table>
 				<tr>
 	    				<th>post_id: <%= result.post_id %></th>
@@ -18,7 +35,7 @@
 	
 	  			</tr>
 	  			<tr>
-	    				<td>host name: <%= result.nickname %></td>
+	    				<td>host name: <%= host_name %></td>
 	
 	  			</tr>
 	  			<tr>
@@ -48,7 +65,7 @@
 	  			<% all_result.forEach(function(item){%>
 	  				<tr>
 	    				<td>
-	    					joiner id: <a href="/user_module/show_your_user_information?user_id=<%= item.joiner_id %>" target="_blank"><%= item.joiner_name %></a>
+	    					joiner id: <a href="/user_module/show_your_user_information?user_id=<%= item.joiner_id %>" target="_blank"><%= item.nickname %></a>
 	    					<% if(item.joiner_id==result.host_id) { %>
 	    						<h1>Host</h1>
 	    					<% } %>
@@ -84,6 +101,7 @@
 							<input type="hidden" name="finish_post_id" value="<%= result.post_id %>"/><br>
 							<button>Finish and rate</button>
 						</form>
+
 					<% } %>
 					<% if(user_id==result.host_id) { %>
 						<form action="/room_module/enter_room" method="GET">
@@ -105,7 +123,7 @@
 			    <tr>chat room:</tr>
 			    <tr>content</tr>
 			</table>
-			<a href="/chatRoom?chatroom=<%= result.post_id %>&user_id=<%= user_id %>" target="_blank">Chatroom</a><br>
+			<!--<a href="/chatRoom?chatroom=<%= result.post_id %>&user_id=<%= user_id %>" target="_blank">Chatroom</a><br>-->
 			<% if(user_id==result.host_id) { %>
 				<tr>
 		    		<form action="/post_module/delete_post" method="GET">
@@ -113,5 +131,6 @@
 					</form>
 		  		</tr>
 	  		<% } %>
+		</div>
 	</body>
 </html>

@@ -1,0 +1,461 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<link rel="stylesheet" href="../css/index.css">
+		<link href="../css/header.css" rel="stylesheet">
+		<link href="../css/group-list.css" rel="stylesheet">
+		<link rel="icon" href="../uploads/Teamder_icon.jpg">
+		<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>	
+		
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Your Room</title>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            var socket = io();
+        </script>
+
+
+
+<style>
+    #showroom .container-fluid{
+        margin-top:30px;
+    }
+
+	table, th, td {
+  		border: 1px solid black;
+	}
+
+
+    html, body {
+            padding: 0;
+            margin: 0;
+            
+        }
+ 
+        #allMsg {
+            
+            
+            margin: 0 auto;
+            display: block;
+            position: relative;
+            background-color: white;
+            border: 1px solid grey; 
+            border-style: solid;
+            
+        }
+
+        #showStatus{
+            text-align: right;
+        }
+      
+        #showLogo {
+            display: block;
+            font-size: .15em;
+            text-align: right;
+            position: relative;
+            margin: 0 auto;
+            background-color: beige;
+            border: 1px solid grey; 
+            border-radius: 2px;  
+            border-style: solid solid none ;
+           
+           
+           
+        }
+
+        .show_time{
+            text-align: right;
+            color :black;
+            font-size: .6em;
+            
+        }
+
+        .name{
+            text-align: right;
+            color :black;
+            font-weight: bold;
+            font-size: .6em;  
+        }
+
+        #content {
+            width: 100%;
+            left: 350px;
+            height: 500px;
+            border: 1px solid grey; 
+            overflow: scroll;
+            border-style: none;
+            
+            
+        }
+
+        .contentRev{
+            font-size: .6em;
+            background: beige;
+            padding: 10px;
+            border-radius: 2px;
+            
+            max-width:100%;
+        }
+
+ 
+        #dataBox {
+           
+            
+            height: 36px;
+            margin: 0 auto;
+            display: block;
+            position: relative;
+            background-color: white;
+            border: 1px solid grey;
+            border-radius: 2px;   
+            border-style: none solid solid ; 
+            
+            
+        }
+ 
+        #dataBox input {
+            display: inline-block;
+            height: 30px;
+            
+        }
+
+        input[type="text"] {
+            width: 70%;
+            border-radius: 3px;   
+        }
+ 
+        input[type="submit"] {
+            width: 10%;
+            display: flex;
+        }
+
+        input[type="reset"] {
+            width: 10%;
+        }
+
+
+</style>
+
+</head>
+
+    <%- include('partials/header.ejs'); -%>
+	
+	<%- include('partials/group-list.ejs'); -%>
+	
+	
+
+
+	<body style='background-color: white'>
+	 <section id="showroom">
+	     	    <div class = "container-fluid">
+	       <div class ="row">
+	           
+	           <div class ="col">
+
+	               <table class="table table-bordered success">
+    			    <thead>
+    			    <tr >
+                            <th >Post ID</th>
+                            <th><%= post_result_0.post_id %></th>
+                        </tr>
+                        <tr>
+                            <th class="info">title:</th>
+                            <th><%= post_result_0.title %></th>
+                        </tr>
+                        <tr>
+                            <th class="info">Description: </th>
+                            <td><%= post_result_0.description %></td>
+                        </tr>
+                        <tr>
+                            <th class="info">Host Name: </th>
+                            <td><%= host_name %></td>
+                        </tr>
+                        
+                        <tr>
+                            <th class="info">No of Participants: </th>
+                            <td><%= post_all_result.length %></td>
+                        </tr>
+                        <tr>
+                            <th class="info">Type of game:</th>
+                            <td><%= post_result_0.type_of_game %></td>
+                        </tr>
+                        <tr >
+                            <th  class="info">time: </th>
+                            <td><%= post_result_0.t %></td>
+                        </tr>
+                        <tr>
+                            <th class="info">hashtag:</th>
+                            <td><%= post_result_0.hashtag %></td>
+                        </tr>
+                        <tr>
+                            <th class="info">group id:</th>
+                            <td> <%= post_result_0.group_id %></td>
+                        </tr>
+                        <tr>
+                            <th class="info">subgroup id: </th>
+                            <td><%= post_result_0.subgroup_id %></td>
+                        </tr>
+    
+                        
+                        <th class="info">Joiner name: </th>
+                        <% post_all_result.forEach(function(item){%>
+                            <tr>
+                                <td>
+                                    <a href="/user_module/show_your_user_information?user_id=<%= item.joiner_id %>" target="_blank"><%= item.nickname %></a>
+                                    <% if(item.joiner_id==post_result_0.host_id) { %>
+                                        <p1>(Host)</p1>
+                                    <% } %>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    </thead>
+                    <! –– my code end ––>
+    	  			<% post_all_result.forEach(function(item){%>
+    	  				<tr>
+    	    				<td>
+    	    					joiner id: <a href="/user_module/show_your_user_information?user_id=<%= item.joiner_id %>" target="_blank"><%= item.nickname %></a>
+    	    					<% if(item.joiner_id==post_result_0.host_id) { %>
+    	    						<h1>Host</h1>
+    	    					<% } %>
+    	    					<% if(user_id==post_result_0.host_id) { %>
+    	    						<% if(item.joiner_id!=post_result_0.host_id) { %>
+    			    					<form action="/room_module/enter_room" method="GET">
+    			    						<input type="hidden" name="action" value="delete_joiner"/>
+    			    						<input type="hidden" name="post_id" value="<%= post_result_0.post_id %>"/>
+    			    						<input type="hidden" name="delete_joiner_id" value="<%= item.joiner_id %>"/>
+    										
+    										<button type="submit"class="btn btn-primary">Kick!</button>
+    									</form>
+    								<% } %>
+    							<% } %>
+    	    				</td>
+    	  				</tr>
+    	  			<% }); %>
+    			</table>
+    			<% if(user_id==post_result_0.host_id) { %>
+    						<form action="/post_module/change_post" method="get">
+    		    				<input type="hidden" name='post_id' value="<%= post_result_0.post_id %>"/>
+    		    				<button name ="submit" value="1" class="btn btn-primary" type="submit">Change</button>
+    						</form>
+    						
+    					<% } %>
+    					<% if(user_id!=post_result_0.host_id&& finish_result==0) { %>
+        					<form action="/room_module/withdraw_room" method="GET">
+        						<input type="hidden" name="withdraw_post_id" value="<%= post_result_0.post_id %>"/><br>
+        						
+        						<button type="submit"class="btn btn-primary">Withdraw</button>
+        					</form>
+    					<% } %>
+    					<% if(post_all_result.length>=2 && finish_result==0){ %>
+    						 <%- include('partials/rate-user.ejs'); -%> 
+    					<% } %>
+    					<% if(user_id==post_result_0.host_id) { %>
+    						<form action="/user_module/search_user_id" method="GET">
+    							<input type="text" name="nickname"/>
+    							<input type="hidden" name="action" value="add_joiner"/>
+    							<input type="hidden" name="post_id" value="<%= post_result_0.post_id %>"/>
+    							<button type="submit"class="btn btn-primary">Add User</button>
+    						</form>
+    						
+    						<form action="/user_module/search_user_id" method="GET">
+    							<input type="text" name="nickname"/>
+    							<input type="hidden" name="action" value="change_host"/>
+    							<input type="hidden" name="post_id" value="<%= post_result_0.post_id %>"/>
+    							<button type="submit"class="btn btn-primary">Change Host</button>
+    						</form>
+    					<% } %>
+	           </div>
+	           
+	           <div class ="col">
+	               <h2 class="text-danger">Chat Room Here</h2>
+    			    <div id="showLogo">
+        
+                    <span id="showStatus" >Server: <span id="status">-</span> / <span id="online">0</span> online.</span>
+
+                    </div>
+                    <div id="allMsg">
+            
+                        <div  id="content"></div>
+            
+                    </div>
+            
+                    <div id="dataBox">
+                            
+                        <form id="dataSendToServer"> 
+                            &nbsp;       
+                            <input type="hidden" name="sender_id" id="name" value=<%= user_id %> minlength="1" maxlength="10">
+                        
+                            <input type="text" name="content" class="form-control input-sm chat_input" id="msg" placeholder="type here" minlength="1" maxlength="350" required>
+                            <input type="hidden" name="roomID" id="roomID" value=<%= post_result_0.post_id %> readonly>
+                            <input type="hidden" name="chat_time" id="chat_time" value=0 readonly>
+                            <input type="submit"class="btn btn-primary btn-sm" value="Send!" >
+                            <input type="reset" class="btn btn-primary btn-sm"  value="Reset">
+                        
+                        </form>
+    
+
+                    </div>
+	           </div>
+	           
+	           
+
+	       
+	   </div>
+		
+	
+    			    
+    			    
+    			    
+            
+            
+            
+    			</th>
+    			</tr>
+			</table>
+			
+			
+			<% if(user_id==post_result_0.host_id) { %>
+				<tr>
+		    		<form action="/post_module/delete_post" method="GET">
+					<br><button name="post_id" class="btn btn-primary" value="<%= post_result_0.post_id %>">Delete</button> 
+					</form>
+		  		</tr>
+              <% } %>
+              
+
+            </div>
+	 </section>   
+
+            
+            
+            <script>
+        
+                var ID = <%= post_result_0.post_id %>; //this line also important // which room does the client belongs to
+                var userName;
+                 
+                document.addEventListener("DOMContentLoaded", () => {
+                    
+                    var status = document.getElementById("status");
+                    var numPeople = document.getElementById("online");
+                    var dataFromUser = document.getElementById("dataSendToServer"); // rev the user input from the form 
+                    var content = document.getElementById("content"); // rev the chat contect from the server
+                    var nameInputBox = document.getElementById("name");
+                    
+                    socket.on("connect", function () {
+                        status.innerText = "Connect Successfully.";
+                    });
+         
+                    socket.on("disconnect", function () {
+                        status.innerText = "Soory Connect Fail.";
+                    });
+         
+                    socket.on("online", function (numUser) {
+                        numPeople.innerText = numUser; // for rev the number of person 
+                        
+                    });
+                    
+                    // for rev the chat record from the server
+                    socket.on("chatRecord", function (msgs) {
+                        for (var i=0; i < msgs.length; i++) {
+                            (function () {
+                                Message(msgs[i]);
+                            })();
+                        }
+                    });
+                    
+                    socket.on("msg", Message); // for rev the chat content from the server
+         
+                    dataFromUser.addEventListener("submit", function (e) { // rev the user input from thr form(id="dataSendToServer")
+                        e.preventDefault();
+         
+                        var check = true;
+                        var realDataSend = { // 要send 比server's input
+                            time: new Date().toUTCString()
+                        };
+                        var childFromForm = dataFromUser.children; //由 form 攞返黎嘅data
+         
+                        for (var i=0; i< dataFromUser.childElementCount; i++) { // 輸入左有多少個input i.e childElementCount 應該＝2
+                            
+                            
+                            // new content
+                            var child = childFromForm[i];
+                            if(child.name !== "" && child.value !== "" && child.value){
+                                child.classList.remove("error");
+                                realDataSend[child.name] = child.value;
+                            }else if(child.name !== "" && (child.value === "" || !child.value)){
+                                check = false;
+                                child.classList.add("error");
+                            }
+        
+                            // end of new content
+        
+        
+                        }
+         
+                        if (check) {
+                            socket.emit("send", realDataSend);
+                            // 當你send 左你一次之後，你個名就會記住 
+                            //或者呢到轉做我地嘅user name 
+                        }
+                        // new line 
+                        document.getElementById("dataSendToServer").reset();
+                    });
+         
+                    function Message (revMsg) { // dealing with the content from the server
+                        
+                        // my version
+                        
+                        function changeElement(id) {
+                            var el = document.getElementById(id);
+                            el.style.color = "red";
+                            el.style.fontSize = "15px";
+                            el.style.backgroundColor = "#FFFFFF";
+                        }
+        
+                        if(ID == revMsg.room_id || ID == revMsg.roomID){ // this line really important
+        
+                                var showMsg = document.createElement("div")
+                                    showMsg.className = "contentRev";
+                                    
+                                var showTime = document.createElement("div")
+                                    showTime.className = "show_time"
+                                            
+                                var nameBox = document.createElement("div");
+                                    nameBox.className = "name";
+                              
+                                var name = document.createTextNode(revMsg.sender_id); 
+                                var msgRev = document.createTextNode(revMsg.content); 
+                                var getTime = document.createTextNode(revMsg.chat_time); 
+            
+                                // get the time and name
+                                nameBox.appendChild(name);
+                                showTime.appendChild(getTime)
+                                showMsg.appendChild(msgRev)
+                                
+            
+                                // append the message to showMsg
+                                content.appendChild(nameBox);
+                                content.appendChild(showTime);
+                                content.appendChild(showMsg);
+                                //showMsg.appendChild(time)
+                                
+                                
+                                //content.appendChild(showMsg);
+                              
+                                console.log(name);
+                                console.log(msgRev);
+            
+                                var div = document.getElementById("content");
+                                div.scrollTop = div.scrollHeight;
+                        }
+                    }  
+                });
+            </script>
+	</body>
+</html>

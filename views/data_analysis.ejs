@@ -1,0 +1,211 @@
+<head>
+    <script src="https://cdn.plot.ly/plotly-1.2.0.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="/css/data_analysis.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <meta charset="UTF-8">
+</head>
+
+<div class="data-container">
+  <div class="data" id="post_count_group_groupby_data_x" data-data=<%= post_count_group_groupby.x %>></div>
+  <div class="data" id="post_count_group_groupby_data_y" data-data=<%= post_count_group_groupby.y %>></div>
+  <div class="data" id="hitrate_group_groupby_data_x" data-data=<%= hitrate_group_groupby.x %>></div>
+  <div class="data" id="hitrate_group_groupby_data_y" data-data=<%= hitrate_group_groupby.y %>></div>
+  <div class="data" id="overall_sex_groupby_data_x" data-data=<%= overall_sex_groupby.x %>></div>
+  <div class="data" id="overall_sex_groupby_data_y_M" data-data=<%= overall_sex_groupby.y_M %>></div>
+  <div class="data" id="overall_sex_groupby_data_y_F" data-data=<%= overall_sex_groupby.y_F %>></div>
+  <div class="data" id="sex_group_groupby_data_x" data-data=<%= sex_group_groupby.x %>></div>
+  <div class="data" id="sex_group_groupby_data_y_M" data-data=<%= sex_group_groupby.y_M %>></div>
+  <div class="data" id="sex_group_groupby_data_y_F" data-data=<%= sex_group_groupby.y_F %>></div>
+</div>
+
+<div class="background" />
+
+<div class="brand_logo_container">
+    <a href="/index">
+    <img src="../uploads/Teamder_icon.jpg" class="brand_logo" alt="Logo"></a>
+</div>
+
+<div class="user-count">
+    <h3> Current number of users in Teamder :  <%= number_of_user %></h3>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class ="graph_container">
+      <div class="graph" id="postByGroup" ></div>
+      <div class="spacer" ></div>
+      <div class="graph" id="hitrateByGroup" ></div>
+    </div>
+    </div>
+  <div class="row">
+    <div class ="graph_container">
+      <div class="graph" id="OverallSex" ></div>
+      <div class="graph" id="SexByGroup" ></div>
+    </div>
+  </div>
+  </div>
+</div>
+  
+
+
+
+<script>
+    
+    // =========================================================== Post Count Groupby Group ===========================================================
+    var post_count_group_groupby_data_x = document.getElementById('post_count_group_groupby_data_x').dataset.data
+    var post_count_group_groupby_data_y = document.getElementById('post_count_group_groupby_data_y').dataset.data
+    
+    post_count_group_groupby_data_x = post_count_group_groupby_data_x.split(',')
+    post_count_group_groupby_data_y = post_count_group_groupby_data_y.split(',')
+    
+    var data =   [{
+        x: post_count_group_groupby_data_x ,
+        y: post_count_group_groupby_data_y,
+        type: 'bar'
+    }]; 
+
+    var layout = {
+      title: 'Number of posts in each group',
+      barmode: 'stack',
+      margin: {
+        l: 30,
+        r: 30,
+        b: 30,
+        t: 30,
+        pad: 4
+      },
+      font: {
+        size: 11,
+      },
+      
+      paper_bgcolor: "#ffffff00",
+    };
+    
+    Plotly.newPlot('postByGroup', data, layout); 
+    
+    
+    // =========================================================== Hitrate Groupby Group ===========================================================
+    var hitrate_group_groupby_data_x = document.getElementById('hitrate_group_groupby_data_x').dataset.data
+    var hitrate_group_groupby_data_y = document.getElementById('hitrate_group_groupby_data_y').dataset.data
+    
+    hitrate_group_groupby_data_x = hitrate_group_groupby_data_x.split(',')
+    hitrate_group_groupby_data_y = hitrate_group_groupby_data_y.split(',')
+
+    
+    var data =   [{
+        x: hitrate_group_groupby_data_x ,
+        y: hitrate_group_groupby_data_y,
+        type: 'bar'
+    }]; 
+
+    var layout = {
+      title: 'Hitrate of posts in each group',
+      barmode: 'stack',
+      margin: {
+        l: 30,
+        r: 30,
+        b: 30,
+        t: 30,
+        pad: 4
+      },
+      font: {
+        size: 11,
+      },
+      paper_bgcolor: "#ffffff00",
+    };
+    
+    Plotly.newPlot('hitrateByGroup', data, layout); 
+    
+    
+    
+    // =========================================================== Overall Sex ===========================================================
+    var overall_sex_groupby_data_x = document.getElementById('overall_sex_groupby_data_x').dataset.data
+    var overall_sex_groupby_data_y_M = document.getElementById('overall_sex_groupby_data_y_M').dataset.data
+    var overall_sex_groupby_data_y_F = document.getElementById('overall_sex_groupby_data_y_F').dataset.data
+    
+    overall_sex_groupby_data_x = overall_sex_groupby_data_x.split(',')
+    overall_sex_groupby_data_y_M = overall_sex_groupby_data_y_M.split(',')
+    overall_sex_groupby_data_y_F = overall_sex_groupby_data_y_F.split(',')
+    
+    var trace1 = {
+      x: overall_sex_groupby_data_x,
+      y: overall_sex_groupby_data_y_M,
+      name: "Male",
+      type: "bar"
+    };
+    var trace2 = {
+      x: overall_sex_groupby_data_x,
+      y: overall_sex_groupby_data_y_F,
+      name: "Female",
+      type: "bar"
+    };
+    var data = [trace1, trace2];
+    
+    var layout = {
+        title: 'Overall sex distriubtion',
+        barmode: "group",
+        margin: {
+        l: 30,
+        r: 30,
+        b: 30,
+        t: 30,
+        pad: 4
+      },
+      font: {
+        size: 11,
+      },
+      legend: {
+        bgcolor: '#E2E2E2'
+      },
+      paper_bgcolor: "#ffffff00",
+    };
+        
+    Plotly.newPlot('OverallSex', data, layout); 
+    
+    
+    // =========================================================== Sex Groupby Group ===========================================================
+    var sex_group_groupby_data_x = document.getElementById('sex_group_groupby_data_x').dataset.data
+    var sex_group_groupby_data_y_M = document.getElementById('sex_group_groupby_data_y_M').dataset.data
+    var sex_group_groupby_data_y_F = document.getElementById('sex_group_groupby_data_y_F').dataset.data
+    
+    sex_group_groupby_data_x = sex_group_groupby_data_x.split(',')
+    sex_group_groupby_data_y_M = sex_group_groupby_data_y_M.split(',')
+    sex_group_groupby_data_y_F = sex_group_groupby_data_y_F.split(',')
+    
+    var trace1 = {
+      x: sex_group_groupby_data_x,
+      y: sex_group_groupby_data_y_M,
+      name: "Male",
+      type: "bar"
+    };
+    var trace2 = {
+      x: sex_group_groupby_data_x,
+      y: sex_group_groupby_data_y_F,
+      name: "Female",
+      type: "bar"
+    };
+    var data = [trace1, trace2];
+    
+    var layout = {
+        title: 'Sex distribution of the hosts in each group',
+        barmode: "group",
+        margin: {
+        l: 30,
+        r: 30,
+        b: 30,
+        t: 30,
+        pad: 4
+      },
+      font: {
+        size: 11,
+      },
+      legend: {
+        bgcolor: '#E2E2E2'
+      },
+      paper_bgcolor: "#ffffff00",
+    };
+        
+    Plotly.newPlot('SexByGroup', data, layout); 
+    
+    
+</script>

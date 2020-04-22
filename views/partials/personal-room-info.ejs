@@ -1,0 +1,112 @@
+<style>
+    #personal-group .btn{
+        padding: 0;
+    }
+
+    #personal-group{
+        margin: 10px;
+    }
+</style>
+
+<section id="personal-room">
+  <div class="button-container-personal">
+    <ul class="nav nav-pills" id="myTab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="self-room-tab" data-toggle="tab" href="#self-room" role="tab">My Room</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="joined-room-tab" data-toggle="tab" href="#joined-room" role="tab">Joined Room</a>
+      </li>
+    </ul>
+  </div>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="self-room" role="tabpanel" >
+
+        <table class="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Title</th>
+              <th scope="col">Group</th>
+              <th scope="col">Link</a>
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% var i=1;  %>
+            <% post_all_result.forEach(function(item){%>
+              
+              <tr>
+                <th scope="row"><%=i%></th>
+                <td>
+                  <%= item.title %>
+                </td>
+                <td>
+                  <% group_result.forEach(function(g){%>
+                    <% if(item.group_id==g.group_id){  %>
+                      <%=g.group_name%>
+                    <% }  %>
+                  <% }); %>
+                </td>
+                <td>
+                  <form action="/room_module/enter_room" method="GET">
+                    <input type="hidden" name="post_id" value="<%= item.post_id %>"/>
+                    <input type="hidden" name="enter_user_id" value="<%= current_id %>"/>
+                    <button class="btn btn-primary">Enter</button>
+                  </form>
+                </td>
+              </tr>
+              <% i++;  %>
+            <% }); %>
+          </tbody>
+        </table>
+        
+      </div>
+      <div class="tab-pane fade" id="joined-room" role="tabpanel">
+
+        <table class="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Title</th>
+              <th scope="col">Group</th>
+              <th scope="col">Host</th>
+              <th scope="col">Link</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% var i=1;  %>
+            <% post_all_result.forEach(function(item){%>
+              
+              <tr>
+                <th scope="row"><%=i%></th>
+                <td>
+                  <%= item.title %>
+                </td>
+                <td>
+                  <% group_result.forEach(function(g){%>
+                    <% if(item.group_id==g.group_id){  %>
+                      <%=g.group_name%>
+                    <% }  %>
+                  <% }); %>
+                </td>
+                <td>
+                  <%= item.nickname %>
+                </td>
+                <td>
+                  <form action="/room_module/enter_room" method="GET">
+                    <input type="hidden" name="post_id" value="<%= item.post_id %>"/>
+                    <input type="hidden" name="enter_user_id" value="<%= current_id %>"/>
+                    <button class="btn btn-primary">Enter</button>
+                  </form>
+                </td>
+              </tr>
+              <% i++;  %>
+            <% }); %>
+        </table>
+
+      </div>
+    </div>
+</section>

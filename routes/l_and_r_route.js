@@ -50,12 +50,16 @@ router.post('/loading', checkNotAuthenticated, (req, res) => {
     var sql="select * from user_information where email = '"+req.body.email+"'";
     console.log(sql);
     connection.query(sql, function (err, result, fields) {
-            if (err) throw err;
-            console.log(result);
-            res.cookie('c', result[0].user_id);
-            res.cookie('nickname', result[0].nickname);
-            console.log("in: "+req.cookies.c);
-            res.render('loading', {email: req.body.email, password: req.body.password});
+            if (err) res.redirect('login.ejs');
+
+            if (result.length == 0){
+                res.render('login.ejs', {messages :{error:'No user with this Email'}})
+            } else {
+                res.cookie('c', result[0].user_id);
+                res.cookie('nickname', result[0].nickname);
+                console.log("in: "+req.cookies.c);
+                res.render('loading', {email: req.body.email, password: req.body.password});
+            }
          });
     console.log("out: "+req.cookies.c);
     //res.render('loading', {email: req.body.email, password: req.body.email});

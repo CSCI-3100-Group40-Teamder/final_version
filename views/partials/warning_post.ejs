@@ -1,0 +1,32 @@
+<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#WarningModal">
+ Delete Post
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="WarningModal" tabindex="-1" role="dialog" aria-labelledby="WarningModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Delete Post</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>
+            Are you sure you want to delete your account?
+        </p>
+        <p>
+            If you delete your post,you will lost your post!!!!
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+        <form action="/post_module/delete_post" method="GET">
+          <input type="hidden" name='action' value="/post_module/delete_post"/>
+          <button class="btn btn-danger" name="post_id" value="<%= post_result_0.post_id %>">Delete this Post</button> 
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

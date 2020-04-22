@@ -66,7 +66,7 @@ router.get("/group_display", function(req, res, next) {
             if (err) throw err;
             console.log(subgroup_result);
             //console.log("length: "+result.length);
-            res.render('modify_group', {group_result: group_result, subgroup_result: subgroup_result}); 
+            res.render('modify_group', {group_result: group_result, subgroup_result: subgroup_result, current_name: req.cookies.nickname, current_id: req.cookies.c}); 
         });
     });
 });

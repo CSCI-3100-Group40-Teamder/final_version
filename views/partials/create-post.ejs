@@ -1,0 +1,95 @@
+
+<section id="create-post">
+        <button class="btn btn-danger" data-toggle="modal" data-target="#CreatePostModal">
+            CreatePost
+        </button>
+        <div class="modal fade" id="CreatePostModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title">Create Post</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <form action="/post_module/create_post" method="GET">
+                            
+                            <div class="form-row align-items-center">
+                                
+                                <div class="col-auto my-1">
+                                    
+                                  <label class="mr-sm-2" for="group_id">Group:</label>
+                                  
+                                  <select class="custom-select mr-sm-2" id="group_id" name="group_id" required>
+                                        <option disabled selected value></option>
+                                        
+                                        <% group_result.forEach(function(item){%>
+                                            <option value="<%= item.group_id %>"><%= item.group_name %></option>
+                                        <% }); %>
+                                  </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row align-items-center">
+                                
+                                <div class="col-auto my-1">
+                                    
+                                  <label class="mr-sm-2" for="subgroup_id">SubGroup:</label>
+                                  
+                                  <select class="custom-select mr-sm-2" id="subgroup_id" name="subgroup_id">
+                                      
+                                        <option disabled selected value></option>
+                                        
+                                        <% subgroup_result.forEach(function(subgroup_item){%>
+                                        
+                                            <option class="<%= subgroup_item.group_id %>" value="<%= subgroup_item.subgroup_id %>"><%= subgroup_item.subgroup_name %></option>
+                                            
+                                        <% }); %>
+                                  </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="title">Title:</label>
+                                <textarea type="text" class="form-control" name="title" rows="2" required></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="date">Date:</label>
+                                <input type="text" id="datepicker" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="location">Location:</label>
+                                <textarea type="text" class="form-control" name="location" rows="2" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="duration">Duration:</label>
+                                <textarea type="text" class="form-control" name="duration" rows="1" required></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="description">Description:</label>
+                                <textarea type="text" class="form-control" name="description" rows="3"></textarea>
+                            </div>
+                        
+                            <div class="form-group">
+                                <label for="hashtag">HashTag:</label>
+                                <input type="text" class="form-control" name="hashtag">
+                            </div>
+
+                            <button class="btn btn-primary">Create</button>
+                            
+                        </form>
+                        
+                    </div>
+
+                </div>
+                    
+            </div>
+        </div>
+</section>

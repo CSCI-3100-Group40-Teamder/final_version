@@ -1,90 +1,207 @@
 <html>
-<style>
-	table, th, td {
-  		border: 1px solid black;
-	}
-</style>
-	<body style='background-color: rgb(235,235,235)'>
-	    <h1>user: <%= user_id %></h1>
-		This will show <%= result.user_id %> infomration
+	<head>
+		<Title>User</Title>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<link rel="stylesheet" href="../css/index.css">
+		<link rel="stylesheet" href="../css/user_information.css">
+		<link href="../css/header.css" rel="stylesheet">
+		<link href="../css/group-list.css" rel="stylesheet">
+		<link rel="icon" href="../uploads/Teamder_icon.jpg">
+		<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>	
+		<style>
+			table, th, td {
+		  		border: 1 px solid black;
+			}
+			
+			#user-info .container-fluid{
+				margin-top:30px;
+			}
+		
+		</style>
+	</head>
+	<body style='background-color: rgb(255,255,255)'>
+		
+		<%- include('partials/header.ejs'); -%>
+		
+		<%- include('partials/group-list.ejs'); -%>
+		
+		<section id="user-info">
+			<div class="container-fluid">
+			
+			<div class="row">
+				
+				
+				<div class="col table table-bordered success">
+					
+					<table width="600">
+						<tr>
+							<h2 class="text-danger">Your information</h2>
+						</tr>
+			  			<tr>
+								
+								<th class="info">First Name</th>
+								<td><%= result.user_first_name %></td>
+			 			</tr>
+			  			<tr>
+								
+								<th class="info">Last Name</th>
+								<td><%= result.user_last_name %></td>
+			
+			  			</tr>
+			  			<tr>
+								
+								<th class="info">Nickname</th>
+								<td><%= result.nickname %></td>
+			
+			  			</tr>
+			  			<tr>
+								
+								<th class="info">Email</th>
+								<td><%= result.email %></td>
+			
+			  			</tr>
+			  			<tr>
+						
+								<th class="info">Phone Number</th>
+								<td><%= result.phone_number %></td>
+			
+			  			</tr>
+			  			<tr>
+								
+								<th class="info">Age</th>
+								<td><%= result.age %></td>
+			
+			  			</tr>
+			  			<tr>
+								
+								<th class="info">About Me</th>
+								<td><%= result.introduction %></td>
+			
+			  			</tr>
+			  			<tr>
+								
+								<th class="info">Sex</th>
+								<td><%= result.sex %></td>
+			
+			  			</tr>
+			  			<tr>
+								
+								<th class="info">Rating</th>
+								<td><%= rate %></td>
+			
+			  			</tr>
+			  			<tr>
+							
+								<th class="info">Preference</th>
+								<td><%= result.perference1 %></td>
+			
+			  			</tr>
+			  			<% if(is_admin==1){ %>
+				  			<tr>
+				  					<% if(result.is_admin==1){ %>
+				    					<td>administrator: Yes</td>
+									<% }else{ %>
+				    					<td>administrator: No</td>
+									<% } %>
+				  			</tr>
+			  			<% } %>
+			  			<% photo_result.forEach(function(item){%>
+				  			<tr>
+				  				<img src="uploads/<%= item.photo_url %>">
+				  			</tr>
+				  		<% }); %>
+			  			
+					</table>
+					<% if(user_id==result.user_id||is_admin==1){ %>
+					<br>
+					<div class="button-container">
+						<div class="container">
+							<% if(user_id==result.user_id||is_admin==1){ %>
+								<form action="/user_module/change_user_information" method="get">
+									<input type="hidden" name='user_id' value="<%= result.user_id %>"/>
+									<input type="submit"class="btn btn-outline-info" value="Edit your profile" >
+				    				
+								</form>
+							<% } %>
+						</div>
+						<div class="container">
+							<%- include('partials/del-account-warning.ejs'); -%>
+						</div>
+						<div class="container">
+							<a href="/img_upload" target="_blank"><button class="btn btn-outline-info" >Upload Your Icon</button> </a>
+						</div>
+					</div>
+			    	<% if(is_admin==1&&result.user_id==current_id){ %>
+					<div class="row">
+						<div class="col">
+							<a href="/group_module/group_display"><button class="btn btn-outline-info" >modify_group</button></a>
+						</div>
+						<div class="col">
+			            	<a href="/indexuser_account"><button class="btn btn-outline-info" >show user</button></a>
+			            </div>
+			            <div class="col">
+			            	<a href="/data-analysis"><button class="btn btn-outline-info" >show data analysis</button></a>
+			            </div>
+			        	</div>
+            		<% } %>
+			  		</tr>
+			  		<% } %>
+				</div>
+				<div class="col">
+					<%- include('partials/personal-room-info.ejs'); -%>
+				</div>
+				
+			</div>
+			
 			<table>
-				<tr>
-	    				<th>user_id: <%= result.user_id %></th>
-	 			</tr>
-	  			<tr>
-	    				<th>user_first_name: <%= result.user_first_name %></th>
-	 			</tr>
-	  			<tr>
-	    				<td>user_last_name: <%= result.user_last_name %></td>
-	
-	  			</tr>
-	  			<tr>
-	    				<td>nickname: <%= result.nickname %></td>
-	
-	  			</tr>
-	  			<tr>
-	    				<td>email: <%= result.email %></td>
-	
-	  			</tr>
-	  			<tr>
-	    				<td>phone_number: <%= result.phone_number %></td>
-	
-	  			</tr>
-	  			<tr>
-	    				<td>age: <%= result.age %></td>
-	
-	  			</tr>
-	  			<tr>
-	    				<td>introduction: <%= result.introduction %></td>
-	
-	  			</tr>
-	  			<tr>
-	    				<td>sex: <%= result.sex %></td>
-	
-	  			</tr>
-	  			<tr>
-	    				<td>rate: <%= rate %></td>
-	
-	  			</tr>
-	  			<tr>
-	    				<td>perference1: <%= result.perference1 %></td>
-	
-	  			</tr>
-	  			<tr>
-	    				<td>perference2: <%= result.perference2 %></td>
-	
-	  			</tr>
-	  			<tr>
-	    				<td>perference3: <%= result.perference3 %></td>
-	
-	  			</tr>
-	  			<tr>
-	    				<td>is_admin: <%= result.is_admin %></td>
-	
-	  			</tr>
-	  			<% photo_result.forEach(function(item){%>
-		  			<tr>
-		  				<img src="uploads/<%= item.photo_url %>">
-		  			</tr>
-		  		<% }); %>
-	  			<tr>
-	    			<form action="/back" method="GET">
-						<br><button name="post_id">Back</button> 
-					</form>
-					<% if(user_id==result.user_id){ %>
-						<form action="/user_module/change_user_information" method="get">
-		    				<button>Change</button>
-						</form>
+				<% var i=1; %>
+				<% post_all_result.forEach(function(item){%>
+					<% if(i%4==1){ %>
+					<tr>
 					<% } %>
-	  			</tr>
-			</table>
-			<% if(user_id==result.user_id){ %>
-			<tr>
-	    		<form action="/user_module/delete_account" method="GET">
-				<br><button name="delete_user_id" value="<%= result.user_id %>">Delete</button> 
-				</form>
-	  		</tr>
-	  		<a href="/upload" target="_blank">Upload photo</a><br>
-	  		<% } %>
+						<th>
+						<% if(user_id==item.host_id){ %>
+							<h1>Host:</h1>
+						<% }else{ %>
+							<br>
+							<br>
+						<% } %>
+						<div class="card">
+			                
+			                    <div class="card-header">
+			                        <a href="#" class="card-link" style=" z-index: 2; position: relative;"><%= item.nickname %></a>
+			                    </div>
+			                    <img src="../uploads/camera-icon.png	" class="card-img-top">
+			                        <div class="card-body">
+			                            <p class="card-text"><strong>Title: <%= item.title %></strong></p>
+			                            <p class="card-text">Description: <%= item.description %></p>
+			                            <a class="card-text" href="#" style=" z-index: 2; position: relative;"><small>Group</small>
+			                            	<form action="/post_module/show_post" method="GET">
+												<button name="post_id" value="<%= item.post_id %>">View!</button>
+											</form>
+			                            </a>
+			                        </div>
+			                        <!--<div class="card-footer">
+			                            <small class="text-muted">Last updated 3 mins ago</small>
+			                        </div>-->
+			        	</div>
+			        	</th>
+			        <% if(i%4==4){ %>
+			        </tr>
+			    	<% } %>
+			    	<% i=i+1; %>
+				<% }); %>
+		</div>
+		</section>
+		
+	<script>
+		
+	</script>
+	
 	</body>
 </html>
