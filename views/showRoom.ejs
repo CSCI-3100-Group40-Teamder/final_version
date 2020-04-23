@@ -142,10 +142,6 @@
     	  			<% }); %>
     			</table>
     			<% if(user_id==post_result_0.host_id) { %>
-    						<form action="/post_module/change_post" method="get">
-    		    				<input type="hidden" name='post_id' value="<%= post_result_0.post_id %>"/>
-    		    				<button name ="submit" value="1" class="btn btn-primary" type="submit">Change</button>
-    						</form>
     						
     					<% } %>
     					<% if(user_id!=post_result_0.host_id&& finish_result==0) { %>

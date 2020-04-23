@@ -19,10 +19,8 @@
 				<tr>
 				    <% } %>
 					
-					<th>
-							
-					<!-------------------------------->
 					<% if(user_id==item.host_id){ %>
+					<th>
 					    <div class="card">
 						    <div class="card-header">
 								<a>host</a>
@@ -49,8 +47,9 @@
 			            	</div>
 			        	</div>
 			        	<% i=i+1; %>
+			        	</th>
 			        <% } %>
-			        </th>
+
 			        	
 			        <% if(i%4==4){ %>
 			        </tr>
@@ -68,11 +67,9 @@
 				<% if(i%4==1){ %>
 				<tr>
 				    <% } %>
-					
-					<th>
-							
-					<!-------------------------------->
+				    
 					<% if(user_id!=item.host_id){ %>
+						<th>
 					    <div class="card">
 						    <div class="card-header">
 								<a href="/user_module/show_your_user_information?user_id=<%= item.host_id %>" class="card-link" style=" z-index: 2; position: relative;" target="_blank"><%= item.nickname %></a>
@@ -99,8 +96,9 @@
 			            	</div>
 			        	</div>
 			        	<% i=i+1; %>
+			        	</th>
 			        <% } %>
-			        </th>
+
 			        	
 			        <% if(i%4==4){ %>
 			        </tr>
