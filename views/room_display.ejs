@@ -68,7 +68,7 @@
 	    				<td>
 	    					joiner id: <a href="/user_module/show_your_user_information?user_id=<%= item.joiner_id %>" target="_blank"><%= item.nickname %></a>
 	    					<% if(item.joiner_id==result.host_id) { %>
-	    						<h1>Host</h1>
+	    						<a>(Host)</a>
 	    					<% } %>
 	    					<% if(user_id==result.host_id) { %>
 	    						<% if(item.joiner_id!=result.host_id) { %>

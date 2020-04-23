@@ -129,8 +129,11 @@ router.post('/', (req, res) => {
           
             var sql = "select post_icon_path from post where post_id='"+post_id_photo+"'";
             connection.query(sql, function (err, result) {
-                if (err) throw err
-                if( result[0].icon_path != "camera-icon.png" )
+              console.log("Photo:");
+              console.log(result[0].post_icon_path);
+              console.log(sql);
+              if (err) throw err
+              if( result[0].post_icon_path != "camera-icon.png" )
                 {
                     fs.unlink('./public/uploads/'+result[0].post_icon_path+'', (err) => {
                     if (err) {

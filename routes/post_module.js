@@ -170,7 +170,7 @@ router.get("/show_post", function(req, res, next) {
             console.log("hitrate is +1");
         });
 	}
-	var sqlc = "Select * FROM comment WHERE post_id = '"+qdata.post_id+"' order by comment_date";
+	var sqlc = "Select * FROM comment, user_information WHERE user_information.user_id=comment.comment_user_id and post_id = '"+qdata.post_id+"' order by comment_date";
 	console.log(sqlc);
     con.query(sqlc, function (err, comment_result, fields) {
         if (err) throw err;

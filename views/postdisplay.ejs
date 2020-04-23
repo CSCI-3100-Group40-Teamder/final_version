@@ -183,7 +183,7 @@
                 <tbody>
                 <% comment.forEach(function(item){%>
                 <tr>
-                    <td><%= item.comment_user_id %></td>
+                    <td><%= item.nickname %></td>
                     <td><%= item.comment_date %></td>
                     <td><%= item.comment_content %></td>
     	                <% if(user_id==item.comment_user_id||is_admin==1) { %>

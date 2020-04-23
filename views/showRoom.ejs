@@ -112,7 +112,7 @@
                                 <td>
                                     <a href="/user_module/show_your_user_information?user_id=<%= item.joiner_id %>" target="_blank"><%= item.nickname %></a>
                                     <% if(item.joiner_id==post_result_0.host_id) { %>
-                                        <p1>(Host)</p1>
+                                        <a>(Host)</a>
                                     <% } %>
                                 </td>
                             </tr>
@@ -124,9 +124,9 @@
     	    				<td>
     	    					Name: <a href="/user_module/show_your_user_information?user_id=<%= item.joiner_id %>" target="_blank"><%= item.nickname %></a>
     	    					<% if(item.joiner_id==post_result_0.host_id) { %>
-    	    						<h3>Host</h3>
+    	    						<a>(Host)</a>
     	    					<% } %>
-    	    					<% if(user_id==post_result_0.host_id) { %>
+    	    					<% if(user_id==post_result_0.host_id||is_admin==1) { %>
     	    						<% if(item.joiner_id!=post_result_0.host_id) { %>
     			    					<form action="/room_module/enter_room" method="GET">
     			    						<input type="hidden" name="action" value="delete_joiner"/>
@@ -158,7 +158,7 @@
     					<% if(post_all_result.length>=2 && finish_result==0){ %>
     						 <%- include('partials/rate-user.ejs'); -%> 
     					<% } %>
-    					<% if(user_id==post_result_0.host_id) { %>
+    					<% if(user_id==post_result_0.host_id||is_admin==1) { %>
     						<form action="/user_module/search_user_id" method="GET">
     							<input type="text" name="nickname"/>
     							<input type="hidden" name="action" value="add_joiner"/>

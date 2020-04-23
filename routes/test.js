@@ -206,7 +206,12 @@ router.get("/enter_room", function(req, res, next) {
                         var sql_subgroup="SELECT * FROM subgroup_info";
                         con.query(sql_subgroup, function (err, subgroup_result, fields) {
                             if (err) throw err;
-                            res.render('showRoom', {post_result_0: result[0], post_all_result: result, post_id: qdata.post_id, user_id: req.cookies.c, finish_result: finish_result[0].finish, host_name: host_name_result[0].nickname, message: message, current_name: req.cookies.nickname, current_id: req.cookies.c, group_result: group_result, subgroup_result: subgroup_result, icon: req.cookies.icon}); 
+                            //res.render('showRoom', {post_result_0: result[0], post_all_result: result, post_id: qdata.post_id, user_id: req.cookies.c, finish_result: finish_result[0].finish, host_name: host_name_result[0].nickname, message: message, current_name: req.cookies.nickname, current_id: req.cookies.c, group_result: group_result, subgroup_result: subgroup_result, icon: req.cookies.icon});
+                            var sql_admin="SELECT is_admin FROM user_information where user_id = '"+req.cookies.c+"'";
+                            con.query(sql_admin, function (err, admin_result, fields) {
+                                if (err) throw err;
+                                res.render('showRoom', {post_result_0: result[0], post_all_result: result, post_id: qdata.post_id, user_id: req.cookies.c, finish_result: finish_result[0].finish, host_name: host_name_result[0].nickname, message: message, current_name: req.cookies.nickname, current_id: req.cookies.c, group_result: group_result, subgroup_result: subgroup_result, icon: req.cookies.icon, is_admin: admin_result[0].is_admin}); 
+                            });
                         });
                     });
                   });
