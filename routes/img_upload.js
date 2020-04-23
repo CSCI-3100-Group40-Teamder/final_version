@@ -7,6 +7,7 @@ var connection = require('../dataBase/db');
 var router = express.Router();
 var url = require('url');
 const bodyParser = require('body-parser')
+var fs = require('fs');
 var cookieParser = require('cookie-parser');
 
 app.use(cookieParser());
@@ -89,12 +90,28 @@ router.post('/', (req, res) => {
         var info = [[photo_user_id,req.file.filename, t]];
         if(post_id_photo=='not_post')
         {
+          var sql = "select icon_path from user_information where user_id='"+photo_user_id+"'";
+          connection.query(sql, function (err, result) {
+              if (err) throw err
+              if( result[0].icon_path != "user-512.png" )
+              {
+                  fs.unlink('./public/uploads/'+result[0].icon_path+'', (err) => {
+                  if (err) {
+                    console.error(err)
+                    return
+                  }
+                });
+              }
+          });
+
+          
           //var sql = 'INSERT INTO user_to_photo (user_id,filename) VALUES ?';
           var sql = "delete from user_to_photo where user_id='"+photo_user_id+"'";
           console.log(sql);
           //connection.query(sql, [info], function (err, result) {
           connection.query(sql, function (err, result) {
               if (err) throw err
+              
           });
           var sql = "INSERT INTO user_to_photo VALUES ('"+photo_user_id+"', '"+req.file.filename+"', '"+t+"')";
           console.log(sql);
@@ -109,6 +126,21 @@ router.post('/', (req, res) => {
               if (err) throw err
           });
         }else{
+          
+            var sql = "select post_icon_path from post where post_id='"+post_id_photo+"'";
+            connection.query(sql, function (err, result) {
+                if (err) throw err
+                if( result[0].icon_path != "camera-icon.png" )
+                {
+                    fs.unlink('./public/uploads/'+result[0].post_icon_path+'', (err) => {
+                    if (err) {
+                      console.error(err)
+                      return
+                    }
+                  });
+                }
+            });
+            
             var sql = "delete from post_to_photo where post_id='"+post_id_photo+"'";
             connection.query(sql, function (err, result) {
                 if (err) throw err
