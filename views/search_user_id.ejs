@@ -11,10 +11,10 @@
 			document.getElementById("demo").innerHTML = i;
 		</script>
 		This will show a list of users that the nickname.
-		<form action="/room_module/enter_room" method="GET">
 			<table>
 				<% all_result.forEach(function(item){%>
 					
+					<form action="/room_module/enter_room" method="GET">
 						<tr>
 		    				<th><a href="/user_module/show_your_user_information?user_id=<%= item.user_id %>" target="_blank"><%= item.user_id%></a></th>
 		    				<th><%= item.nickname %></th>
@@ -27,10 +27,9 @@
 				                	<button>This one</button>
 		    				</th>
 			 			</tr>
-					
+					</form>
 				<% }); %>
 			</table>
-		</form>
 		<form action="/back" method="GET">
 		    <br><button name="post_id">Back</button> 
 		</form>

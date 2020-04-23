@@ -20,7 +20,7 @@ app.use(cookieParser());
 
 app.use(bodyParser.urlencoded({extended: false}));
 
-router.get("/creating_post", function(req, res, next) {
+/*router.get("/creating_post", function(req, res, next) {
 	console.log("Trying to creating a new post...");
 	var sql = "select * from group_info";
 	con.query(sql, function (err, group_result, fields) {
@@ -38,18 +38,20 @@ router.get("/creating_post", function(req, res, next) {
          });
       //res.render('create_post', {user: req.cookies.c});
 	//return res.end();
-});
+});*/
 
 router.get("/create_post", function(req, res, next) {
 	console.log("Trying to create a new post...");
 	var q = url.parse(req.url, true);
 	var qdata = q.query;
+	console.log("qdata:");
+	console.log(qdata);
 	var host_id=req.cookies.c;
 	console.log("create:"+req.cookies.c);
 	var t=other.sicount();
 	var post_id=""+host_id+t;
 	//var sql = "INSERT INTO post VALUES ('"+qdata.title+"', '"+ qdata.description+"', '"+post_id+"', '"+host_id+"', '"+qdata.group_id+"', '"+qdata.type_of_game+"', '"+t+"', '"+qdata.hashtag+"', '"+qdata.subgroup_id+"', 0)";
-	var sql = "INSERT INTO post (title, description, post_id, host_id, group_id, t, hashtag, hitrate) VALUES ('"+qdata.title+"', '"+ qdata.description+"', '"+post_id+"', '"+host_id+"', '"+qdata.group_id+"', '"+t+"', '"+qdata.hashtag+"', 0)";
+	var sql = "INSERT INTO post (title, description, post_id, host_id, group_id, subgroup_id, t, hitrate, suppose_place, suppose_time, suppose_duration, suppose_date, post_icon_path) VALUES ('"+qdata.title+"', '"+ qdata.description+"', '"+post_id+"', '"+host_id+"', '"+qdata.group_id+"', '"+qdata.subgroup_id+"', '"+t+"', 0, '"+qdata.suppose_place+"', '"+qdata.suppose_time+"', '"+qdata.suppose_duration+"', '"+qdata.suppose_date+"', 'camera-icon.png')";
 	console.log(sql);
 	con.query(sql, function (err, result) {
         if (err) console.log('error');
@@ -95,31 +97,34 @@ router.get("/show_post", function(req, res, next) {
         });
 	} else if (qdata.action=="change_content_post")
 	{
+	    console.log("try to change content_post");
+	    console.log("qdata:");
+	    console.log(qdata);
 	    var sqltitle="";
     	var sqldescription="";
-    	var sqltype_of_game="";
-    	var sqlhashtag="";
     	var sqlgroup_id="";
     	var sqlsubgroup_id="";
-    	console.log(qdata.post_id);
-    	console.log(qdata.title);
-    	console.log(qdata.description);
-    	console.log(qdata.type_of_game);
-    	console.log(qdata.hashtag);
-    	console.log(qdata.group_id);
+    	var sql_suppose_date="";
+    	var sql_suppose_place="";
+    	var sql_suppose_time="";
+    	var sql_suppose_duration="";
     	if(qdata.title)
     	    sqltitle="title = '"+qdata.title+"', ";
     	if(qdata.description)
     	    sqldescription="description = '"+qdata.description+"', ";
-    	if(qdata.type_of_game)
-    	    sqltype_of_game="type_of_game = '"+qdata.type_of_game+"', ";
-    	if(qdata.hashtag)
-    	    sqlhashtag="hashtag = '"+qdata.hashtag+"', ";
     	if(qdata.group_id)
     	    sqlgroup_id="group_id = '"+qdata.group_id+"', ";
         if(qdata.subgroup_id)
     	    sqlsubgroup_id="subgroup_id = '"+qdata.subgroup_id+"', ";
-    	var sql = "Update post set "+sqltitle+sqldescription+sqltype_of_game+sqlhashtag+sqlgroup_id+sqlsubgroup_id+"post_id='"+qdata.post_id+"' WHERE post_id = '"+qdata.post_id+"'";
+        if(qdata.suppose_date)
+    	    sql_suppose_date="suppose_date = '"+qdata.suppose_date+"', ";
+    	if(qdata.suppose_place)
+    	    sql_suppose_place="suppose_place = '"+qdata.suppose_place+"', ";
+    	if(qdata.suppose_time)
+    	    sql_suppose_time="suppose_time = '"+qdata.suppose_time+"', ";
+    	if(qdata.suppose_duration)
+    	    sql_suppose_duration="suppose_duration = '"+qdata.suppose_duration+"', ";
+    	var sql = "Update post set "+sqltitle+sqldescription+sqlgroup_id+sqlsubgroup_id+sql_suppose_date+sql_suppose_place+sql_suppose_time+sql_suppose_duration+"post_id='"+qdata.post_id+"' WHERE post_id = '"+qdata.post_id+"'";
     	console.log(sql);
         con.query(sql, function (err, result, fields) {
         if (err) throw err;
@@ -208,7 +213,7 @@ router.get("/show_post", function(req, res, next) {
                         var sql_subgroup="SELECT * FROM subgroup_info";
                         con.query(sql_subgroup, function (err, subgroup_result, fields) {
                             if (err) throw err;
-                            res.render('postdisplay', {post_result_0: post_result[0], post_all_result: post_result, comment: comment_result, user_id: req.cookies.c, host_name: host_name_result[0].nickname, is_admin: is_admin, current_name: req.cookies.nickname, current_id: req.cookies.c, group_result: group_result, subgroup_result: subgroup_result}); 
+                            res.render('postdisplay', {post_result_0: post_result[0], post_all_result: post_result, comment: comment_result, user_id: req.cookies.c, host_name: host_name_result[0].nickname, is_admin: is_admin, current_name: req.cookies.nickname, current_id: req.cookies.c, group_result: group_result, subgroup_result: subgroup_result, icon: req.cookies.icon}); 
                         });
                     });
                 });
@@ -245,7 +250,7 @@ router.get("/change_post", function(req, res, next) {
             var sql_subgroup="SELECT * FROM subgroup_info";
             con.query(sql_subgroup, function (err, subgroup_result, fields) {
                 if (err) throw err;
-                res.render('change_content_post', {post_result_0: result[0], current_name: req.cookies.nickname, current_id: req.cookies.c, group_result: group_result, subgroup_result: subgroup_result});
+                res.render('change_content_post', {post_result_0: result[0], current_name: req.cookies.nickname, current_id: req.cookies.c, group_result: group_result, subgroup_result: subgroup_result, icon: req.cookies.icon});
             });
         });
   });

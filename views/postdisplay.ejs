@@ -18,6 +18,13 @@
             max-width: 1200px;
             margin-top: 50px;
     	}
+    
+    .center-img{
+      display: block;
+      margin-top:20px;
+      margin-left: auto;
+      margin-right: auto;
+    }
     </style>
   </head>
   
@@ -26,6 +33,15 @@
   <%- include('partials/group-list.ejs'); -%>
 
   <body>
+    
+    <div class="post-img">
+        
+        <div class="container" style="height:300px;">
+            <img class="center-img" src="../uploads/<%= post_result_0.post_icon_path %>" height="300" />
+        </div>
+        
+    </div>  
+      
     <section id="post-display">
         <div class="container-fluid">
             <% var e=1, i; %>
@@ -51,25 +67,45 @@
                             <th class="info">Number of Participants </th>
                             <td><%= post_all_result.length %></td>
                         </tr>
-                        <tr>
-                            <th class="info">Type of game</th>
-                            <td><%= post_result_0.type_of_game %></td>
+                        <tr >
+                            <th  class="info"> Location: </th>
+                            <td><%= post_result_0.suppose_place %></td>
                         </tr>
                         <tr >
-                            <th  class="info">Time </th>
+                            <th  class="info"> Date </th>
+                            <td><%= post_result_0.suppose_date %></td>
+                        </tr>
+                        <tr >
+                            <th  class="info"> Start Time </th>
+                            <td><%= post_result_0.suppose_time %></td>
+                        </tr>
+                        <tr >
+                            <th  class="info"> Duration </th>
+                            <td><%= post_result_0.suppose_duration %></td>
+                        </tr>
+                        <tr >
+                            <th  class="info"> Create Time of Post </th>
                             <td><%= post_result_0.t %></td>
                         </tr>
                         <tr>
-                            <th class="info">Hashtag</th>
-                            <td><%= post_result_0.hashtag %></td>
+                            <th class="info">Group Name:</th>
+                            <td> 
+                                <% group_result.forEach(function(g){%>
+				                        <% if(g.group_id==post_result_0.group_id){ %>
+				                            <%= g.group_name %>
+				                        <% } %>
+			                     <% }); %>
+                            </td>
                         </tr>
                         <tr>
-                            <th class="info">Group id:</th>
-                            <td> <%= post_result_0.group_id %></td>
-                        </tr>
-                        <tr>
-                            <th class="info">Subgroup id: </th>
-                            <td><%= post_result_0.subgroup_id %></td>
+                            <th class="info">Subgroup Name: </th>
+                            <td>
+                                <% subgroup_result.forEach(function(g){%>
+				                        <% if(g.subgroup_id==post_result_0.subgroup_id){ %>
+				                            <%= g.subgroup_name %>
+				                        <% } %>
+			                     <% }); %>
+                            </td>
                         </tr>
     
                         
@@ -84,21 +120,20 @@
                                 </td>
                             </tr>
                         <% }); %>
+                        
 						<tr>
 			    		
 						<% if(user_id==post_result_0.host_id||is_admin==1) { %>
-							<form action="/post_module/change_post" method="get">
-				    			<input type="hidden" name='post_id' value="<%= post_result_0.post_id %>"/>
-				    				
-				    			<button type="submit"class="btn btn-outline-info" name="1" value="Change" >Change Info</button>
-							</form>
+							 <%- include('partials/change-post-content.ejs'); -%>
 						<% } %>
-						
+						<% if(user_id==post_result_0.host_id||is_admin==1) { %>
+							<a class="btn btn-outline-info" href="/img_upload?post_id=<%= post_result_0.post_id %>">Upload photo</a>
+						<% } %>
 						<% if(user_id!='guest') { %>
 							<% if(e) { %>
 								<form action="/post_module/show_post" method="GET">
-									<input type="hidden" name="action" value="join_post"/><br>
-									<input type="hidden" name="post_id" value="<%= post_result_0.post_id %>"/><br>
+									<input type="hidden" name="action" value="join_post"/>
+									<input type="hidden" name="post_id" value="<%= post_result_0.post_id %>"/>
 
 									<button type="submit"class="btn btn-outline-info" value:"Join">Join</button>
 										
@@ -125,7 +160,7 @@
                             <textarea class="form-control" type="text" name="new_comment" rows="2" required></textarea>
                                 
                             <input type="hidden" name="action" value="new_comment"/>
-                            <input type="hidden" name='post_id' value="<%= post_result_0.post_id %>"/><br>
+                            <input type="hidden" name='post_id' value="<%= post_result_0.post_id %>"/>
                             <input type="submit"class="btn btn-outline-info btn-sm" value="New Comment" >
                         </div>
                             
@@ -225,6 +260,14 @@
 				$('#subgroup_id').prop('selectedIndex',0);
 				$("#subgroup_id").children('option').hide();
 				$("#subgroup_id").children("option[class^=" + $("#group_id").val() + "]").show();
+				    
+		    });
+		    
+		    $("#change-user-info #group_id").change(function () {
+		    	
+				$('#change-user-info #subgroup_id').prop('selectedIndex',0);
+				$("#change-user-info #subgroup_id").children('option').hide();
+				$("#change-user-info #subgroup_id").children("option[class^=" + $("#change-user-info #group_id").val() + "]").show();
 				    
 		    });
 			

@@ -1,0 +1,97 @@
+<section id="change-user-info">
+        <button class="btn btn-outline-info" data-toggle="modal" data-target="#ChangePostContenttModal">
+            Edit Post
+        </button>
+        <div class="modal fade" id="ChangePostContenttModal" tabindex="-1" role="dialog" aria-labelledby="ChangePostContenttModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit the Post</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <form action="/post_module/show_post" method="GET">
+                            
+                            <input type="hidden" name='action' value="change_content_post"/>
+			                <input type="hidden" name='post_id' value="<%= post_result_0.post_id %>"/>
+			                
+                            <div class="form-row align-items-center">
+                                
+                                <div class="col-auto my-1">
+                                    
+                                  <label class="mr-sm-2" for="group_id">Group:</label>
+                                  
+                                  <select class="custom-select mr-sm-2" id="group_id" name="group_id">
+                                        <option disabled selected value></option>
+                                        
+                                        <% group_result.forEach(function(item){%>
+                                            <option value="<%= item.group_id %>"><%= item.group_name %></option>
+                                        <% }); %>
+                                  </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row align-items-center">
+                                
+                                <div class="col-auto my-1">
+                                    
+                                  <label class="mr-sm-2" for="subgroup_id">SubGroup:</label>
+                                  
+                                  <select class="custom-select mr-sm-2" id="subgroup_id" name="subgroup_id">
+                                      
+                                        <option disabled selected value></option>
+                                        
+                                        <% subgroup_result.forEach(function(subgroup_item){%>
+                                        
+                                            <option class="<%= subgroup_item.group_id %>" value="<%= subgroup_item.subgroup_id %>"><%= subgroup_item.subgroup_name %></option>
+                                            
+                                        <% }); %>
+                                  </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="title">Title:</label>
+                                <textarea type="text" class="form-control" name="title" rows="2" ></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="date">Date: XX/XX/XXXX e.g.:01/02/2020 1st of February in 2020</label>
+                                <!--<input type="text" id="datepicker" name="date" required>-->
+                                <textarea type="text" class="form-control" name="suppose_date" rows="1" required></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="location">Location:</label>
+                                <textarea type="text" class="form-control" name="suppose_place" rows="2" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="start_time">Start Time:</label>
+                                <textarea type="text" class="form-control" name="suppose_time" rows="1" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="duration">Duration:</label>
+                                <textarea type="text" class="form-control" name="suppose_duration" rows="1" required></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="description">Description:</label>
+                                <textarea type="text" class="form-control" name="description" rows="3"></textarea>
+                            </div>
+						    
+                            <button class="btn btn-primary">Change</button>
+                            
+                        </form>
+                        
+                    </div>
+
+                </div>
+                    
+            </div>
+        </div>
+</section>

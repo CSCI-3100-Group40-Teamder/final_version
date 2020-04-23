@@ -12,16 +12,37 @@
 		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>	
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 		<style>
-			table, th, td {
-		  		border: 1 px solid black;
-			}
+		table, th, td {
+		  	border: 1 px solid black;
+		}
 			
-			#user-info .container-fluid{
-				margin-top:30px;
-			}
+		#user-info .container-fluid{
+			margin-top:30px;
+		}
+
+	    .profile-pic-container {
+	    	text-align: center;
+	    	margin-bottom:10px;
+	    }
+	    
+	    .button-container{
+	    	margin-top:5px;
+	    }
+	    .embed-responsive{
+		    height: 12rem;
+		}
+		.embed-responsive .card-img-top {
+		    object-fit: cover;
+		}
 		
+		.card{
+		    height: 30rem;
+		}
+			
+
 		</style>
 	</head>
 	<body style='background-color: rgb(255,255,255)'>
@@ -31,7 +52,7 @@
 		<%- include('partials/group-list.ejs'); -%>
 		
 		<section id="user-info">
-			<div class="container-fluid">
+		<div class="container-fluid">
 			
 			<div class="row">
 				
@@ -41,6 +62,27 @@
 					<table width="600">
 						<tr>
 							<h2 class="text-danger">Your information</h2>
+							<div class="profile-pic-container">
+								<form action="/img_upload" method="GET">
+									<input type="hidden" name='user_id' value="<%= result.user_id %>"/>
+									<input type="hidden" name='post_id' value="not_post"/>
+									<%if(current_id==result.user_id){%>
+										<%if( result.icon_path ){%>
+											<input type="image" class=".profile-pic" src="../uploads/<%= result.icon_path %>" alt="Submit" width="300" height="250">
+										<%} else {%>
+											<input type="image" class=".profile-pic" src="../uploads/user-512.png" alt="Submit" width="300" height="250">
+										<%}%>
+									<%}else{%>
+										<%if( result.icon_path ){%>
+											<img src="../uploads/<%= result.icon_path %>" width="300" height="250">
+										<%} else {%>
+											<img src="../uploads/user-512.png" width="300" height="250">
+										<%}%>
+									<%}%>
+								</form>
+								<br>
+								<a><small>Click icon to upload and change</small></a>
+						    </div>
 						</tr>
 			  			<tr>
 								
@@ -110,42 +152,37 @@
 									<% } %>
 				  			</tr>
 			  			<% } %>
-			  			<% photo_result.forEach(function(item){%>
-				  			<tr>
-				  				<img src="uploads/<%= item.photo_url %>">
-				  			</tr>
-				  		<% }); %>
+			  			
 			  			
 					</table>
 					<% if(user_id==result.user_id||is_admin==1){ %>
 					<br>
 					<div class="button-container">
-						<div class="container">
-							<% if(user_id==result.user_id||is_admin==1){ %>
-								<form action="/user_module/change_user_information" method="get">
-									<input type="hidden" name='user_id' value="<%= result.user_id %>"/>
-									<input type="submit"class="btn btn-outline-info" value="Edit your profile" >
-				    				
-								</form>
-							<% } %>
-						</div>
-						<div class="container">
-							<%- include('partials/del-account-warning.ejs'); -%>
-						</div>
-						<div class="container">
-							<a href="/img_upload" target="_blank"><button class="btn btn-outline-info" >Upload Your Icon</button> </a>
-						</div>
+						<% if(current_id==result.user_id||is_admin==1){ %>
+							<div class="container">
+							
+								<!--<form action="/user_module/change_user_information" method="get">
+										<input type="hidden" name='user_id' value="<%= result.user_id %>"/>
+										<input type="submit"class="btn btn-outline-info" value="Edit your profile" >
+									</form>-->
+									<%- include('partials/change-user-info.ejs'); -%>
+								
+							</div>
+							<div class="container">
+								<%- include('partials/del-account-warning.ejs'); -%>
+							</div>
+						<% } %>
 					</div>
-			    	<% if(is_admin==1&&result.user_id==current_id){ %>
-					<div class="row">
-						<div class="col">
-							<a href="/group_module/group_display"><button class="btn btn-outline-info" >modify_group</button></a>
+			    	<% if(is_admin==1){ %>
+					<div class="button-container">
+						<div class="container">
+							<a href="/group_module/group_display"><button class="btn btn-outline-info" >Modify Group</button></a>
 						</div>
-						<div class="col">
-			            	<a href="/indexuser_account"><button class="btn btn-outline-info" >show user</button></a>
+						<div class="container">
+			            	<a href="/indexuser_account"><button class="btn btn-outline-info" >Show Users</button></a>
 			            </div>
-			            <div class="col">
-			            	<a href="/data-analysis"><button class="btn btn-outline-info" >show data analysis</button></a>
+			            <div class="container">
+			            	<a href="/data-analysis"><button class="btn btn-outline-info" >Data Analysis</button></a>
 			            </div>
 			        	</div>
             		<% } %>
@@ -158,50 +195,112 @@
 				
 			</div>
 			
-			<table>
+			
+			<!--
+				<table>
 				<% var i=1; %>
 				<% post_all_result.forEach(function(item){%>
 					<% if(i%4==1){ %>
 					<tr>
 					<% } %>
+					
 						<th>
-						<% if(user_id==item.host_id){ %>
-							<h1>Host:</h1>
-						<% }else{ %>
-							<br>
-							<br>
-						<% } %>
-						<div class="card">
+							
+							<div class="card-header">
+							<% if(user_id==item.host_id){ %>
+								<a>host</a>
+							<% }else{ %>
+				                	<a href="/user_module/show_your_user_information?user_id=<%= item.host_id %>" class="card-link" style=" z-index: 2; position: relative;" target="_blank"><%= item.nickname %></a>
+							<% } %>
+							</div>
 			                
-			                    <div class="card-header">
-			                        <a href="#" class="card-link" style=" z-index: 2; position: relative;"><%= item.nickname %></a>
-			                    </div>
-			                    <img src="../uploads/camera-icon.png	" class="card-img-top">
-			                        <div class="card-body">
-			                            <p class="card-text"><strong>Title: <%= item.title %></strong></p>
-			                            <p class="card-text">Description: <%= item.description %></p>
-			                            <a class="card-text" href="#" style=" z-index: 2; position: relative;"><small>Group</small>
-			                            	<form action="/post_module/show_post" method="GET">
-												<button name="post_id" value="<%= item.post_id %>">View!</button>
-											</form>
-			                            </a>
-			                        </div>
-			                        <!--<div class="card-footer">
-			                            <small class="text-muted">Last updated 3 mins ago</small>
-			                        </div>-->
+							<div class="embed-responsive embed-responsive-16by9">
+							    <img alt="Card image cap" class="card-img-top embed-responsive-item" src="../uploads/<%= item.post_icon_path %>" />
+							</div>
+
+			                <div class="card-body">
+			                    <p class="card-text"><strong>Title: <%= item.title %></strong></p>
+			                		<p class="card-text">Description: <%= item.description %></p>
+			                    	<p class="card-text">HitRate: <%= item.hitrate %></p>
+			                    	<a class="card-text">Group:
+			                    		<% group_result.forEach(function(g){%>
+				                			<% if(g.group_id==item.group_id){ %>
+				                            	<%= g.group_name %>
+				                            <% } %>
+			                            <% }); %>
+			                        </a>
+			                        <form action="/post_module/show_post" method="GET">
+			                        	<button class="btn btn-outline-info" name="post_id" value="<%= item.post_id %>">View!</button>
+									</form>
+			            	</div>
 			        	</div>
 			        	</th>
+			        	
 			        <% if(i%4==4){ %>
 			        </tr>
 			    	<% } %>
+			    	
 			    	<% i=i+1; %>
+			    	
 				<% }); %>
+			</table>-->
+			
+		<br>
+		<%- include('partials/personal-post-info.ejs'); -%>	
 		</div>
+		
+
 		</section>
 		
-	<script>
+		<script>
+	    $(document).ready(function(){
 		
-	</script>
+		    /*$(".search .btn.dropdown-toggle").click(function(){
+		        console.log($(".search .input-action").val());
+		    });*/
+		
+		    $(".search .postID").click(function(){
+		        $(".search .btn.dropdown-toggle").text("postID");
+		        $(".search .input-action").val("search_id_of_post");
+		        $(".form-control").prop("name","search_post_id");
+		        console.log($(".search .input-action").val());
+		
+		    });
+		
+		    /*chnage for userID*/
+		    $(".search .userID").click(function(){
+		        $(".search .btn.dropdown-toggle").text("userID");
+		        $(".search .input-action").val("search_id_of_user");
+		        $(".form-control").prop("name","search_user_id");
+		        console.log($(".search .input-action").val());
+		
+		    });
+		
+		    /*chnage for postTopic*/
+		    $(".search .postTitle").click(function(){
+		    $(".search .btn.dropdown-toggle").text("postTitle");
+		    $(".search .input-action").val("search_name_of_post");
+		    $(".form-control").prop("name","search_post_name");
+		    console.log($(".search .input-action").val());
+		    });
+		    
+		    
+		    $("#group_id").change(function () {
+		    	
+				$('#subgroup_id').prop('selectedIndex',0);
+				$("#subgroup_id").children('option').hide();
+				$("#subgroup_id").children("option[class^=" + $("#group_id").val() + "]").show();
+				    
+		    });
+			
+			 $( function() {
+			    $( "#datepicker" ).datepicker();
+			 });
+			 
+		});
+		
+		</script>
+		
 	
 	</body>
 </html>

@@ -28,18 +28,18 @@
               <th scope="col">#</th>
               <th scope="col">Title</th>
               <th scope="col">Group</th>
-              <th scope="col">Link</a>
-              </th>
+              <th scope="col">Link</th>
             </tr>
           </thead>
 
           <tbody>
-            <% var i=1;  %>
+            <% var i=1; %>
             <% post_all_result.forEach(function(item){%>
+              <% if(current_id == item.host_id) {%>
               
               <tr>
-                <th scope="row"><%=i%></th>
-                <td>
+                <th scope="row"><%= i %></th>
+                 <td>
                   <%= item.title %>
                 </td>
                 <td>
@@ -57,7 +57,8 @@
                   </form>
                 </td>
               </tr>
-              <% i++;  %>
+              <% i++; %>
+              <% }  %>
             <% }); %>
           </tbody>
         </table>
@@ -75,36 +76,39 @@
               <th scope="col">Link</th>
             </tr>
           </thead>
-
           <tbody>
-            <% var i=1;  %>
+            <% var i=1; %>
             <% post_all_result.forEach(function(item){%>
-              
-              <tr>
-                <th scope="row"><%=i%></th>
-                <td>
-                  <%= item.title %>
-                </td>
-                <td>
-                  <% group_result.forEach(function(g){%>
-                    <% if(item.group_id==g.group_id){  %>
-                      <%=g.group_name%>
-                    <% }  %>
-                  <% }); %>
-                </td>
-                <td>
-                  <%= item.nickname %>
-                </td>
-                <td>
-                  <form action="/room_module/enter_room" method="GET">
-                    <input type="hidden" name="post_id" value="<%= item.post_id %>"/>
-                    <input type="hidden" name="enter_user_id" value="<%= current_id %>"/>
-                    <button class="btn btn-primary">Enter</button>
-                  </form>
-                </td>
-              </tr>
-              <% i++;  %>
+          
+              <% if(current_id != item.host_id) {%>
+                <tr>
+                   <th scope="row"><%= i %></th>
+                  <td>
+                    <%= item.title %>
+                  </td>
+                  <td>
+                    <% group_result.forEach(function(g){%>
+                      <% if(item.group_id==g.group_id){  %>
+                        <%=g.group_name%>
+                      <% }  %>
+                    <% }); %>
+                  </td>
+                  <td>
+                    <%= item.nickname %>
+                  </td>
+                  <td>
+                    <form action="/room_module/enter_room" method="GET">
+                      <input type="hidden" name="post_id" value="<%= item.post_id %>"/>
+                      <input type="hidden" name="enter_user_id" value="<%= current_id %>"/>
+                      <button class="btn btn-primary">Enter</button>
+                    </form>
+                  </td>
+                </tr>
+                
+                <% i++; %>
+              <% } %>
             <% }); %>
+          </tbody>
         </table>
 
       </div>

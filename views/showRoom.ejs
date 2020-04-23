@@ -4,6 +4,7 @@
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 		<link rel="stylesheet" href="../css/index.css">
 		<link href="../css/header.css" rel="stylesheet">
+		<link href="../css/showRoom.css" rel="stylesheet">
 		<link href="../css/group-list.css" rel="stylesheet">
 		<link rel="icon" href="../uploads/Teamder_icon.jpg">
 		<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -22,125 +23,7 @@
 
 
 
-<style>
-    #showroom .container-fluid{
-        margin-top:30px;
-    }
 
-	table, th, td {
-  		border: 1px solid black;
-	}
-
-
-    html, body {
-            padding: 0;
-            margin: 0;
-            
-        }
- 
-        #allMsg {
-            
-            
-            margin: 0 auto;
-            display: block;
-            position: relative;
-            background-color: white;
-            border: 1px solid grey; 
-            border-style: solid;
-            
-        }
-
-        #showStatus{
-            text-align: right;
-        }
-      
-        #showLogo {
-            display: block;
-            font-size: .15em;
-            text-align: right;
-            position: relative;
-            margin: 0 auto;
-            background-color: beige;
-            border: 1px solid grey; 
-            border-radius: 2px;  
-            border-style: solid solid none ;
-           
-           
-           
-        }
-
-        .show_time{
-            text-align: right;
-            color :black;
-            font-size: .6em;
-            
-        }
-
-        .name{
-            text-align: right;
-            color :black;
-            font-weight: bold;
-            font-size: .6em;  
-        }
-
-        #content {
-            width: 100%;
-            left: 350px;
-            height: 500px;
-            border: 1px solid grey; 
-            overflow: scroll;
-            border-style: none;
-            
-            
-        }
-
-        .contentRev{
-            font-size: .6em;
-            background: beige;
-            padding: 10px;
-            border-radius: 2px;
-            
-            max-width:100%;
-        }
-
- 
-        #dataBox {
-           
-            
-            height: 36px;
-            margin: 0 auto;
-            display: block;
-            position: relative;
-            background-color: white;
-            border: 1px solid grey;
-            border-radius: 2px;   
-            border-style: none solid solid ; 
-            
-            
-        }
- 
-        #dataBox input {
-            display: inline-block;
-            height: 30px;
-            
-        }
-
-        input[type="text"] {
-            width: 70%;
-            border-radius: 3px;   
-        }
- 
-        input[type="submit"] {
-            width: 10%;
-            display: flex;
-        }
-
-        input[type="reset"] {
-            width: 10%;
-        }
-
-
-</style>
 
 </head>
 
@@ -181,29 +64,49 @@
                             <th class="info">No of Participants: </th>
                             <td><%= post_all_result.length %></td>
                         </tr>
-                        <tr>
-                            <th class="info">Type of game:</th>
-                            <td><%= post_result_0.type_of_game %></td>
+                         <tr >
+                            <th  class="info"> Location: </th>
+                            <td><%= post_result_0.suppose_place %></td>
                         </tr>
                         <tr >
-                            <th  class="info">time: </th>
+                            <th  class="info"> Date </th>
+                            <td><%= post_result_0.suppose_date %></td>
+                        </tr>
+                        <tr >
+                            <th  class="info"> Start Time </th>
+                            <td><%= post_result_0.suppose_time %></td>
+                        </tr>
+                        <tr >
+                            <th  class="info"> Duration </th>
+                            <td><%= post_result_0.suppose_duration %></td>
+                        </tr>
+                        <tr >
+                            <th  class="info"> Create Time of Post </th>
                             <td><%= post_result_0.t %></td>
                         </tr>
                         <tr>
-                            <th class="info">hashtag:</th>
-                            <td><%= post_result_0.hashtag %></td>
+                            <th class="info">group name:</th>
+                            <td> 
+                                <% group_result.forEach(function(g){%>
+				                        <% if(g.group_id==post_result_0.group_id){ %>
+				                            <%= g.group_name %>
+				                        <% } %>
+			                     <% }); %>
+                            </td>
                         </tr>
                         <tr>
-                            <th class="info">group id:</th>
-                            <td> <%= post_result_0.group_id %></td>
-                        </tr>
-                        <tr>
-                            <th class="info">subgroup id: </th>
-                            <td><%= post_result_0.subgroup_id %></td>
+                            <th class="info">subgroup name: </th>
+                            <td>
+                                <% subgroup_result.forEach(function(g){%>
+				                        <% if(g.subgroup_id==post_result_0.subgroup_id){ %>
+				                            <%= g.subgroup_name %>
+				                        <% } %>
+			                     <% }); %>
+                            </td>
                         </tr>
     
                         
-                        <th class="info">Joiner name: </th>
+                        <!--<th class="info">Joiner name: </th>
                         <% post_all_result.forEach(function(item){%>
                             <tr>
                                 <td>
@@ -213,15 +116,15 @@
                                     <% } %>
                                 </td>
                             </tr>
-                        <% }); %>
+                        <% }); %>-->
                     </thead>
                     <! –– my code end ––>
     	  			<% post_all_result.forEach(function(item){%>
     	  				<tr>
     	    				<td>
-    	    					joiner id: <a href="/user_module/show_your_user_information?user_id=<%= item.joiner_id %>" target="_blank"><%= item.nickname %></a>
+    	    					Name: <a href="/user_module/show_your_user_information?user_id=<%= item.joiner_id %>" target="_blank"><%= item.nickname %></a>
     	    					<% if(item.joiner_id==post_result_0.host_id) { %>
-    	    						<h1>Host</h1>
+    	    						<h3>Host</h3>
     	    					<% } %>
     	    					<% if(user_id==post_result_0.host_id) { %>
     	    						<% if(item.joiner_id!=post_result_0.host_id) { %>

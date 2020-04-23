@@ -136,8 +136,8 @@ function to_user_info_db(req, res, email, user_id){
     //const insert_user_sql = `INSERT INTO  user_information (user_id, user_first_name, user_last_name, nickname, email) VALUES (?,?,?,?,?)`
     //connection.query(insert_user_sql, [user_id, req.body.first_name, req.body.last_name, nickname, email], (error, results, fields) => {
     
-    const insert_user_sql = `INSERT INTO user_information (user_id, user_first_name, user_last_name, nickname, email, phone_number, age, sex, is_admin) 
-                            VALUES ("${user_id}", "${req.body.first_name}", "${req.body.last_name}", "${nickname}", "${email}", "${req.body.phone_number}", "${req.body.birthdate}", "${req.body.sex}", 0)`;
+    const insert_user_sql = `INSERT INTO user_information (user_id, user_first_name, user_last_name, nickname, email, phone_number, age, sex, is_admin, icon_path) 
+                            VALUES ("${user_id}", "${req.body.first_name}", "${req.body.last_name}", "${nickname}", "${email}", "${req.body.phone_number}", "${req.body.birthdate}", "${req.body.sex}", 0, 'user-512.png')`;
     connection.query(insert_user_sql, (error, results, fields) => {
         if (error) throw error
         res.redirect("/login-system/login")

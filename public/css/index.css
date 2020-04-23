@@ -11,3 +11,14 @@
 .sorting{
     display: flex;
 }
+
+.embed-responsive{
+    height: 12rem;
+}
+.embed-responsive .card-img-top {
+    object-fit: cover;
+}
+
+.card{
+    height: 30rem;
+}

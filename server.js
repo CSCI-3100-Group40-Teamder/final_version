@@ -95,6 +95,7 @@ app.get("/", function(req, res, next) {
     //res.redirect('/login-system/login');
     res.cookie('c', 'guest');
     res.cookie('nickname', 'guest');
+    res.cookie('icon', 'user-512.png');
     //res.redirect('/who.html');
     res.redirect('/index?test=123');
 });
@@ -130,26 +131,36 @@ app.get("/index",function(req, res, next) {
         console.log('error ah');
         //current_user='guest';
     }
-    
-    
+    console.log("cookies before if");
+    console.log(req.cookies.c);
+    if(req.cookies.c!='guest')
+    {
+        var sql="SELECT icon_path FROM user_information where user_id = '"+req.cookies.c+"'";
+        con.query(sql, function (err, result, fields) {
+            if (err) throw err;
+            res.cookie('icon', result[0].icon_path);
+            //res.render('index', {post_all_result: result, user_id: req.cookies.c, group_result: group_result, user_name: req.cookies.nickname, subgroup_result: subgroup_result, is_admin: is_admin, current_name: req.cookies.nickname, current_id: req.cookies.c});
+        });
+    }
+    console.log(req.cookies.icon);
     con.query("SELECT * FROM group_info", function (err, group_result, fields) {// need to add nickname
         if (err) console.log("Database error!");
         console.log("action:");
         console.log(qdata.action);
         if(qdata.action=="search_id_of_post")
-            var sql = "Select post_id, title, description, host_id, nickname, hitrate, group_id FROM post, user_information WHERE post.host_id=user_information.user_id and post_id = '"+qdata.search_post_id+"'";
+            var sql = "Select post_id, title, description, host_id, nickname, hitrate, group_id, post_icon_path FROM post, user_information WHERE post.host_id=user_information.user_id and post_id = '"+qdata.search_post_id+"'";
         else if(qdata.action=="search_name_of_post")
-            var sql = "Select post_id, title, description, host_id, nickname, hitrate, group_id FROM post, user_information where post.host_id=user_information.user_id and title like '%"+qdata.search_post_name+"%'";
+            var sql = "Select post_id, title, description, host_id, nickname, hitrate, group_id, post_icon_path FROM post, user_information where post.host_id=user_information.user_id and title like '%"+qdata.search_post_name+"%'";
         else if(qdata.action=="search_id_of_user")
-            var sql = "Select DISTINCT post.post_id, title, description, host_id, nickname, hitrate, group_id FROM post, post_to_join, user_information WHERE (host_id = '"+qdata.search_user_id+"' or joiner_id = '"+qdata.search_user_id+"') and post.post_id=post_to_join.post_id and post.host_id=user_information.user_id";
+            var sql = "Select DISTINCT post.post_id, title, description, host_id, nickname, hitrate, group_id, post_icon_path FROM post, post_to_join, user_information WHERE (host_id = '"+qdata.search_user_id+"' or joiner_id = '"+qdata.search_user_id+"') and post.post_id=post_to_join.post_id and post.host_id=user_information.user_id";
         else if(qdata.action=="filter_is_joined")
-            var sql= "SELECT post_id, title, description, host_id, nickname, hitrate, group_id FROM post, user_information where post.host_id=user_information.user_id and post_id in (Select post_id from post_to_join where joiner_id = '"+req.cookies.c+"')";
+            var sql= "SELECT post_id, title, description, host_id, nickname, hitrate, group_id, post_icon_path FROM post, user_information where post.host_id=user_information.user_id and post_id in (Select post_id from post_to_join where joiner_id = '"+req.cookies.c+"')";
         else if(qdata.action=="filter_group")
-            var sql = "Select post_id, title, description, host_id, nickname, hitrate, group_id FROM post, user_information where post.host_id=user_information.user_id and group_id = '"+qdata.group_id+"' and post_id not in (Select post_id from post_to_join where joiner_id = '"+req.cookies.c+"')";
+            var sql = "Select post_id, title, description, host_id, nickname, hitrate, group_id, post_icon_path FROM post, user_information where post.host_id=user_information.user_id and group_id = '"+qdata.group_id+"' and post_id not in (Select post_id from post_to_join where joiner_id = '"+req.cookies.c+"')";
         else if(qdata.action=="filter_subgroup")
-            var sql = "Select post_id, title, description, host_id, nickname, hitrate, group_id FROM post, user_information where post.host_id=user_information.user_id and subgroup_id = '"+qdata.subgroup_id+"' and post_id not in (Select post_id from post_to_join where joiner_id = '"+req.cookies.c+"')";
+            var sql = "Select post_id, title, description, host_id, nickname, hitrate, group_id, post_icon_path FROM post, user_information where post.host_id=user_information.user_id and subgroup_id = '"+qdata.subgroup_id+"' and post_id not in (Select post_id from post_to_join where joiner_id = '"+req.cookies.c+"')";
         else
-            var sql= "SELECT post_id, title, description, host_id, nickname, hitrate, group_id FROM post, user_information where post.host_id=user_information.user_id and post_id not in (Select post_id from post_to_join where joiner_id = '"+req.cookies.c+"')";
+            var sql= "SELECT post_id, title, description, host_id, nickname, hitrate, group_id, post_icon_path FROM post, user_information where post.host_id=user_information.user_id and post_id not in (Select post_id from post_to_join where joiner_id = '"+req.cookies.c+"')";
         //var sql="SELECT post_id, title, description FROM post where post_id not in (Select post_id from post_to_join where joiner_id = '"+current_user+"')";
         //var sql= "SELECT post_id, title, description FROM post where post_id not in (Select post_id from post_to_join where joiner_id = '"+current_user+"')";
         var order="";
@@ -184,7 +195,7 @@ app.get("/index",function(req, res, next) {
                         is_admin=0;
                     else
                         is_admin=admin_result[0].is_admin;
-                    res.render('index', {post_all_result: result, user_id: req.cookies.c, group_result: group_result, user_name: req.cookies.nickname, subgroup_result: subgroup_result, is_admin: is_admin, current_name: req.cookies.nickname, current_id: req.cookies.c});
+                    res.render('index', {post_all_result: result, user_id: req.cookies.c, group_result: group_result, user_name: req.cookies.nickname, subgroup_result: subgroup_result, is_admin: is_admin, current_name: req.cookies.nickname, current_id: req.cookies.c, icon: req.cookies.icon});
                  });
              });
          });
@@ -197,13 +208,13 @@ app.get("/admin", function(req, res, next) {
     res.render('admin', {current_name: req.cookies.nickname, current_id: req.cookies.c});
 });
 
-app.get("/delete_warning", function(req, res, next) {
+/*app.get("/delete_warning", function(req, res, next) {
 	console.log("Trying to warning...");
 	var q = url.parse(req.url, true);
 	var qdata = q.query;
 	res.render('delete_warning', {delete_user_id: qdata.delete_user_id, action: qdata.action, current_name: req.cookies.nickname, current_id: req.cookies.c});
 	return res.end();
-});
+});*/
 
 app.get("/back", function(req, res, next) {
 	console.log("Trying to back to index");

@@ -48,7 +48,7 @@
 			  					<%= result.user_first_name %>
 			  				</div>
 			  				<div class="col-12 col-md-4">
-			  					<input type="text" name="user_first_name"/><br>
+			  					<input type="text" name="user_first_name" minlength="0" maxlength="20"/><br>
 			  				</div>
 			 			</div>
 			 			<div class="row">
@@ -59,7 +59,7 @@
 			  					<%= result.user_last_name %>
 			  				</div>
 			  				<div class="col-12 col-md-4">
-			  					<input type="text" name="user_last_name"/><br>
+			  					<input type="text" name="user_last_name" minlength="0" maxlength="20"/><br>
 			  				</div>
 			 			</div>
 			 			<div class="row">
@@ -70,7 +70,7 @@
 			  					<%= result.nickname %>
 			  				</div>
 			  				<div class="col-12 col-md-4">
-			  					<input type="text" name="nickname"/><br>
+			  					<input type="text" name="nickname" minlength="0" maxlength="20"/><br>
 			  				</div>
 			 			</div>
 			 			<div class="row ">
@@ -92,7 +92,7 @@
 			  					<%= result.phone_number %>
 			  				</div>
 			  				<div class="col-12 col-md-4">
-			  					<input type="number" name="phone_number"/><br>
+			  					<input type="number" name="phone_number" min="0" max="15"/><br>
 			  				</div>
 			 			</div>
 			 			<div class="row">
@@ -115,7 +115,7 @@
 			  					<%= result.sex %>
 			  				</div>
 			  				<div class="col-12 col-md-4">
-			  					<input type="text" name="sex"/><br>
+			  					<input type="text" name="sex" minlength="0" maxlength="1"/><br>
 			  				</div>
 			 			</div>
 			 			<div class="row">
@@ -126,7 +126,7 @@
 			  					<%= result.perference1 %>
 			  				</div>
 			  				<div class="col-12 col-md-4">
-			  					<input type="text" name="perference1"/><br>
+			  					<input type="text" name="perference1" minlength="0" maxlength="20"/><br>
 			  				</div>
 			 			</div>
 			 			<div class="row">
@@ -140,6 +140,17 @@
 			  					<%= rate %>
 			  				</div>
 			 			</div>
+			 			<div class="row" style="height:50px">
+			  				<div class="col-12 col-md-4">
+			  					About Me
+			  				</div>
+			  				<div class="col-12 col-md-4">
+			  					<%= result.introduction %>
+			  				</div>
+			  				<div class="col-12 col-md-4">
+                                <textarea type="text" name="introduction" rows="2"></textarea>
+			  				</div>
+			 			</div>	
 					
 			  			<% if(is_admin==1){ %>
 				  			<div class="row">
@@ -162,6 +173,7 @@
 								</div>
 							</div>
 			  			<% } %>
+			  			
 		  				<% if(is_admin==1){ %>
 			  			<div class="row">
 			  				<div class="col-12 col-md-8">
@@ -172,17 +184,7 @@
 			    			</div>
 			    		<% } %>
 			    		</div>
-						<div class="row">
-			  				<div class="col-12 col-md-4">
-			  					About Me
-			  				</div>
-			  				<div class="col-12 col-md-4">
-			  					<%= result.introduction %>
-			  				</div>
-			  				<div class="col-12 col-md-4">
-			  					<input type="text" name="introduction"/><br>
-			  				</div>
-			 			</div>
+
 		  				<input type="hidden" name="user_id" value="<%= result.user_id %>"/><br>
 						<input type="hidden" name="action" value="change_content_user_information"/><br>
 						<br><button>Change</button> 

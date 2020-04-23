@@ -49,9 +49,10 @@
                 <!--Need change depened on login or not-->
                 <div class="dropdown">
                     <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                       <a><%= current_name %></a>
-                        <img src="../uploads/user-512.png" class="icon">
+                        <a><%= current_name %></a>
+					    <img src="../uploads/<%= icon %>" class="icon">
                     </button>
+                    
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
                         <% if(user_id=='guest'){ %>

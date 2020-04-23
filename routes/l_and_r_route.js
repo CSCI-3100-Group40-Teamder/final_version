@@ -40,6 +40,7 @@ router.post('/register', checkNotAuthenticated, (req, res) => {
 router.get('/login', checkNotAuthenticated, (req, res) => {
     res.cookie('c', 'guest');
     res.cookie('nickname', 'guest');
+    res.cookie('icon', 'user-512.png');
     res.render("login.ejs")
 })
 
@@ -81,6 +82,7 @@ router.get('/logincheck', checkNotAuthenticated, passport.authenticate('local', 
 router.delete('/logout', (req, res) => {
     res.cookie('c', 'guest');
     res.cookie('nickname', 'guest');
+    res.cookie('icon', 'user-512.png');
     req.logOut()
     res.redirect('/index')
 })

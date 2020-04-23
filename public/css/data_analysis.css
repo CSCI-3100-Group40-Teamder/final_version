@@ -1,7 +1,8 @@
 .graph_container {
     display: flex;
-    height: 200px;
+    height: 500px;
     padding: 0 1rem;
+    border:1px solid;
 }
 
 .spacer {
@@ -9,8 +10,8 @@
 }
 
 .graph {
-    width:350px;
-    height:150px;
+    width:550px;
+    height:500px;
     padding: 0;
     margin: 0;
     display:flex;

@@ -41,13 +41,13 @@
 					<button class="btn btn-outline-info">Order by time</button>
 				</form>
 			</div>
-			<% if(is_admin==1){ %>
+			<!--<% if(is_admin==1){ %>
 	    		<a href="/admin">administrator</a><br>
 	    	<% } %>
 		    <% if(user_id!='guest'){ %>
 				<a href="/post_module/creating_post">Create a new post</a><br>
 				<a href="/room_module/show_your_room">your room</a><br>
-			<% } %>
+			<% } %>-->
 			<% var i=1; %>
 			<table>
 				
@@ -55,7 +55,9 @@
 					<% if(i%4==1){ %>
 					<tr>
 					<% } %>
+					
 						<th>
+						<!-------------------------------->
 						<% if(user_id==item.host_id){ %>
 							<h1>Host:</h1>
 						<% }else{ %>
@@ -64,29 +66,40 @@
 						<% } %>
 						<div class="card">
 			                
-			                    <div class="card-header">
-			                        <a href="/user_module/show_your_user_information?user_id=<%= item.host_id %>" class="card-link" style=" z-index: 2; position: relative;" target="_blank"><%= item.nickname %></a>
-			                    </div>
-			                    <img src="uploads/camera-icon.png	" class="card-img-top">
-			                        <div class="card-body">
-			                            <p class="card-text"><strong>Title: <%= item.title %></strong></p>
-			                            <p class="card-text">Description: <%= item.description %></p>
-			                            <p class="card-text">Hitrate: <%= item.hitrate %></p>
-			                            <a class="card-text" href="#" style=" z-index: 2; position: relative;"><small><%= item.group_id %></small>
-			                            	<form action="/post_module/show_post" method="GET">
-												<button class="btn btn-danger" name="post_id" value="<%= item.post_id %>">View!</button>
-											</form>
-			                            </a>
-			                        </div>
-			                        <!--<div class="card-footer">
-			                            <small class="text-muted">Last updated 3 mins ago</small>
-			                        </div>-->
+			        		<div class="card-header">
+			                	<a href="/user_module/show_your_user_information?user_id=<%= item.host_id %>" class="card-link" style=" z-index: 2; position: relative;" target="_blank"><%= item.nickname %></a>
+			                </div>
+			                    
+							<div class="embed-responsive embed-responsive-16by9">
+							    <img alt="Card image cap" class="card-img-top embed-responsive-item" src="../uploads/<%= item.post_icon_path %>" />
+							</div>
+
+			                <div class="card-body">
+			                    <p class="card-text"><strong>Title: <%= item.title %></strong></p>
+			                		<p class="card-text">Description: <%= item.description %></p>
+			                    	<p class="card-text">HitRate: <%= item.hitrate %></p>
+			                    	<a class="card-text">Group:
+			                    		<% group_result.forEach(function(g){%>
+				                			<% if(g.group_id==item.group_id){ %>
+				                            	<%= g.group_name %>
+				                            <% } %>
+			                            <% }); %>
+			                        </a>
+			                        <form action="/post_module/show_post" method="GET">
+			                        	<button class="btn btn-outline-info" name="post_id" value="<%= item.post_id %>">View!</button>
+									</form>
+			            	</div>
 			        	</div>
+			        	<!-------------------------------->
 			        	</th>
+			        	
 			        <% if(i%4==4){ %>
 			        </tr>
+			        
 			    	<% } %>
+			    	
 			    	<% i=i+1; %>
+			    	
 				<% }); %>
 				
 			</table>

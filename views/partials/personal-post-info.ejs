@@ -1,0 +1,115 @@
+<section id="personal-post">
+  <div class="button-container-personal">
+    <ul class="nav nav-pills" id="myTab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="self-post-tab" data-toggle="tab" href="#self-post" role="tab">My Post</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="joined-post-tab" data-toggle="tab" href="#joined-post" role="tab">Joined Post</a>
+      </li>
+    </ul>
+  </div>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="self-post" role="tabpanel" >
+
+        <table>
+			<% var i=1; %>
+			<% post_all_result.forEach(function(item){%>
+				<% if(i%4==1){ %>
+				<tr>
+				    <% } %>
+					
+					<th>
+							
+					<!-------------------------------->
+					<% if(user_id==item.host_id){ %>
+					    <div class="card">
+						    <div class="card-header">
+								<a>host</a>
+							</div>
+			                
+							<div class="embed-responsive embed-responsive-16by9">
+							    <img alt="Card image cap" class="card-img-top embed-responsive-item" src="../uploads/<%= item.post_icon_path %>" />
+							</div>
+
+			                <div class="card-body">
+			                    <p class="card-text"><strong>Title: <%= item.title %></strong></p>
+			                		<p class="card-text">Description: <%= item.description %></p>
+			                    	<p class="card-text">HitRate: <%= item.hitrate %></p>
+			                    	<a class="card-text">Group:
+			                    		<% group_result.forEach(function(g){%>
+				                			<% if(g.group_id==item.group_id){ %>
+				                            	<%= g.group_name %>
+				                            <% } %>
+			                            <% }); %>
+			                        </a>
+			                        <form action="/post_module/show_post" method="GET">
+			                        	<button class="btn btn-outline-info" name="post_id" value="<%= item.post_id %>">View!</button>
+									</form>
+			            	</div>
+			        	</div>
+			        	<% i=i+1; %>
+			        <% } %>
+			        </th>
+			        	
+			        <% if(i%4==4){ %>
+			        </tr>
+			    	<% } %>
+			    	
+				<% }); %>
+			</table>
+        
+      </div>
+      <div class="tab-pane fade" id="joined-post" role="tabpanel">
+
+        <table>
+			<% var i=1; %>
+			<% post_all_result.forEach(function(item){%>
+				<% if(i%4==1){ %>
+				<tr>
+				    <% } %>
+					
+					<th>
+							
+					<!-------------------------------->
+					<% if(user_id!=item.host_id){ %>
+					    <div class="card">
+						    <div class="card-header">
+								<a href="/user_module/show_your_user_information?user_id=<%= item.host_id %>" class="card-link" style=" z-index: 2; position: relative;" target="_blank"><%= item.nickname %></a>
+							</div>
+			                
+							<div class="embed-responsive embed-responsive-16by9">
+							    <img alt="Card image cap" class="card-img-top embed-responsive-item" src="../uploads/<%= item.post_icon_path %>" />
+							</div>
+
+			                <div class="card-body">
+			                    <p class="card-text"><strong>Title: <%= item.title %></strong></p>
+			                		<p class="card-text">Description: <%= item.description %></p>
+			                    	<p class="card-text">HitRate: <%= item.hitrate %></p>
+			                    	<a class="card-text">Group:
+			                    		<% group_result.forEach(function(g){%>
+				                			<% if(g.group_id==item.group_id){ %>
+				                            	<%= g.group_name %>
+				                            <% } %>
+			                            <% }); %>
+			                        </a>
+			                        <form action="/post_module/show_post" method="GET">
+			                        	<button class="btn btn-outline-info" name="post_id" value="<%= item.post_id %>">View!</button>
+									</form>
+			            	</div>
+			        	</div>
+			        	<% i=i+1; %>
+			        <% } %>
+			        </th>
+			        	
+			        <% if(i%4==4){ %>
+			        </tr>
+			    	<% } %>
+			    	
+			    	
+				<% }); %>
+			</table>
+
+      </div>
+    </div>
+</section>

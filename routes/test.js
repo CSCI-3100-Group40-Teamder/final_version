@@ -113,7 +113,7 @@ router.get("/show_your_room", function(req, res, next) {
             var sql_subgroup="SELECT * FROM subgroup_info";
             con.query(sql_subgroup, function (err, subgroup_result, fields) {
                 if (err) throw err;
-                res.render('show_your_room', {post_all_result: result, user_id: req.cookies.c, current_name: req.cookies.nickname, current_id: req.cookies.c, group_result: group_result, subgroup_result: subgroup_result});
+                res.render('show_your_room', {post_all_result: result, user_id: req.cookies.c, current_name: req.cookies.nickname, current_id: req.cookies.c, group_result: group_result, subgroup_result: subgroup_result, icon: req.cookies.icon});
             });
         });
       });
@@ -206,7 +206,7 @@ router.get("/enter_room", function(req, res, next) {
                         var sql_subgroup="SELECT * FROM subgroup_info";
                         con.query(sql_subgroup, function (err, subgroup_result, fields) {
                             if (err) throw err;
-                            res.render('showRoom', {post_result_0: result[0], post_all_result: result, post_id: qdata.post_id, user_id: req.cookies.c, finish_result: finish_result[0].finish, host_name: host_name_result[0].nickname, message: message, current_name: req.cookies.nickname, current_id: req.cookies.c, group_result: group_result, subgroup_result: subgroup_result}); 
+                            res.render('showRoom', {post_result_0: result[0], post_all_result: result, post_id: qdata.post_id, user_id: req.cookies.c, finish_result: finish_result[0].finish, host_name: host_name_result[0].nickname, message: message, current_name: req.cookies.nickname, current_id: req.cookies.c, group_result: group_result, subgroup_result: subgroup_result, icon: req.cookies.icon}); 
                         });
                     });
                   });
@@ -252,7 +252,7 @@ router.get("/finish_room", function(req, res, next) {
     con.query(sql, function (err, result, fields) {
     if (err) throw err;
     console.log(result);
-    res.render('rate_user', {all_result: result, post_id: qdata.finish_post_id, current_name: req.cookies.nickname, current_id: req.cookies.c}); 
+    res.render('rate_user', {all_result: result, post_id: qdata.finish_post_id, current_name: req.cookies.nickname, current_id: req.cookies.c, icon: req.cookies.icon}); 
   });
 });
 

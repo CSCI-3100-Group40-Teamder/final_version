@@ -1,131 +1,219 @@
 <html>
+<head>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</head>
 <style>
 	table, th, td {
   		border: 1px solid black;
 	}
+	
+	.container-fluid{
+		min-width: 992px;
+        max-width: 1200px;
+	}
 </style>
-	<body style='background-color: rgb(235,235,235)'>
-	    <h1>Modify group:</h1>
-			<table>
-			    <tr>
-					<th>
-						group_id
-					</th>
-					<th>
-						group_name
-					</th>
-					<th>
-						group_descripton
-					</th>
-				</tr>
-			    <% group_result.forEach(function(item){%>
-    			    <tr>
-    					<th>
-    						<%= item.group_id %>
-    					</th>
-    					<th>
-    						<%= item.group_name %>
-    					</th>
-    					<th>
-    						<%= item.group_descripton %>
-    					</th>
-    					<th>
-    						<form action="/group_module/group_display" method="GET">
-    						    <input type="hidden" name="change_group_id" value="<%= item.group_id %>"/><br>
-                    			<label for="change_group_name">change_group_name:</label><br>
-                    			<input type="text" name="change_group_name"/><br>
-                    			<label for="change_group_descripton">change_group_descripton:</label><br>
-                    			<input type="text" name="change_group_descripton"/><br>
-                    			<input type="hidden" name="action" value="change_group"/>
-                    			<button>Change</button>
-                		    </form>
-    					</th>
-    					<th>
-    						<form action="/group_module/group_display" method="GET">
-                    			<input type="hidden" name="delete_group_id" value="<%= item.group_id %>"/><br>
-                    			<input type="hidden" name="action" value="delete_group"/>
-                    			<button>Delete</button>
-                		    </form>
-    					</th>
-    				</tr>
-				<% }); %>
-			</table><br>
+	<body style='background-color: rgb(255,255,255)'>
+		<div class="container-fluid">
+	    	<h1>Modify Group</h1>
+
+				<table class="table">
+					<thead>
+					    <tr>
+							<th>
+								Group ID
+							</th>
+							<th>
+								Group Name
+							</th>
+							<th>
+								Group Descripton
+							</th>
+							<th>
+							</th>
+							<th>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+					    <% group_result.forEach(function(item){%>
+		    			    <tr>
+		    					<th scope="row">
+		    						<%= item.group_id %>
+		    					</th>
+		    					<td>
+		    						<%= item.group_name %>
+		    					</td>
+		    					<td>
+		    						<%= item.group_descripton %>
+		    					</td>
+		    					<td>
+		    						<form action="/group_module/group_display" method="GET">
+		    						    <input type="hidden" name="change_group_id" value="<%= item.group_id %>"/><br>
+		    						    
+		                    			
+		                    			<input type="hidden" name="action" value="change_group"/>
+		                    			
+		                    			<div class="form-group">
+										    <label for="change_group_name">Change Group Name:</label>
+										    <input class="form-control" id="change_group_name" ></input>
+										 </div>
+										 
+										 <div class="form-group">
+										    <label for="change_group_descripton">Change Group Descripton:</label>
+										    <textarea class="form-control" id="change_group_descripton" rows="2"></textarea>
+										 </div>
+										 
+										 
+		                    			<button>Change</button>
+		                		    </form>
+		    					</td>
+		    					<td>
+		    						<form action="/group_module/group_display" method="GET">
+		                    			<input type="hidden" name="delete_group_id" value="<%= item.group_id %>"/><br>
+		                    			<input type="hidden" name="action" value="delete_group"/>
+		                    			<button>Delete</button>
+		                		    </form>
+		    					</td>
+		    				</tr>
+						<% }); %>
+					</tbody>
+				</table><br>
+				
+			<h1>Modify Sub-Group</h1>	
+			<table class="table">
+				<thead>
+					 <tr>
+				    	<th scope="col">
+							Belong to Group ID
+						</th>
+						<th scope="col">
+							Belong to Group Name
+						</th>
+						<th scope="col">
+							Subgroup ID
+						</th>
+						<th scope="col">
+							Subgroup Name
+						</th>
+						<th scope="col">
+							Subgroup Descripton
+						</th>
+						<th>
+						</th>
+						<th>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% subgroup_result.forEach(function(item){%>
+	    			    <tr>
+	    			    	<th scope="row">
+	    						<%= item.group_id %>
+	    					</th>
+	    					<td>
+	    						<% group_result.forEach(function(g){%>
+	    							<% if(g.group_id==item.group_id){ %>
+	    								<%= g.group_name %>
+	    							<% } %>
+		    					<% }); %>
+		    				</td>
+	    					<td>
+	    						<%= item.subgroup_id %>
+	    					</td>
+	    					<td>
+	    						<%= item.subgroup_name %>
+	    					</td>
+	    					<td>
+	    						<%= item.subgroup_descripton %>
+	    					</td>
+	    					<td>
+	    						<form action="/group_module/group_display" method="GET">
+	    						    <input type="hidden" name="change_subgroup_id" value="<%= item.subgroup_id %>"/>
+	    							    
+			                    	<div class="form-group">
+										<label for="change_subgroup_name">Change Sub-Group Name:</label><br>
+		                    			<input class="form-control" type="text" name="change_subgroup_name"/><br>
+									</div>
+									
+									<div class="form-group">
+										<label for="change_subgroup_descripton">Change Sub-Group Descripton:</label>
+		                    			<textarea class="form-control" type="text" name="change_subgroup_descripton" rows="2"></textarea>
+									</div>
+		                    			
+		                    			
+		                    		<input type="hidden" name="action" value="change_subgroup"/>
+		                    		<button>Change</button>
+	                		    </form>
+	    					</td>
+	    					<td>
+	                    		<form action="/group_module/group_display" method="GET">
+		                    		<input type="hidden" name="delete_subgroup_id" value="<%= item.subgroup_id %>"/>
+		                    		<input type="hidden" name="action" value="delete_subgroup"/>
+		                    		<button>Delete</button>
+		                		</form>
+	    					</td>
+	    				</tr>
+					<% }); %>
+				</tbody>
+			</table>
+				
+				
+			<h1>Add New</h1>
 			
-		<table>
-			    <tr>
-			    	<th>
-						belong to group_id
-					</th>
-					<th>
-						subgroup_id
-					</th>
-					<th>
-						subgroup_name
-					</th>
-					<th>
-						subgroup_descripton
-					</th>
-				</tr>
-			    <% subgroup_result.forEach(function(item){%>
-    			    <tr>
-    			    	<th>
-    						<%= item.group_id %>
-    					</th>
-    					<th>
-    						<%= item.subgroup_id %>
-    					</th>
-    					<th>
-    						<%= item.subgroup_name %>
-    					</th>
-    					<th>
-    						<%= item.subgroup_descripton %>
-    					</th>
-    					<th>
-    						<form action="/group_module/group_display" method="GET">
-    						    <input type="hidden" name="change_subgroup_id" value="<%= item.subgroup_id %>"/><br>
-                    			<label for="change_subgroup_name">change_subgroup_name:</label><br>
-                    			<input type="text" name="change_subgroup_name"/><br>
-                    			<label for="change_subgroup_descripton">change_subgroup_descripton:</label><br>
-                    			<input type="text" name="change_subgroup_descripton"/><br>
-                    			<input type="hidden" name="action" value="change_subgroup"/>
-                    			<button>Change</button>
-                		    </form>
-    					</th>
-    					<th>
-    						<form action="/group_module/group_display" method="GET">
-                    			<input type="hidden" name="delete_subgroup_id" value="<%= item.subgroup_id %>"/><br>
-                    			<input type="hidden" name="action" value="delete_subgroup"/>
-                    			<button>Delete</button>
-                		    </form>
-    					</th>
-    				</tr>
-				<% }); %>
-			</table><br>
+			<form action="/group_module/group_display" method="GET">
+				<div class="form-group">
+					<label for="new_group_ID">new_group_ID:</label>
+					<input  class="form-control" type="text" name="new_group_ID"/>
+				</div>
+				
+				<div class="form-group">
+					<label for="new_group_name">new_group_name:</label>
+					<input  class="form-control" type="text" name="new_group_name"/>
+				</div>
+				
+				<div class="form-group">
+					<label for="new_group_description">new_group_description:</label>
+					<input class="form-control" type="text" name="new_group_description"/>
+				</div>
+				
+				<input type="hidden" name="action" value="create_new_group"/>
+				<button>Create</button>
+			</form>
 			
-		<form action="/group_module/group_display" method="GET">
-			<label for="new_group_ID">new_group_ID:</label><br>
-			<input type="text" name="new_group_ID"/><br>
-			<label for="new_group_name">new_group_name:</label><br>
-			<input type="text" name="new_group_name"/><br>
-			<label for="new_group_description">new_group_description:</label><br>
-			<input type="text" name="new_group_description"/><br>
-			<input type="hidden" name="action" value="create_new_group"/>
-			<button>Create</button>
-		</form><br>
-		<form action="/group_module/group_display" method="GET">
-			<label for="new_subgroup_ID">new_subgroup_ID:</label><br>
-			<input type="text" name="new_subgroup_ID"/><br>
-			<label for="new_subgroup_name">new_subgroup_name:</label><br>
-			<input type="text" name="new_subgroup_name"/><br>
-			<label for="new_subgroup_description">new_subgroup_description:</label><br>
-			<input type="text" name="new_subgroup_description"/><br>
-			<label for="under_which_group_id">under_which_group_id:</label><br>
-			<input type="text" name="under_which_group_id"/><br>
-			<input type="hidden" name="action" value="create_new_subgroup"/>
-			<button>Create</button>
-		</form><br>
-		<form action="/back" method="GET">
-			<br><button>Back</button> 
-		</form>
+			<br>
+			<form action="/group_module/group_display" method="GET">
+				
+				<div class="form-group">
+					<label for="new_subgroup_ID">new_subgroup_ID:</label>
+					<input class="form-control" type="text" name="new_subgroup_ID"/>
+				</div>
+				
+				<div class="form-group">
+					<label for="new_subgroup_name">new_subgroup_name:</label>
+					<input class="form-control" type="text" name="new_subgroup_name"/>
+				</div>
+				
+				<div class="form-group">
+					<label for="new_subgroup_description">new_subgroup_description:</label>
+					<input class="form-control" type="text" name="new_subgroup_description"/>
+				</div>
+				
+				<div class="form-group">
+					<label for="under_which_group_id">under_which_group_id:</label>
+					<input class="form-control" type="text" name="under_which_group_id"/>
+				</div>
+				
+				<input type="hidden" name="action" value="create_new_subgroup"/>
+				<button>Create</button>
+			</form>
+			
+			<form action="/back" method="GET">
+				<br><button>Back</button> 
+			</form>
+			
+		</div>
 	</body>
 </html>

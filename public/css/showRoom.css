@@ -1,0 +1,115 @@
+#showroom .container-fluid{
+    margin-top:30px;
+}
+
+table, th, td {
+  	border: 1px solid black;
+}
+
+
+html, body {
+        padding: 0;
+        margin: 0;
+        
+    }
+
+    #allMsg {
+        
+        
+        margin: 0 auto;
+        display: block;
+        position: relative;
+        background-color: white;
+        border: 1px solid grey; 
+        border-style: solid;
+        
+    }
+
+    #showStatus{
+        text-align: right;
+    }
+  
+    #showLogo {
+        display: block;
+        font-size: .15em;
+        text-align: right;
+        position: relative;
+        margin: 0 auto;
+        background-color: beige;
+        border: 1px solid grey; 
+        border-radius: 2px;  
+        border-style: solid solid none ;
+       
+       
+       
+    }
+
+    .show_time{
+        text-align: right;
+        color :black;
+        font-size: .6em;
+        
+    }
+
+    .name{
+        text-align: right;
+        color :black;
+        font-weight: bold;
+        font-size: .6em;  
+    }
+
+    #content {
+        width: 100%;
+        left: 350px;
+        height: 500px;
+        border: 1px solid grey; 
+        overflow: scroll;
+        border-style: none;
+        
+        
+    }
+
+    .contentRev{
+        font-size: .6em;
+        background: beige;
+        padding: 10px;
+        border-radius: 2px;
+        
+        max-width:100%;
+    }
+
+
+    #dataBox {
+       
+        
+        height: 36px;
+        margin: 0 auto;
+        display: block;
+        position: relative;
+        background-color: white;
+        border: 1px solid grey;
+        border-radius: 2px;   
+        border-style: none solid solid ; 
+        
+        
+    }
+
+    #dataBox input {
+        display: inline-block;
+        height: 30px;
+        
+    }
+
+    input[type="text"] {
+        width: 70%;
+        border-radius: 3px;   
+    }
+
+    input[type="submit"] {
+        width: 10%;
+        display: flex;
+    }
+
+    input[type="reset"] {
+        width: 10%;
+    }

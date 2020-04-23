@@ -30,14 +30,14 @@
                             <div class="error-message"><%= messages.reg_error %></div>
                         <% } %>
                         <div class="input-group mb-2">
-                            <input type="text" id="first_name" name="first_name" class="form-control input_user" placeholder="First Name" required >
-							<input type="text" id="last_name" name="last_name" class="form-control input_user" placeholder="Last Name" required >
+                            <input type="text" id="first_name" name="first_name" class="form-control input_user" placeholder="First Name" maxlength="20" required >
+							<input type="text" id="last_name" name="last_name" class="form-control input_user" placeholder="Last Name" maxlength="20" required >
                         </div>
                         <div class="input-group mb-2">
-							<input type="text" id="nickname" name="nickname" class="form-control input_user" placeholder="Username (Optional)" >
+							<input type="text" id="nickname" name="nickname" class="form-control input_user" placeholder="Username (Optional)" maxlength="20" >
                         </div>
                         <div class="input-group mb-2">
-                            <input type="text" id="phone_number" name="phone_number" class="form-control input_user" placeholder="Phone Number" required >
+                            <input type="number" id="phone_number" name="phone_number" class="form-control input_user" placeholder="Phone Number" min="0" max="999999999999999" required >
                         </div>
                         <div class="input-group mb-2">
                         	<label for="sex"> Sex </label>
@@ -47,7 +47,7 @@
 	                            	<option value="F">F</option>
 	                        </select>
 	                        <label for="birthdate"> Age </label>
-	                        <input id="birthdate" name="birthdate" class="form-control input_user" required type="number" min="1" max="100" value="1">
+	                        <input id="birthdate" name="birthdate" class="form-control input_user" required type="number" min="0" max="130">
                         </div>
                         <div class="input-group mb-2">
 							<input type="text" id="email" name="email" class="form-control input_user" placeholder="Email" required >

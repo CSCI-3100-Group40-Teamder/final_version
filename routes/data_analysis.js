@@ -119,7 +119,8 @@ function DA(req, res){
                     hitrate_group_data_y.push(hit)
                 })
 
-
+                console.log(post_count_group_data_x)
+                
                 res.render("data_analysis.ejs", 
                     { number_of_user : user_results.length ,
                     post_count_group_groupby: {x : post_count_group_data_x, y: post_count_group_data_y},

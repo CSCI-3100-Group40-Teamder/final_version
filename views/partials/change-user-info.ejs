@@ -1,0 +1,104 @@
+<section id="change-user-info">
+        <button class="btn btn-outline-info" data-toggle="modal" data-target="#ChangeUserInfotModal">
+            Edit your profile
+        </button>
+        <div class="modal fade" id="ChangeUserInfotModal" tabindex="-1" role="dialog" aria-labelledby="ChangeUserInfotModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit your profile</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <form action="/user_module/show_your_user_information" method="GET">
+                            
+                            <div class="form-group">
+                                <label for="user_first_name">First Name:</label>
+                                <input class="form-control" type="text" name="user_first_name" minlength="0" maxlength="20"/>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="user_last_name">Last Name:</label>
+                                <input class="form-control" type="text" name="user_last_name" minlength="0" maxlength="20"/>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="nickname">Nickname:</label>
+                                <input class="form-control" type="text" name="nickname" minlength="0" maxlength="20"/>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="phone_number">Phone Number:</label>
+                                <input class="form-control" type="number" name="phone_number" min="0" max="999999999999999"/>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="age">Age:</label>
+                                <input class="form-control" type="number" name="age" min="0" max="130"/>
+                            </div>
+                        
+                            <div class="form-group">
+                                <div class="form-row align-items-center">
+                                    
+                                    <div class="col-auto my-1">
+                                        
+                                      <label class="mr-sm-2" for="sex">Sex:</label>
+                                      
+                                      <select class="custom-select mr-sm-2" name="sex">
+                                            <option selected value></option>
+                                                <option value="M">M</option>
+                                                <option value="F">F</option>
+                                      </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="perference1">Preference:</label>
+                                <input class="form-control" type="text" name="perference1" minlength="0" maxlength="20"/>
+                            </div>
+                            
+                            <% if(is_admin==1){ %>
+			  			        <div class="form-group">
+
+                                    <div class="form-row align-items-center">
+                                        
+                                        <div class="col-auto my-1">
+                                            
+                                          <label class="mr-sm-2" for="is_admin">Administrator:</label>
+                                          
+                                          <select class="custom-select mr-sm-2" name="is_admin">
+                                                <option selected value></option>
+                                                    <option value="1">Yes</option>
+                                                    <option value="0">No</option>
+                                          </select>
+                                        </div>
+                                     </div>
+                                </div>
+			    		    <% } %>
+			    		    
+                            <div class="form-group">
+                                <label for="introduction">About Me:</label>
+                                <textarea class="form-control" type="text" name="introduction" rows="2"></textarea>
+                            </div>
+                            
+                            
+                            <input type="hidden" name="user_id" value="<%= result.user_id %>"/>
+						    <input type="hidden" name="action" value="change_content_user_information"/>
+						    
+                            <button class="btn btn-primary">Change</button>
+                            
+                        </form>
+                        
+                    </div>
+
+                </div>
+                    
+            </div>
+        </div>
+</section>

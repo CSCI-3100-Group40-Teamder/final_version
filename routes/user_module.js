@@ -76,6 +76,8 @@ router.get("/show_your_user_information", function(req, res, next) {
             if (err) throw err;
             console.log(result);
             console.log("user_information is updated");
+            if(qdata.nickname)
+    	        res.cookie('nickname', qdata.nickname);
         });
 	}
 	var user_id=qdata.user_id;
@@ -118,7 +120,7 @@ router.get("/show_your_user_information", function(req, res, next) {
                                 var sql_subgroup="SELECT * FROM subgroup_info";
                                 con.query(sql_subgroup, function (err, subgroup_result, fields) {
                                     if (err) throw err;
-                                    res.render('user_information_display', {result: result[0], user_id: user_id, rate: rating_result[0]['AVG(rating)'], photo_result: photo_result, is_admin: is_admin, post_all_result: post_result, current_name: req.cookies.nickname, current_id: req.cookies.c, group_result: group_result, subgroup_result: subgroup_result}); 
+                                    res.render('user_information_display', {result: result[0], user_id: user_id, rate: rating_result[0]['AVG(rating)'], photo_result: photo_result, is_admin: is_admin, post_all_result: post_result, current_name: req.cookies.nickname, current_id: req.cookies.c, group_result: group_result, subgroup_result: subgroup_result, icon: req.cookies.icon}); 
                                  });
                              });
                          });
@@ -162,7 +164,7 @@ router.get("/change_user_information", function(req, res, next) {
                                 var sql_subgroup="SELECT * FROM subgroup_info";
                                 con.query(sql_subgroup, function (err, subgroup_result, fields) {
                                     if (err) throw err;
-                                    res.render('change_user_information', {result: result[0], user_id: qdata.user_id, rate: rating_result[0]['AVG(rating)'], is_admin: is_admin, current_name: req.cookies.nickname, current_id: req.cookies.c, group_result: group_result, subgroup_result: subgroup_result});
+                                    res.render('change_user_information', {result: result[0], user_id: qdata.user_id, rate: rating_result[0]['AVG(rating)'], is_admin: is_admin, current_name: req.cookies.nickname, current_id: req.cookies.c, group_result: group_result, subgroup_result: subgroup_result, icon: req.cookies.icon});
                                  });
                              });
                      });
@@ -236,12 +238,12 @@ router.get("/search_user_id", function(req, res, next) {
 	if(qdata.action=="change_host")
 	    var sql = "select * from user_information, post_to_join where user_information.user_id=post_to_join.joiner_id and post_to_join.post_id='"+qdata.post_id+"' and nickname like '%"+qdata.nickname+"%'";
     else if(qdata.action=="add_joiner")
-        var sql = "select * from user_information where nickname like '%"+qdata.nickname+"%'";
+        var sql = "select * from user_information where nickname like '%"+qdata.nickname+"%' and user_id not in (select joiner_id from post_to_join where post_id='"+qdata.post_id+"')";
     console.log(sql);
     con.query(sql, function (err, result, fields) {
                 if (err) throw err;
                 console.log(result);
-                res.render('search_user_id', {all_result: result, post_id: qdata.post_id, action: qdata.action, current_name: req.cookies.nickname, current_id: req.cookies.c}); 
+                res.render('search_user_id', {all_result: result, post_id: qdata.post_id, action: qdata.action, current_name: req.cookies.nickname, current_id: req.cookies.c, icon: req.cookies.icon}); 
                 });
 	//return res.end();
 });
