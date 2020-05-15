@@ -44,12 +44,11 @@ router.get('/login', checkNotAuthenticated, (req, res) => {
     res.render("login.ejs")
 })
 
+// loading page for login
 router.post('/loading', checkNotAuthenticated, (req, res) => {
-    console.log("i am in post.login");
-    console.log(req.body.email);
-    console.log(req.body.password);
+
     var sql="select * from user_information where email = '"+req.body.email+"'";
-    console.log(sql);
+
     connection.query(sql, function (err, result, fields) {
             if (err) res.redirect('login.ejs');
 
@@ -58,12 +57,11 @@ router.post('/loading', checkNotAuthenticated, (req, res) => {
             } else {
                 res.cookie('c', result[0].user_id);
                 res.cookie('nickname', result[0].nickname);
-                console.log("in: "+req.cookies.c);
+
                 res.render('loading', {email: req.body.email, password: req.body.password});
             }
          });
-    console.log("out: "+req.cookies.c);
-    //res.render('loading', {email: req.body.email, password: req.body.email});
+
 })
 
 router.get('/logincheck', checkNotAuthenticated, passport.authenticate('local', {
@@ -72,13 +70,8 @@ router.get('/logincheck', checkNotAuthenticated, passport.authenticate('local', 
     failureFlash: true
 }))
 
-/*router.post('/login', checkNotAuthenticated, passport.authenticate('local', {
-    successRedirect: '/index',
-    failureRedirect: '/login-system/login',
-    failureFlash: true
-}))*/
-
 // -------------------------------------------------logout -------------------------------------------------
+// logout and delete all the user info in the cookie
 router.delete('/logout', (req, res) => {
     res.cookie('c', 'guest');
     res.cookie('nickname', 'guest');
@@ -88,7 +81,8 @@ router.delete('/logout', (req, res) => {
 })
 
 // -------------------------------------------------Authenticate Functions -------------------------------------------------
-function checkAuthenticated(req, res, next) {//login先可以入url
+// Authenticate whether or not the user has logged in. If logged in, fire a callback, otherwise redirect to login page
+function checkAuthenticated(req, res, next) {
 
     if (req.isAuthenticated()) {
         return next()
@@ -97,6 +91,7 @@ function checkAuthenticated(req, res, next) {//login先可以入url
     res.redirect('/login-system/login')
 }
 
+// Authenticate whether or not the user has logged in. If logged in, redirect to home page. Otherwise, fire the callback
 function checkNotAuthenticated(req, res, next) {
     
     if (req.isAuthenticated()) {

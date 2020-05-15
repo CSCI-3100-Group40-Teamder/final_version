@@ -69,8 +69,6 @@ app.use('/room_module', room_module);
 
 
 
-
-
 var con = mysql.createConnection({
   host: "localhost",
   user: "root",
@@ -212,3 +210,4 @@ app.get("/indexuser_account", function(req, res, next) {
 server.listen(8080, () => {
     console.log("Server Start");
 });
+

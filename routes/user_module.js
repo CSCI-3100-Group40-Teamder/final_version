@@ -173,7 +173,7 @@ router.get("/change_user_information", function(req, res, next) {
 });
 
 router.get("/delete_account", function(req, res, next) {
-	console.log("Trying to delete a post...");
+	console.log("Trying to delete a account...");
 	var q = url.parse(req.url, true);
 	var qdata = q.query;
 	console.log("delete user_id: "+qdata.delete_user_id);

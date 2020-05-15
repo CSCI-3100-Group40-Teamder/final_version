@@ -3,7 +3,7 @@ const {EventEmitter} = require("events");
 var recordObject;
 
 var chatroomID =0
-const mysql_method = require('../dataBase/createTable') // need to change
+const mysql_method = require('../dataBase/createTable') // get the data from the database
 var other=require("../other_function");
 
 const connection = mysql_method.connection
@@ -24,21 +24,20 @@ class Records extends EventEmitter {
         var sender_id = msg.sender_id // sender_id
         var content = msg.content 
         var room_id = msg.roomID // it is our post_id
-        var today = new Date();
-        //var time = other.sicount(); // current time
+        var today = new Date(); // for getting the time
+        
         var time = today.getMonth()+1 + "/" + today.getDate() +" "+ today.getHours() + ":" + today.getMinutes()  // current time
         var chat_time  = time
-         //console.log("sender_id"+sender_id);
+         
          msg.chat_time = time
         
+         // get the chat record from the chatroom database
         var select_userName_sql = "SELECT * FROM user_information WHERE user_id = '"+sender_id+"'";
         connection.query(select_userName_sql, (error, results, fields) => {
                 if (error) throw error
-                console.log(results)
                 msg.sender_id = results[0].nickname;
                 sender_id = results[0].nickname;
-                console.log("sender_id"+sender_id);
-                console.log("nickname"+results.nickname);
+                
                 
                 const insert_chat_sql = `INSERT INTO  chat (room_id, sender_id, content, chat_time) VALUES (?,?,?,?)`
         
@@ -71,7 +70,8 @@ class Records extends EventEmitter {
     }
 
 }
- 
+//----------------------------------------------------------exports record objects to chatroom -----------------------------------------------------------------------
+
 module.exports = (function () {
     
     if (recordObject === undefined) {

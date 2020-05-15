@@ -43,14 +43,12 @@ function checkFileType(file, cb){
   if(mimetype && extname){
     return cb(null,true);
   } else {
+    //callback if selected file not in image type
     cb('Error: Images Only!');
   }
 }
 
-/*router.get('/', (req, res) { 
-  res.render('upload_photo')
-  
-});*/
+// Render to upload_photo page
 router.get("/", function(req, res, next) {
     var q = url.parse(req.url, true);
 	  var qdata = q.query;
@@ -59,6 +57,10 @@ router.get("/", function(req, res, next) {
     res.render('upload_photo');
 });
 
+/*Check if the submission of upload success or not,
+  If success, update the corresponding table in database
+    Else if submit without selected image, show error msg 'No File Selected!'
+*/
 router.post('/', (req, res) => {
   console.log("in post");
   console.log(req.cookies.post_id_photo);
@@ -69,27 +71,26 @@ router.post('/', (req, res) => {
         msg: err
       });
     }else {
+      
+      // Error msg if submit without selected image
       if(req.file == undefined ){
           res.render('upload_photo', {
             msg: 'Error: No File Selected!'
         });
       }else{
         
-        /*if (req.body.user_id != 'undefined'){
-          console.log('your user is here: ' + req.body.user_id)
-        }*/
-        //Upload to database
-        //var photo_user_id = current_user;
-        //var photo_user_id = req.user.user_id;
-        
         var photo_user_id = req.cookies.c;
 
         console.log(req.file.filename);
-        //var t=sicount();
+
         var t=1642020;
         var info = [[photo_user_id,req.file.filename, t]];
+        
+        /* Determine the image is corresponding post or user profile */
         if(post_id_photo=='not_post')
         {
+          //Upload for user profile
+          
           var sql = "select icon_path from user_information where user_id='"+photo_user_id+"'";
           connection.query(sql, function (err, result) {
               if (err) throw err
@@ -104,29 +105,33 @@ router.post('/', (req, res) => {
               }
           });
 
-          
-          //var sql = 'INSERT INTO user_to_photo (user_id,filename) VALUES ?';
+          //Remove the former image path from the user_to_photo table
           var sql = "delete from user_to_photo where user_id='"+photo_user_id+"'";
           console.log(sql);
-          //connection.query(sql, [info], function (err, result) {
+          
           connection.query(sql, function (err, result) {
               if (err) throw err
               
           });
+          
+          //Insert the recent upload image path into user_to_photo table
           var sql = "INSERT INTO user_to_photo VALUES ('"+photo_user_id+"', '"+req.file.filename+"', '"+t+"')";
           console.log(sql);
-          //connection.query(sql, [info], function (err, result) {
+
           connection.query(sql, function (err, result) {
               if (err) throw err
           });
+          
+          //Update the path of recent upload image in icon_path table which has same user_id
           var sql = "update user_information set icon_path = '"+req.file.filename+"' where user_id='"+photo_user_id+"'";
           console.log(sql);
-          //connection.query(sql, [info], function (err, result) {
           connection.query(sql, function (err, result) {
               if (err) throw err
           });
         }else{
           
+            //Upload for post information
+            
             var sql = "select post_icon_path from post where post_id='"+post_id_photo+"'";
             connection.query(sql, function (err, result) {
               console.log("Photo:");
@@ -144,20 +149,24 @@ router.post('/', (req, res) => {
                 }
             });
             
+            //Remove the former image path from the post_to_photo table
             var sql = "delete from post_to_photo where post_id='"+post_id_photo+"'";
             connection.query(sql, function (err, result) {
                 if (err) throw err
             });
+            //Insert the recent upload image path into post_to_photo table
             var sql = "INSERT INTO post_to_photo VALUES ('"+post_id_photo+"', '"+req.file.filename+"', '"+t+"')";
             connection.query(sql, function (err, result) {
                 if (err) throw err
             });
+            //Update the path of recent upload image in post_icon_path table which has same post_id
             var sql = "update post set post_icon_path = '"+req.file.filename+"' where post_id='"+post_id_photo+"'";
             connection.query(sql, function (err, result) {
                 if (err) throw err
             });
         }
-        //render to upload_photo
+        
+        //Render to upload_photo
         res.render('upload_photo', {
           msg: 'File Uploaded!',
           file:`uploads/${req.file.filename}`

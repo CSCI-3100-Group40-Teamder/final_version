@@ -20,6 +20,7 @@ router.get("/group_display", function(req, res, next) {
     console.log("try to display group");
     var q = url.parse(req.url, true);
 	var qdata = q.query;
+	console.log(qdata.action);
 	if(qdata.action)
 	{
     	if(qdata.action=="create_new_group")
@@ -30,11 +31,14 @@ router.get("/group_display", function(req, res, next) {
     	    {
     	        var sql_group_name="";
             	var sql_group_description="";
+            	console.log(qdata.change_group_name);
+            	console.log(qdata.change_group_descripton);
             	if(qdata.change_group_name)
             	    sql_group_name="group_name = '"+qdata.change_group_name+"', ";
             	if(qdata.change_group_descripton)
             	    sql_group_description="group_descripton = '"+qdata.change_group_descripton+"', ";
             	var sql = "Update group_info set "+sql_group_name+sql_group_description+"group_id='"+qdata.change_group_id+"' WHERE group_id = '"+qdata.change_group_id+"'";
+            	console.log(sql);
             }
         else if(qdata.action=="change_subgroup")
     	    {

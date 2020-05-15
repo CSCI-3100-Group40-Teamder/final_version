@@ -31,16 +31,13 @@
 	
 	<%- include('partials/group-list.ejs'); -%>
 	
-	
-
-
 	<body style='background-color: white'>
 	 <section id="showroom">
 	     	    <div class = "container-fluid">
 	       <div class ="row">
 	           
 	           <div class ="col">
-
+                <! –– The following code show the some post details to user ––>
 	               <table class="table table-bordered success">
     			    <thead>
     			    <tr >
@@ -118,7 +115,9 @@
                             </tr>
                         <% }); %>-->
                     </thead>
-                    <! –– my code end ––>
+                    <! –– for showing button to a suitable user––>
+                    <! –– if a user is admin or a host, he can do some special action––>
+                    
     	  			<% post_all_result.forEach(function(item){%>
     	  				<tr>
     	    				<td>
@@ -169,8 +168,10 @@
     							<button type="submit"class="btn btn-primary">Change Host</button>
     						</form>
     					<% } %>
-	           </div>
-	           
+               </div>
+               <! –– The end of showing post's detail to user ––>
+
+	           <! –– The following code show the chat room function to user ––>
 	           <div class ="col">
 	               <h2 class="text-danger">Chat Room Here</h2>
     			    <div id="showLogo">
@@ -202,7 +203,7 @@
                     </div>
 	           </div>
 	           
-	           
+	           <! –– The end of showing chat room ––>
 
 	       
 	   </div>
@@ -277,9 +278,9 @@
                         var realDataSend = { // 要send 比server's input
                             time: new Date().toUTCString()
                         };
-                        var childFromForm = dataFromUser.children; //由 form 攞返黎嘅data
+                        var childFromForm = dataFromUser.children; //get user input data
          
-                        for (var i=0; i< dataFromUser.childElementCount; i++) { // 輸入左有多少個input i.e childElementCount 應該＝2
+                        for (var i=0; i< dataFromUser.childElementCount; i++) { // childElementCount == the number of user input/form
                             
                             
                             // new content
@@ -298,9 +299,8 @@
                         }
          
                         if (check) {
+                            //for setting the user name
                             socket.emit("send", realDataSend);
-                            // 當你send 左你一次之後，你個名就會記住 
-                            //或者呢到轉做我地嘅user name 
                         }
                         // new line 
                         document.getElementById("dataSendToServer").reset();
@@ -308,8 +308,7 @@
          
                     function Message (revMsg) { // dealing with the content from the server
                         
-                        // my version
-                        
+                        // do sth css to the msg
                         function changeElement(id) {
                             var el = document.getElementById(id);
                             el.style.color = "red";
@@ -317,8 +316,13 @@
                             el.style.backgroundColor = "#FFFFFF";
                         }
         
-                        if(ID == revMsg.room_id || ID == revMsg.roomID){ // this line really important
-        
+                        if(ID == revMsg.room_id || ID == revMsg.roomID){ 
+                                // this line really important
+                                // to show the correct msg to a room 
+                                // for example, chat room A only show the msgs that belong to chatroom A
+                                
+
+                                // this following codes is for creating div to store the content of the msg
                                 var showMsg = document.createElement("div")
                                     showMsg.className = "contentRev";
                                     
@@ -342,16 +346,10 @@
                                 content.appendChild(nameBox);
                                 content.appendChild(showTime);
                                 content.appendChild(showMsg);
-                                //showMsg.appendChild(time)
                                 
-                                
-                                //content.appendChild(showMsg);
-                              
-                                console.log(name);
-                                console.log(msgRev);
             
                                 var div = document.getElementById("content");
-                                div.scrollTop = div.scrollHeight;
+                                div.scrollTop = div.scrollHeight; // for showing the latest msg to the user
                         }
                     }  
                 });
