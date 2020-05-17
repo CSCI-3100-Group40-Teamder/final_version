@@ -21,7 +21,7 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: false}));
 
 
-router.get("/create_post", function(req, res, next) {
+router.get("/create_post", function(req, res, next) {//insert new post to db
 	var q = url.parse(req.url, true);
 	var qdata = q.query;
 	var host_id=req.cookies.c;
@@ -39,7 +39,7 @@ router.get("/create_post", function(req, res, next) {
 	return res.end();
 });
 
-router.get("/delete_post", function(req, res, next) {
+router.get("/delete_post", function(req, res, next) {//delete post in db
 	var q = url.parse(req.url, true);
 	var qdata = q.query;
 	var sql = "DELETE FROM post WHERE post_id = '"+qdata.post_id+"'";
@@ -50,10 +50,10 @@ router.get("/delete_post", function(req, res, next) {
 	return res.end();
 });
 
-router.get("/show_post", function(req, res, next) {
+router.get("/show_post", function(req, res, next) {//get post from db
     var q = url.parse(req.url, true);
 	var qdata = q.query;
-	if(qdata.action=="join_post")
+	if(qdata.action=="join_post")//line 56-92 opeartion of changing post
 	{
 	    var sql = "INSERT INTO post_to_join VALUES ('"+qdata.post_id+"', '"+req.cookies.c+"', 0)";
         con.query(sql, function (err, result) {
@@ -89,7 +89,7 @@ router.get("/show_post", function(req, res, next) {
         con.query(sql, function (err, result, fields) {
         if (err) throw err;
         });
-	} else if (qdata.action=="new_comment")
+	} else if (qdata.action=="new_comment") //line92-118 operation of changing comment in post
 	{
 	    var t= other.sicount();
     	var comment_id=""+req.cookies.c+t;
@@ -116,16 +116,16 @@ router.get("/show_post", function(req, res, next) {
             if (err) throw err;
         });
 	}
-	var sqlc = "Select * FROM comment, user_information WHERE user_information.user_id=comment.comment_user_id and post_id = '"+qdata.post_id+"' order by comment_date";
+	var sqlc = "Select * FROM comment, user_information WHERE user_information.user_id=comment.comment_user_id and post_id = '"+qdata.post_id+"' order by comment_date";//get comment from db
     con.query(sqlc, function (err, comment_result, fields) {
         if (err) throw err;
-        var sqlp = "Select * FROM post, post_to_join, user_information a, user_information b WHERE post.post_id = post_to_join.post_id AND post.host_id = a.user_id AND post_to_join.joiner_id = b.user_id and post.post_id = '"+qdata.post_id+"'";
+        var sqlp = "Select * FROM post, post_to_join, user_information a, user_information b WHERE post.post_id = post_to_join.post_id AND post.host_id = a.user_id AND post_to_join.joiner_id = b.user_id and post.post_id = '"+qdata.post_id+"'";//get post and user information from db
         con.query(sqlp, function (err, post_result, fields) {
             if (err) throw err;
-            var sql_host_name = "Select nickname FROM user_information WHERE user_id = '"+post_result[0].host_id+"'";
+            var sql_host_name = "Select nickname FROM user_information WHERE user_id = '"+post_result[0].host_id+"'";//get nickname from db
             con.query(sql_host_name, function (err, host_name_result, fields) {
                 if (err) throw err;
-                var sql_admin="SELECT is_admin FROM user_information where user_id = '"+req.cookies.c+"'";
+                var sql_admin="SELECT is_admin FROM user_information where user_id = '"+req.cookies.c+"'";//get admin_info from db
         	    con.query(sql_admin, function (err, admin_result, fields) {
                     if (err) throw err;
                     var is_admin;
@@ -133,13 +133,13 @@ router.get("/show_post", function(req, res, next) {
                         is_admin=0;
                     else
                         is_admin=admin_result[0].is_admin;
-                    var sql_group="SELECT * FROM group_info";
+                    var sql_group="SELECT * FROM group_info";//get group_info from db
                     con.query(sql_group, function (err, group_result, fields) {
                         if (err) throw err;
-                        var sql_subgroup="SELECT * FROM subgroup_info";
+                        var sql_subgroup="SELECT * FROM subgroup_info";//get subgroup_info from db
                         con.query(sql_subgroup, function (err, subgroup_result, fields) {
                             if (err) throw err;
-                            res.render('postdisplay', {post_result_0: post_result[0], post_all_result: post_result, comment: comment_result, user_id: req.cookies.c, host_name: host_name_result[0].nickname, is_admin: is_admin, current_name: req.cookies.nickname, current_id: req.cookies.c, group_result: group_result, subgroup_result: subgroup_result, icon: req.cookies.icon}); 
+                            res.render('postdisplay', {post_result_0: post_result[0], post_all_result: post_result, comment: comment_result, user_id: req.cookies.c, host_name: host_name_result[0].nickname, is_admin: is_admin, current_name: req.cookies.nickname, current_id: req.cookies.c, group_result: group_result, subgroup_result: subgroup_result, icon: req.cookies.icon}); //go to post page
                         });
                     });
                 });
@@ -148,7 +148,7 @@ router.get("/show_post", function(req, res, next) {
     });
 });
 
-router.get("/change_post", function(req, res, next) {
+router.get("/change_post", function(req, res, next) {//change content of post here
     var q = url.parse(req.url, true);
 	var qdata = q.query;
 	var sql = "Select * FROM post WHERE post_id = '"+qdata.post_id+"'";

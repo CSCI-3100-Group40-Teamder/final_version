@@ -16,15 +16,12 @@ const multer = require('multer');
 const path = require('path');
 const bodyParser = require('body-parser')
 const partials = require('express-partials')
-
-
 var cookieParser = require('cookie-parser');
-
-
 
 app.use(cookieParser());
 
 
+// -------------------------------------------------express setting-------------------------------------------------
 app.use(bodyParser.urlencoded({extended: false}));
 app.set('view engine', 'ejs');
 app.use(session({
@@ -38,6 +35,7 @@ app.use(express.static("public"));
 app.use(partials());
 
 
+// -------------------------------------------------router require moduels-------------------------------------------------
 const img_upload = require('./routes/img_upload');
 app.use('/img_upload', img_upload);
 
@@ -69,8 +67,6 @@ app.use('/room_module', room_module);
 
 
 
-
-
 var con = mysql.createConnection({
   host: "localhost",
   user: "root",
@@ -84,55 +80,36 @@ con.connect(function(err) {
 });
 
 app.get("/", function(req, res, next) {
-    console.log("time:"+other.sicount());
-    res.cookie('c', 'guest');
+    res.cookie('c', 'guest');  // save infomation to cookies
     res.cookie('nickname', 'guest');
     res.cookie('icon', 'user-512.png');
-    res.redirect('/index?test=123');
+    res.redirect('/index?test=123'); // go to index page
 });
 
 
 app.get("/know_who", function(req, res, next) {
-	console.log("Trying to know a new user...");
 	var q = url.parse(req.url, true);
 	var qdata = q.query;
-	console.log("who: "+qdata.who);
     current_user=qdata.who;
-	console.log("current_user: "+qdata.who);
 	res.cookie('c', qdata.who);
     res.redirect('/index');
 	return res.end();
 });
 
 app.get("/index",function(req, res, next) {
-    console.log("test: ");
-    console.log(req.query.test);
     var q = url.parse(req.url, true);
 	var qdata = q.query;
-    try {
-        console.log("display");
-        console.log("display");
-        console.log("id in index:"+req.session.passport.user[2]);
-        console.log(req.session.passport.user[3])
-    } catch(e){
-        console.log('error ah');
-    }
-    console.log("cookies before if");
-    console.log(req.cookies.c);
-    if(req.cookies.c!='guest')
+    if(req.cookies.c!='guest')// not guest
     {
-        var sql="SELECT icon_path FROM user_information where user_id = '"+req.cookies.c+"'";
+        var sql="SELECT icon_path FROM user_information where user_id = '"+req.cookies.c+"'"; //get photo
         con.query(sql, function (err, result, fields) {
             if (err) throw err;
             res.cookie('icon', result[0].icon_path);
-        });
+            });
     }
-    console.log(req.cookies.icon);
-    con.query("SELECT * FROM group_info", function (err, group_result, fields) {
+    con.query("SELECT * FROM group_info", function (err, group_result, fields) {// get group_info
         if (err) console.log("Database error!");
-        console.log("action:");
-        console.log(qdata.action);
-        if(qdata.action=="search_id_of_post")
+        if(qdata.action=="search_id_of_post") //112-125 filter post by some citeria
             var sql = "Select post_id, title, description, host_id, nickname, hitrate, group_id, post_icon_path FROM post, user_information WHERE post.host_id=user_information.user_id and post_id = '"+qdata.search_post_id+"'";
         else if(qdata.action=="search_name_of_post")
             var sql = "Select post_id, title, description, host_id, nickname, hitrate, group_id, post_icon_path FROM post, user_information where post.host_id=user_information.user_id and title like '%"+qdata.search_post_name+"%'";
@@ -147,33 +124,25 @@ app.get("/index",function(req, res, next) {
         else
             var sql= "SELECT post_id, title, description, host_id, nickname, hitrate, group_id, post_icon_path FROM post, user_information where post.host_id=user_information.user_id and post_id not in (Select post_id from post_to_join where joiner_id = '"+req.cookies.c+"')";
         var order="";
-        if(qdata.action=="order_by_hitrate")
+        if(qdata.action=="order_by_hitrate")// post order
             order="order by hitrate desc";
         if(qdata.action=="order_by_time")
             order="order by t desc";
         sql=sql+order;
-        console.log(sql);
-        con.query(sql, function (err, result, fields) {
+        con.query(sql, function (err, result, fields) {//get post from DB
             if (err) throw err;
-            console.log(group_result);
-            console.log(result);
             var sql_subgroup="SELECT * FROM subgroup_info";
-            console.log("sql_subgroup:");
-            con.query(sql_subgroup, function (err, subgroup_result, fields) {
+            con.query(sql_subgroup, function (err, subgroup_result, fields) {//get subgroup info from db
                 if (err) throw err;
-                console.log("subgroup:");
-                console.log(subgroup_result);
-                var sql_admin="SELECT is_admin FROM user_information where user_id = '"+req.cookies.c+"'";
-                con.query(sql_admin, function (err, admin_result, fields) {
+               var sql_admin="SELECT is_admin FROM user_information where user_id = '"+req.cookies.c+"'";
+                con.query(sql_admin, function (err, admin_result, fields) {//get admin info from db
                     if (err) throw err;
-                    console.log("admin:");
-                    console.log(admin_result);
                     var is_admin;
                     if(req.cookies.c=='guest')
                         is_admin=0;
                     else
                         is_admin=admin_result[0].is_admin;
-                    res.render('index', {post_all_result: result, user_id: req.cookies.c, group_result: group_result, user_name: req.cookies.nickname, subgroup_result: subgroup_result, is_admin: is_admin, current_name: req.cookies.nickname, current_id: req.cookies.c, icon: req.cookies.icon});
+                    res.render('index', {post_all_result: result, user_id: req.cookies.c, group_result: group_result, user_name: req.cookies.nickname, subgroup_result: subgroup_result, is_admin: is_admin, current_name: req.cookies.nickname, current_id: req.cookies.c, icon: req.cookies.icon});//go to index page
                  });
              });
          });
@@ -181,34 +150,25 @@ app.get("/index",function(req, res, next) {
 });
 
 app.get("/admin", function(req, res, next) {
-	console.log("in admin");
-    res.render('admin', {current_name: req.cookies.nickname, current_id: req.cookies.c});
+    res.render('admin', {current_name: req.cookies.nickname, current_id: req.cookies.c});//go to admin page
 });
 
-app.get("/back", function(req, res, next) {
-	console.log("Trying to back to index");
+
+
+app.get("/back", function(req, res, next) {//back to index page
     res.redirect('/index');
 	return res.end();
 });
 
-app.get("/indexuser_account", function(req, res, next) {
-    console.log("try to see user_information");
+app.get("/indexuser_account", function(req, res, next) {//show all of the user information
 	var sql = "Select * FROM user_information";
-	console.log(sql);
     con.query(sql, function (err, result, fields) {
     if (err) throw err;
-    console.log(result);
     res.render('indexuser_account', {result: result, current_name: req.cookies.nickname, current_id: req.cookies.c}); 
   });
 });
 
-
-
-
-
-
-
-
 server.listen(8080, () => {
     console.log("Server Start");
 });
+

@@ -16,12 +16,10 @@ var router = express.Router();
 
 app.use(bodyParser.urlencoded({extended: false}));
 
-router.get("/group_display", function(req, res, next) {
-    console.log("try to display group");
+router.get("/group_display", function(req, res, next) {//display the detail of all of the group
     var q = url.parse(req.url, true);
 	var qdata = q.query;
-	console.log(qdata.action);
-	if(qdata.action)
+	if(qdata.action)//line22-55 is the opeartion of changing group detail
 	{
     	if(qdata.action=="create_new_group")
     	    var sql = "insert into group_info values ('"+qdata.new_group_ID+"', '"+qdata.new_group_name+"', '"+qdata.new_group_description+"')";
@@ -31,14 +29,11 @@ router.get("/group_display", function(req, res, next) {
     	    {
     	        var sql_group_name="";
             	var sql_group_description="";
-            	console.log(qdata.change_group_name);
-            	console.log(qdata.change_group_descripton);
             	if(qdata.change_group_name)
             	    sql_group_name="group_name = '"+qdata.change_group_name+"', ";
             	if(qdata.change_group_descripton)
             	    sql_group_description="group_descripton = '"+qdata.change_group_descripton+"', ";
             	var sql = "Update group_info set "+sql_group_name+sql_group_description+"group_id='"+qdata.change_group_id+"' WHERE group_id = '"+qdata.change_group_id+"'";
-            	console.log(sql);
             }
         else if(qdata.action=="change_subgroup")
     	    {
@@ -56,20 +51,14 @@ router.get("/group_display", function(req, res, next) {
             var sql = "delete from subgroup_info where subgroup_id= '"+qdata.delete_subgroup_id+"'";
     	connection.query(sql, function (err, result, fields) {
                 if (err) throw err;
-                console.log(result);
              });
 	}
-    var sql = "Select * FROM group_info";
+    var sql = "Select * FROM group_info";// get group data from db
     connection.query(sql, function (err, group_result, fields) {
         if (err) throw err;
-        console.log(group_result);
-        //console.log("length: "+result.length);
-        //res.render('modify_group', {group_result: group_result});
         var sqlsub = "Select * FROM subgroup_info";
         connection.query(sqlsub, function (err, subgroup_result, fields) {
             if (err) throw err;
-            console.log(subgroup_result);
-            //console.log("length: "+result.length);
             res.render('modify_group', {group_result: group_result, subgroup_result: subgroup_result, current_name: req.cookies.nickname, current_id: req.cookies.c}); 
         });
     });

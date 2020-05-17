@@ -92,7 +92,6 @@ router.get("/show_your_room", function(req, res, next) {
     
     con.query(sql, function (err, result, fields) {
         if (err) {
-            console.log("error");
             res.redirect('../index');
         }
         
@@ -121,14 +120,11 @@ router.get("/enter_room", function(req, res, next) {
 	    var sql="select * from user_information where user_id = '"+qdata.user_id+"'";
 	    con.query(sql, function (err, result_for_name, fields) {
             if (err) {
-                console.log("error in add joiner");
                 res.redirect('../index');
                 }
     	    var sql = "INSERT INTO post_to_join VALUES ('"+qdata.post_id+"', '"+qdata.user_id+"', 0);";
-            console.log(sql);
             con.query(sql, function (err, result, fields) {
             if (err) {
-                console.log("error in add joiner");
                 res.redirect('../index');
                 }
                 message="The user is added. Please refresh to see the new joiner."
@@ -138,25 +134,19 @@ router.get("/enter_room", function(req, res, next) {
 	{
 	    //try to change host!
 	    var sql = "update post set host_id = '"+qdata.user_id+"' where post_id = '"+qdata.post_id+"'";
-        console.log(sql);
         con.query(sql, function (err, result, fields) {
         if (err) {
-            console.log("error");
             res.redirect('../index');
         }
-        console.log(result);
         });
 	} else if(qdata.action=="delete_joiner")
 	{
 	    //try to delete joiner!
 	    var sql = "Delete FROM post_to_join WHERE post_id = '"+qdata.post_id+"' AND joiner_id = '"+qdata.delete_joiner_id+"'";
-        console.log(sql);
         con.query(sql, function (err, result, fields) {
         if (err) {
-            console.log("error");
             res.redirect('../index');
         }
-        console.log(result);
         });
 	}
     
@@ -170,7 +160,6 @@ router.get("/enter_room", function(req, res, next) {
         if (err) throw err;
         
         var sqlf = "Select * FROM post_to_join where post_id = '"+qdata.post_id+"' and joiner_id = '"+req.cookies.c+"'";
-    	console.log(sqlf);
         con.query(sqlf, function (err, finish_result, fields) {
                 if (err) throw err;
                 
@@ -205,7 +194,6 @@ router.get("/refresh", function(req, res, next) {
     //try to withdraw room
     var q = url.parse(req.url, true);
 	var qdata = q.query;
-	console.log(qdata.post_id);
 	res.redirect("/enter_room?post_id='"+qdata.post_id+"'");
 });
 
@@ -217,10 +205,8 @@ router.get("/withdraw_room", function(req, res, next) {
     var sql = "Delete FROM post_to_join WHERE post_to_join.post_id = '"+qdata.withdraw_post_id+"' AND post_to_join.joiner_id = '"+req.cookies.c+"'";
     con.query(sql, function (err, result, fields) {
     if (err) {
-        console.log("error");
         res.redirect('../index');
     }
-    console.log(result);
     res.redirect('../index');
   });
 });
